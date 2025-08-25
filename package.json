@@ -64,10 +64,7 @@
     "publish:latest": "npm publish --tag latest",
     "analyze": "npm run build && npx bundle-analyzer dist/tamyla-ui.esm.js",
     "validate": "node scripts/basic-validate.js",
-    "working-certify": "node scripts/working-certify.js",
-    "certify": "node scripts/certify-ui-components.js",
-    "simple-certify": "node scripts/simple-certify.js",
-    "quick-certify": "node scripts/quick-certify.js"
+    "certify": "node scripts/working-certify.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
