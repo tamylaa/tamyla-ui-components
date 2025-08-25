@@ -1,0 +1,253 @@
+/**
+ * Input Group Atom Styles
+ * Form field grouping with label, error states, and accessibility
+ */
+
+/* Design tokens */
+:root {
+  --tmyl-input-group-margin: 1.125rem;
+  --tmyl-input-group-gap: 0.5rem;
+  --tmyl-input-group-label-gap: 0.375rem;
+  --tmyl-input-group-error-gap: 0.25rem;
+  
+  /* Typography */
+  --tmyl-input-group-label-weight: 500;
+  --tmyl-input-group-label-size: 1rem;
+  --tmyl-input-group-error-size: 0.875rem;
+  --tmyl-input-group-line-height: 1.5;
+  
+  /* Colors */
+  --tmyl-input-group-label-color: #2c3e50;
+  --tmyl-input-group-error-color: #dc3545;
+  --tmyl-input-group-error-bg: rgba(220, 53, 69, 0.05);
+  --tmyl-input-group-border-error: #dc3545;
+  
+  /* Dark mode colors */
+  --tmyl-input-group-label-color-dark: #e9ecef;
+  --tmyl-input-group-error-color-dark: #f5c6cb;
+  --tmyl-input-group-error-bg-dark: rgba(245, 198, 203, 0.1);
+  --tmyl-input-group-border-error-dark: #f5c6cb;
+}
+
+/* Input group container */
+.tmyl-input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--tmyl-input-group-margin);
+  position: relative;
+}
+
+.tmyl-input-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Compact variant */
+.tmyl-input-group--compact {
+  --tmyl-input-group-margin: 0.75rem;
+  --tmyl-input-group-gap: 0.375rem;
+  --tmyl-input-group-label-gap: 0.25rem;
+}
+
+/* Inline variant */
+.tmyl-input-group--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--tmyl-input-group-gap);
+}
+
+.tmyl-input-group--inline .tmyl-input-group__label {
+  margin-bottom: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tmyl-input-group--inline .tmyl-input-group__content {
+  flex: 1;
+}
+
+/* Label styling */
+.tmyl-input-group__label {
+  font-weight: var(--tmyl-input-group-label-weight);
+  font-size: var(--tmyl-input-group-label-size);
+  line-height: var(--tmyl-input-group-line-height);
+  color: var(--tmyl-input-group-label-color);
+  margin-bottom: var(--tmyl-input-group-label-gap);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+/* Required indicator */
+.tmyl-input-group__label--required::after {
+  content: ' *';
+  color: var(--tmyl-input-group-error-color);
+  font-weight: bold;
+}
+
+/* Content wrapper */
+.tmyl-input-group__content {
+  display: flex;
+  align-items: center;
+  gap: var(--tmyl-input-group-gap);
+  flex-wrap: wrap;
+}
+
+/* Single child content */
+.tmyl-input-group__content--single {
+  flex-wrap: nowrap;
+}
+
+/* Content full width */
+.tmyl-input-group__content--full {
+  width: 100%;
+}
+
+/* Error message styling */
+.tmyl-input-group__error {
+  font-size: var(--tmyl-input-group-error-size);
+  line-height: var(--tmyl-input-group-line-height);
+  color: var(--tmyl-input-group-error-color);
+  margin-top: var(--tmyl-input-group-error-gap);
+  padding: 0.375rem 0.5rem;
+  background-color: var(--tmyl-input-group-error-bg);
+  border-left: 3px solid var(--tmyl-input-group-border-error);
+  border-radius: 0 0.25rem 0.25rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+}
+
+/* Error icon */
+.tmyl-input-group__error::before {
+  content: '⚠';
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* Help text styling */
+.tmyl-input-group__help {
+  font-size: var(--tmyl-input-group-error-size);
+  line-height: var(--tmyl-input-group-line-height);
+  color: #6c757d;
+  margin-top: var(--tmyl-input-group-error-gap);
+  opacity: 0.8;
+}
+
+/* Error state modifications */
+.tmyl-input-group--error .tmyl-input-group__label {
+  color: var(--tmyl-input-group-error-color);
+}
+
+/* Focus within enhancements */
+.tmyl-input-group:focus-within .tmyl-input-group__label {
+  color: var(--tmyl-color-primary, #007bff);
+}
+
+.tmyl-input-group--error:focus-within .tmyl-input-group__label {
+  color: var(--tmyl-input-group-error-color);
+}
+
+/* Disabled state */
+.tmyl-input-group--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.tmyl-input-group--disabled .tmyl-input-group__label {
+  color: #6c757d;
+}
+
+/* Loading state */
+.tmyl-input-group--loading {
+  position: relative;
+}
+
+.tmyl-input-group--loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: #6c757d;
+  backdrop-filter: blur(1px);
+  z-index: 1;
+}
+
+.tmyl-input-group--loading::after {
+  content: '⟳';
+  animation: tmyl-input-group-spin 1s linear infinite;
+}
+
+@keyframes tmyl-input-group-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Size variants */
+.tmyl-input-group--small {
+  --tmyl-input-group-label-size: 0.875rem;
+  --tmyl-input-group-error-size: 0.75rem;
+  --tmyl-input-group-margin: 0.875rem;
+}
+
+.tmyl-input-group--large {
+  --tmyl-input-group-label-size: 1.125rem;
+  --tmyl-input-group-error-size: 1rem;
+  --tmyl-input-group-margin: 1.5rem;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .tmyl-input-group {
+    --tmyl-input-group-label-color: var(--tmyl-input-group-label-color-dark);
+    --tmyl-input-group-error-color: var(--tmyl-input-group-error-color-dark);
+    --tmyl-input-group-error-bg: var(--tmyl-input-group-error-bg-dark);
+    --tmyl-input-group-border-error: var(--tmyl-input-group-border-error-dark);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .tmyl-input-group__label,
+  .tmyl-input-group--loading::after {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .tmyl-input-group__label {
+    font-weight: 600;
+  }
+  
+  .tmyl-input-group__error {
+    border-left-width: 4px;
+    font-weight: 500;
+  }
+}
+
+/* Print support */
+@media print {
+  .tmyl-input-group {
+    break-inside: avoid;
+    margin-bottom: 0.5rem;
+  }
+  
+  .tmyl-input-group--loading::after {
+    display: none;
+  }
+  
+  .tmyl-input-group__error {
+    background: none;
+    border: 1px solid #000;
+    color: #000;
+  }
+}

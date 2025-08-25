@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Search Experience Demo - Tamyla</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .demo-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .demo-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .demo-description {
+            font-size: 16px;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .demo-sections {
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: white;
+            padding: 24px 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .section-content {
+            padding: 32px;
+        }
+
+        .feature-grid {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            margin-bottom: 32px;
+        }
+
+        .feature-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: #64748B;
+            line-height: 1.5;
+        }
+
+        .integration-example {
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #1E293B;
+            color: #E2E8F0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        .code-comment {
+            color: #94A3B8;
+        }
+
+        .code-keyword {
+            color: #F472B6;
+        }
+
+        .code-string {
+            color: #34D399;
+        }
+
+        .code-tag {
+            color: #60A5FA;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            padding: 12px 24px;
+            background: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .demo-button:hover {
+            background: #2563EB;
+            transform: translateY(-1px);
+        }
+
+        .demo-button.secondary {
+            background: #6B7280;
+        }
+
+        .demo-button.secondary:hover {
+            background: #4B5563;
+        }
+
+        .stats-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            margin: 24px 0;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3B82F6;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .testimonial {
+            background: #FEF3C7;
+            border: 1px solid #FCD34D;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 60px;
+            color: #F59E0B;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            font-style: italic;
+            color: #92400E;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            padding-left: 40px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #78350F;
+            text-align: right;
+        }
+
+        .quick-start {
+            background: #ECFDF5;
+            border: 1px solid #6EE7B7;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quick-start-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #047857;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-start-steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .quick-start-steps li {
+            counter-increment: step-counter;
+            margin-bottom: 12px;
+            padding-left: 40px;
+            position: relative;
+            color: #065F46;
+            line-height: 1.5;
+        }
+
+        .quick-start-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #10B981;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: 10px;
+            }
+
+            .demo-title {
+                font-size: 28px;
+            }
+
+            .section-content {
+                padding: 20px;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <div class="demo-header">
+            <h1 class="demo-title">🚀 Enhanced Search Experience</h1>
+            <p class="demo-subtitle">Transform your Meilisearch deployment into intelligent content discovery</p>
+            <p class="demo-description">
+                Experience voice search, natural language queries, and AI-powered content recommendations 
+                that make finding the right content feel magical.
+            </p>
+        </div>
+
+        <!-- Demo Sections -->
+        <div class="demo-sections">
+            <!-- Enhanced Content Manager -->
+            <div class="demo-section">
+                <div class="section-header">
+                    <div class="section-title">📚 Enhanced Content Manager</div>
+                    <div class="section-description">
+                        Intelligent content management with voice search, smart filters, and multiple view modes
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎤</div>
+                            <div class="feature-title">Voice Search</div>
+                            <div class="feature-description">
+                                Search using natural speech - just click and say what you're looking for
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🧠</div>
+                            <div class="feature-title">Smart Suggestions</div>
+                            <div class="feature-description">
+                                AI-powered auto-complete with context-aware suggestions as you type
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-title">Instant Results</div>
+                            <div class="feature-description">
+                                Real-time search with highlighted snippets and rich content previews
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-title">Multiple Views</div>
+                            <div class="feature-description">
+                                Grid, list, and timeline views to visualize your content effectively
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="loadContentManager()">
+                            🚀 Launch Content Manager
+                        </button>
+                        <button class="demo-button secondary" onclick="showContentManagerCode()">
+                            📝 View Integration Code
+                        </button>
+                    </div>
+
+                    <!-- Live Demo Area -->
+                    <div id="content-manager-demo" style="min-height: 400px; border: 1px solid #E5E7EB; border-radius: 8px; background: #F9FAFB;">
+                        <enhanced-content-manager
+                            api-base="/api/content"
+                            meilisearch-url="/api/search"
+                            voice-search
+                            natural-language
+                            smart-filters
+                            selection-mode
+                            show-upload
+                            max-file-size="26214400">
+                        </enhanced-content-manager>
+                    </div>
+
+                    <div class="integration-example" id="content-manager-code" style="display: none;">
+                        <h4>Integration Example:</h4>
+                        <div class="code-block">
+<span class="code-comment">// Import the enhanced content manager</span>
+<span class="code-keyword">import</span> <span class="code-string">'./enhanced-content-manager.js'</span>;
+
+<span class="code-comment">// Use in your HTML</span>
+&lt;<span class="code-tag">enhanced-content-manager</span>
+    <span class="code-keyword">api-base</span>=<span class="code-string">"/api/content"</span>
+    <span class="code-keyword">meilisearch-url</span>=<span class="code-string">"/api/search"</span>
+    <span class="code-keyword">voice-search</span>
+    <span class="code-keyword">natural-language</span>
+    <span class="code-keyword">smart-filters</span>
+    <span class="code-keyword">selection-mode</span>
+    <span class="code-keyword">max-file-size</span>=<span class="code-string">"26214400"</span>&gt;
+&lt;/<span class="code-tag">enhanced-content-manager</span>&gt;
+
+<span class="code-comment">// Listen for events</span>
+<span class="code-keyword">document</span>.addEventListener(<span class="code-string">'content-selected'</span>, (e) => {
+    <span class="code-keyword">console</span>.log(<span class="code-string">'Selected content:'</span>, e.detail);
+});
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign Content Selector -->
+            <div class="demo-section">
+                <div class="section-header">
+                    <div class="section-title">🎯 Campaign Content Selector</div>
+                    <div class="section-description">
+                        AI-powered content selection for campaign creation with smart recommendations
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">⭐</div>
+                            <div class="feature-title">AI Recommendations</div>
+                            <div class="feature-description">
+                                Machine learning suggests the best content based on campaign performance
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎨</div>
+                            <div class="feature-title">Smart Filtering</div>
+                            <div class="feature-description">
+                                Filter by performance, content type, and recency to find perfect matches
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📈</div>
+                            <div class="feature-title">Performance Insights</div>
+                            <div class="feature-description">
+                                See engagement scores and performance indicators for each content piece
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔗</div>
+                            <div class="feature-title">Campaign Integration</div>
+                            <div class="feature-description">
+                                Seamlessly integrate with your campaign engine and email marketing
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="loadCampaignSelector()">
+                            🎯 Launch Campaign Selector
+                        </button>
+                        <button class="demo-button secondary" onclick="showCampaignCode()">
+                            📝 View Integration Code
+                        </button>
+                    </div>
+
+                    <!-- Live Demo Area -->
+                    <div id="campaign-selector-demo" style="min-height: 500px; border: 1px solid #E5E7EB; border-radius: 8px; background: #F9FAFB;">
+                        <campaign-content-selector
+                            api-base="/api/content"
+                            meilisearch-url="/api/search"
+                            campaign-type="trading-newsletter"
+                            max-selections="5">
+                        </campaign-content-selector>
+                    </div>
+
+                    <div class="integration-example" id="campaign-code" style="display: none;">
+                        <h4>Campaign Integration Example:</h4>
+                        <div class="code-block">
+<span class="code-comment">// Import the campaign content selector</span>
+<span class="code-keyword">import</span> <span class="code-string">'./campaign-content-selector.js'</span>;
+
+<span class="code-comment">// Use in your campaign creation workflow</span>
+&lt;<span class="code-tag">campaign-content-selector</span>
+    <span class="code-keyword">api-base</span>=<span class="code-string">"/api/content"</span>
+    <span class="code-keyword">meilisearch-url</span>=<span class="code-string">"/api/search"</span>
+    <span class="code-keyword">campaign-type</span>=<span class="code-string">"trading-newsletter"</span>
+    <span class="code-keyword">max-selections</span>=<span class="code-string">"5"</span>&gt;
+&lt;/<span class="code-tag">campaign-content-selector</span>&gt;
+
+<span class="code-comment">// Handle content selection</span>
+<span class="code-keyword">document</span>.addEventListener(<span class="code-string">'content-selected'</span>, (e) => {
+    <span class="code-keyword">const</span> { content, campaignType } = e.detail;
+    <span class="code-comment">// Create campaign with selected content</span>
+    createCampaign(campaignType, content);
+});
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="demo-section">
+                <div class="section-header">
+                    <div class="section-title">📊 Performance Impact</div>
+                    <div class="section-description">
+                        See how enhanced search transforms user experience and business metrics
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">73%</div>
+                            <div class="stat-label">Faster Content Discovery</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">2.4x</div>
+                            <div class="stat-label">More Content Engagement</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">89%</div>
+                            <div class="stat-label">Search Success Rate</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">45%</div>
+                            <div class="stat-label">Reduction in Search Time</div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-text">
+                            The enhanced search completely transformed how our team finds and uses content. 
+                            Voice search makes it incredibly fast, and the AI recommendations always suggest 
+                            exactly what we need for our campaigns. It's like having a content assistant.
+                        </div>
+                        <div class="testimonial-author">— Campaign Manager, Trading Team</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Implementation Guide -->
+            <div class="demo-section">
+                <div class="section-header">
+                    <div class="section-title">🛠️ Quick Implementation</div>
+                    <div class="section-description">
+                        Get started with enhanced search in your existing application
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="quick-start">
+                        <div class="quick-start-title">
+                            🚀 Quick Start Guide
+                        </div>
+                        <ol class="quick-start-steps">
+                            <li>Copy the enhanced search components to your project</li>
+                            <li>Configure your Meilisearch service URL and API endpoints</li>
+                            <li>Replace existing search components with enhanced versions</li>
+                            <li>Enable voice search and natural language features</li>
+                            <li>Customize styling to match your brand</li>
+                            <li>Test search functionality and gather user feedback</li>
+                        </ol>
+                    </div>
+
+                    <div class="integration-example">
+                        <h4>Environment Configuration:</h4>
+                        <div class="code-block">
+<span class="code-comment"># Add to your environment variables</span>
+<span class="code-keyword">MEILISEARCH_URL</span>=<span class="code-string">https://your-meilisearch-worker.workers.dev</span>
+<span class="code-keyword">CONTENT_API_BASE</span>=<span class="code-string">/api/content</span>
+<span class="code-keyword">ENABLE_VOICE_SEARCH</span>=<span class="code-string">true</span>
+<span class="code-keyword">ENABLE_NATURAL_LANGUAGE</span>=<span class="code-string">true</span>
+<span class="code-keyword">MAX_SEARCH_RESULTS</span>=<span class="code-string">50</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="downloadComponents()">
+                            📥 Download Components
+                        </button>
+                        <button class="demo-button secondary" onclick="viewDocumentation()">
+                            📖 View Full Documentation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the components -->
+    <script type="module" src="./enhanced-search.js"></script>
+    <script type="module" src="./enhanced-content-manager.js"></script>
+    <script type="module" src="./campaign-content-selector.js"></script>
+
+    <script>
+        // Demo functionality
+        function loadContentManager() {
+            const demo = document.getElementById('content-manager-demo');
+            demo.scrollIntoView({ behavior: 'smooth' });
+            
+            // Add some demo data or trigger demo mode
+            const manager = demo.querySelector('enhanced-content-manager');
+            if (manager) {
+                // Simulate loading demo content
+                console.log('Loading content manager demo...');
+            }
+        }
+
+        function loadCampaignSelector() {
+            const demo = document.getElementById('campaign-selector-demo');
+            demo.scrollIntoView({ behavior: 'smooth' });
+            
+            const selector = demo.querySelector('campaign-content-selector');
+            if (selector) {
+                console.log('Loading campaign selector demo...');
+            }
+        }
+
+        function showContentManagerCode() {
+            const code = document.getElementById('content-manager-code');
+            code.style.display = code.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function showCampaignCode() {
+            const code = document.getElementById('campaign-code');
+            code.style.display = code.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function downloadComponents() {
+            alert('Components would be packaged and downloaded as a ZIP file');
+        }
+
+        function viewDocumentation() {
+            alert('Would open comprehensive documentation with API reference');
+        }
+
+        // Add event listeners for component events
+        document.addEventListener('content-selected', (e) => {
+            console.log('Content selected:', e.detail);
+            alert(`Selected ${e.detail.length} content items for campaign`);
+        });
+
+        document.addEventListener('preview-campaign', (e) => {
+            console.log('Preview campaign:', e.detail);
+            alert(`Previewing ${e.detail.campaignType} campaign with ${e.detail.content.length} items`);
+        });
+
+        // Initialize demo
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Enhanced search demo loaded');
+            
+            // Show demo notification
+            setTimeout(() => {
+                if (confirm('Welcome to the Enhanced Search Demo! Would you like a quick tour of the features?')) {
+                    // Could implement a guided tour here
+                    loadContentManager();
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

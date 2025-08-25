@@ -1,0 +1,389 @@
+/**
+ * Notification Molecule Styles
+ * Toast notification system with positioning and animations
+ */
+
+.tmyl-notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: var(--notification-padding, 1rem 1.25rem);
+  border-radius: var(--notification-radius, 0.5rem);
+  box-shadow: var(--notification-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
+  background: var(--notification-bg, #ffffff);
+  border: 1px solid var(--notification-border, #e5e7eb);
+  min-width: 320px;
+  max-width: 480px;
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: var(--notification-font-size, 0.875rem);
+  line-height: 1.5;
+  z-index: var(--notification-z-index, 9999);
+}
+
+/* Notification types */
+.tmyl-notification--success {
+  background: var(--success-bg, #f0fdf4);
+  border-color: var(--success-border, #22c55e);
+  color: var(--success-text, #16a34a);
+}
+
+.tmyl-notification--warning {
+  background: var(--warning-bg, #fffbeb);
+  border-color: var(--warning-border, #f59e0b);
+  color: var(--warning-text, #d97706);
+}
+
+.tmyl-notification--error {
+  background: var(--error-bg, #fef2f2);
+  border-color: var(--error-border, #ef4444);
+  color: var(--error-text, #dc2626);
+}
+
+.tmyl-notification--info {
+  background: var(--info-bg, #eff6ff);
+  border-color: var(--info-border, #3b82f6);
+  color: var(--info-text, #2563eb);
+}
+
+/* Notification content */
+.tmyl-notification__icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tmyl-notification__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tmyl-notification__title {
+  font-weight: 600;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.tmyl-notification__message {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.8125rem;
+}
+
+.tmyl-notification__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tmyl-notification__action {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tmyl-notification__action:hover {
+  background: currentColor;
+  color: var(--notification-bg, #ffffff);
+}
+
+.tmyl-notification__action--primary {
+  background: currentColor;
+  color: var(--notification-bg, #ffffff);
+}
+
+.tmyl-notification__action--primary:hover {
+  opacity: 0.8;
+}
+
+/* Close button */
+.tmyl-notification__close {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.tmyl-notification__close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.tmyl-notification__close:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Progress bar for auto-dismiss */
+.tmyl-notification__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.3;
+  transform-origin: left;
+  animation: notificationProgress var(--notification-duration, 4000ms) linear forwards;
+}
+
+/* Container for notifications */
+.tmyl-notification-container {
+  position: fixed;
+  z-index: var(--notification-z-index, 9999);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.tmyl-notification-container > .tmyl-notification {
+  pointer-events: auto;
+}
+
+/* Positioning variants */
+.tmyl-notification-container--top-right {
+  top: 1rem;
+  right: 1rem;
+}
+
+.tmyl-notification-container--top-left {
+  top: 1rem;
+  left: 1rem;
+}
+
+.tmyl-notification-container--top-center {
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tmyl-notification-container--bottom-right {
+  bottom: 1rem;
+  right: 1rem;
+  flex-direction: column-reverse;
+}
+
+.tmyl-notification-container--bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+  flex-direction: column-reverse;
+}
+
+.tmyl-notification-container--bottom-center {
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column-reverse;
+}
+
+/* Animations */
+.tmyl-notification--entering {
+  animation: notificationSlideIn 0.3s ease-out forwards;
+}
+
+.tmyl-notification--exiting {
+  animation: notificationSlideOut 0.2s ease-in forwards;
+}
+
+/* Slide in from right */
+@keyframes notificationSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slide out to right */
+@keyframes notificationSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Progress bar animation */
+@keyframes notificationProgress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* Slide in from left (for left-positioned notifications) */
+.tmyl-notification-container--top-left .tmyl-notification--entering,
+.tmyl-notification-container--bottom-left .tmyl-notification--entering {
+  animation: notificationSlideInLeft 0.3s ease-out forwards;
+}
+
+.tmyl-notification-container--top-left .tmyl-notification--exiting,
+.tmyl-notification-container--bottom-left .tmyl-notification--exiting {
+  animation: notificationSlideOutLeft 0.2s ease-in forwards;
+}
+
+@keyframes notificationSlideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes notificationSlideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+/* Slide in from top (for center-positioned notifications) */
+.tmyl-notification-container--top-center .tmyl-notification--entering {
+  animation: notificationSlideInTop 0.3s ease-out forwards;
+}
+
+.tmyl-notification-container--top-center .tmyl-notification--exiting {
+  animation: notificationSlideOutTop 0.2s ease-in forwards;
+}
+
+.tmyl-notification-container--bottom-center .tmyl-notification--entering {
+  animation: notificationSlideInBottom 0.3s ease-out forwards;
+}
+
+.tmyl-notification-container--bottom-center .tmyl-notification--exiting {
+  animation: notificationSlideOutBottom 0.2s ease-in forwards;
+}
+
+@keyframes notificationSlideInTop {
+  from {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes notificationSlideOutTop {
+  from {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes notificationSlideInBottom {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes notificationSlideOutBottom {
+  from {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .tmyl-notification-container {
+    left: 1rem !important;
+    right: 1rem !important;
+    transform: none !important;
+  }
+
+  .tmyl-notification {
+    min-width: auto;
+    max-width: none;
+  }
+
+  .tmyl-notification-container--top-center,
+  .tmyl-notification-container--bottom-center {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --notification-bg: #1f2937;
+    --notification-border: #374151;
+    --success-bg: #064e3b;
+    --success-border: #059669;
+    --success-text: #10b981;
+    --warning-bg: #451a03;
+    --warning-border: #d97706;
+    --warning-text: #f59e0b;
+    --error-bg: #450a0a;
+    --error-border: #dc2626;
+    --error-text: #f87171;
+    --info-bg: #1e3a8a;
+    --info-border: #3b82f6;
+    --info-text: #60a5fa;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .tmyl-notification--entering,
+  .tmyl-notification--exiting,
+  .tmyl-notification__progress {
+    animation: none;
+  }
+}

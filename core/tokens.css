@@ -1,0 +1,277 @@
+/**
+ * Tamyla Design System - Core Design Tokens
+ * Foundational variables for consistent UI across all components
+ */
+
+:root {
+  /* ===== COLOR PALETTE ===== */
+  
+  /* Primary Colors - Tamyla Brand */
+  --tmyl-primary-50: #EFF6FF;
+  --tmyl-primary-100: #DBEAFE;
+  --tmyl-primary-200: #BFDBFE;
+  --tmyl-primary-300: #93C5FD;
+  --tmyl-primary-400: #60A5FA;
+  --tmyl-primary-500: #3B82F6;  /* Main brand color */
+  --tmyl-primary-600: #2563EB;
+  --tmyl-primary-700: #1D4ED8;
+  --tmyl-primary-800: #1E40AF;
+  --tmyl-primary-900: #1E3A8A;
+  
+  /* Secondary Colors - Supporting */
+  --tmyl-secondary-50: #F0FDF4;
+  --tmyl-secondary-100: #DCFCE7;
+  --tmyl-secondary-200: #BBF7D0;
+  --tmyl-secondary-300: #86EFAC;
+  --tmyl-secondary-400: #4ADE80;
+  --tmyl-secondary-500: #22C55E;
+  --tmyl-secondary-600: #16A34A;
+  --tmyl-secondary-700: #15803D;
+  --tmyl-secondary-800: #166534;
+  --tmyl-secondary-900: #14532D;
+  
+  /* Semantic Colors */
+  --tmyl-success-50: #F0FDF4;
+  --tmyl-success-500: #22C55E;
+  --tmyl-success-600: #16A34A;
+  --tmyl-success-700: #15803D;
+  
+  --tmyl-warning-50: #FFFBEB;
+  --tmyl-warning-500: #F59E0B;
+  --tmyl-warning-600: #D97706;
+  --tmyl-warning-700: #B45309;
+  
+  --tmyl-error-50: #FEF2F2;
+  --tmyl-error-500: #EF4444;
+  --tmyl-error-600: #DC2626;
+  --tmyl-error-700: #B91C1C;
+  
+  --tmyl-info-50: #F0F9FF;
+  --tmyl-info-500: #06B6D4;
+  --tmyl-info-600: #0891B2;
+  --tmyl-info-700: #0E7490;
+  
+  /* Neutral Colors - Grays */
+  --tmyl-neutral-0: #FFFFFF;
+  --tmyl-neutral-50: #F9FAFB;
+  --tmyl-neutral-100: #F3F4F6;
+  --tmyl-neutral-200: #E5E7EB;
+  --tmyl-neutral-300: #D1D5DB;
+  --tmyl-neutral-400: #9CA3AF;
+  --tmyl-neutral-500: #6B7280;
+  --tmyl-neutral-600: #4B5563;
+  --tmyl-neutral-700: #374151;
+  --tmyl-neutral-800: #1F2937;
+  --tmyl-neutral-900: #111827;
+  --tmyl-neutral-950: #030712;
+  
+  /* ===== SEMANTIC TOKEN MAPPING ===== */
+  
+  /* Backgrounds */
+  --tmyl-bg-primary: var(--tmyl-neutral-0);
+  --tmyl-bg-secondary: var(--tmyl-neutral-50);
+  --tmyl-bg-tertiary: var(--tmyl-neutral-100);
+  --tmyl-bg-elevated: var(--tmyl-neutral-0);
+  --tmyl-bg-overlay: rgba(0, 0, 0, 0.5);
+  
+  /* Surfaces */
+  --tmyl-surface-primary: var(--tmyl-neutral-0);
+  --tmyl-surface-secondary: var(--tmyl-neutral-50);
+  --tmyl-surface-tertiary: var(--tmyl-neutral-100);
+  --tmyl-surface-elevated: var(--tmyl-neutral-0);
+  --tmyl-surface-overlay: var(--tmyl-neutral-0);
+  
+  /* Text Colors */
+  --tmyl-text-primary: var(--tmyl-neutral-900);
+  --tmyl-text-secondary: var(--tmyl-neutral-700);
+  --tmyl-text-tertiary: var(--tmyl-neutral-500);
+  --tmyl-text-disabled: var(--tmyl-neutral-400);
+  --tmyl-text-inverse: var(--tmyl-neutral-0);
+  --tmyl-text-link: var(--tmyl-primary-600);
+  --tmyl-text-link-hover: var(--tmyl-primary-700);
+  
+  /* Borders */
+  --tmyl-border-primary: var(--tmyl-neutral-200);
+  --tmyl-border-secondary: var(--tmyl-neutral-300);
+  --tmyl-border-focus: var(--tmyl-primary-500);
+  --tmyl-border-error: var(--tmyl-error-500);
+  --tmyl-border-success: var(--tmyl-success-500);
+  
+  /* ===== TYPOGRAPHY ===== */
+  
+  /* Font Families */
+  --tmyl-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --tmyl-font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  
+  /* Font Sizes */
+  --tmyl-text-xs: 0.75rem;     /* 12px */
+  --tmyl-text-sm: 0.875rem;    /* 14px */
+  --tmyl-text-base: 1rem;      /* 16px */
+  --tmyl-text-lg: 1.125rem;    /* 18px */
+  --tmyl-text-xl: 1.25rem;     /* 20px */
+  --tmyl-text-2xl: 1.5rem;     /* 24px */
+  --tmyl-text-3xl: 1.875rem;   /* 30px */
+  --tmyl-text-4xl: 2.25rem;    /* 36px */
+  --tmyl-text-5xl: 3rem;       /* 48px */
+  
+  /* Font Weights */
+  --tmyl-font-thin: 100;
+  --tmyl-font-light: 300;
+  --tmyl-font-normal: 400;
+  --tmyl-font-medium: 500;
+  --tmyl-font-semibold: 600;
+  --tmyl-font-bold: 700;
+  --tmyl-font-extrabold: 800;
+  --tmyl-font-black: 900;
+  
+  /* Line Heights */
+  --tmyl-leading-tight: 1.25;
+  --tmyl-leading-normal: 1.5;
+  --tmyl-leading-relaxed: 1.625;
+  --tmyl-leading-loose: 2;
+  
+  /* ===== SPACING ===== */
+  
+  /* Base spacing unit: 4px */
+  --tmyl-space-0: 0;
+  --tmyl-space-px: 1px;
+  --tmyl-space-0_5: 0.125rem;  /* 2px */
+  --tmyl-space-1: 0.25rem;     /* 4px */
+  --tmyl-space-1_5: 0.375rem;  /* 6px */
+  --tmyl-space-2: 0.5rem;      /* 8px */
+  --tmyl-space-2_5: 0.625rem;  /* 10px */
+  --tmyl-space-3: 0.75rem;     /* 12px */
+  --tmyl-space-3_5: 0.875rem;  /* 14px */
+  --tmyl-space-4: 1rem;        /* 16px */
+  --tmyl-space-5: 1.25rem;     /* 20px */
+  --tmyl-space-6: 1.5rem;      /* 24px */
+  --tmyl-space-7: 1.75rem;     /* 28px */
+  --tmyl-space-8: 2rem;        /* 32px */
+  --tmyl-space-9: 2.25rem;     /* 36px */
+  --tmyl-space-10: 2.5rem;     /* 40px */
+  --tmyl-space-12: 3rem;       /* 48px */
+  --tmyl-space-14: 3.5rem;     /* 56px */
+  --tmyl-space-16: 4rem;       /* 64px */
+  --tmyl-space-20: 5rem;       /* 80px */
+  --tmyl-space-24: 6rem;       /* 96px */
+  --tmyl-space-32: 8rem;       /* 128px */
+  
+  /* ===== BORDER RADIUS ===== */
+  
+  --tmyl-radius-none: 0;
+  --tmyl-radius-sm: 0.125rem;   /* 2px */
+  --tmyl-radius-base: 0.25rem;  /* 4px */
+  --tmyl-radius-md: 0.375rem;   /* 6px */
+  --tmyl-radius-lg: 0.5rem;     /* 8px */
+  --tmyl-radius-xl: 0.75rem;    /* 12px */
+  --tmyl-radius-2xl: 1rem;      /* 16px */
+  --tmyl-radius-3xl: 1.5rem;    /* 24px */
+  --tmyl-radius-full: 9999px;
+  
+  /* ===== SHADOWS ===== */
+  
+  --tmyl-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --tmyl-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --tmyl-shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --tmyl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --tmyl-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --tmyl-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --tmyl-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --tmyl-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Focus shadows */
+  --tmyl-shadow-focus: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  --tmyl-shadow-focus-error: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  --tmyl-shadow-focus-success: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  
+  /* ===== Z-INDEX ===== */
+  
+  --tmyl-z-dropdown: 1000;
+  --tmyl-z-sticky: 1020;
+  --tmyl-z-fixed: 1030;
+  --tmyl-z-modal-backdrop: 1040;
+  --tmyl-z-modal: 1050;
+  --tmyl-z-popover: 1060;
+  --tmyl-z-tooltip: 1070;
+  --tmyl-z-notification: 1080;
+  
+  /* ===== TRANSITIONS ===== */
+  
+  --tmyl-transition-fast: 150ms ease;
+  --tmyl-transition-base: 200ms ease;
+  --tmyl-transition-slow: 300ms ease;
+  --tmyl-transition-slower: 500ms ease;
+  
+  /* Easing functions */
+  --tmyl-ease-linear: linear;
+  --tmyl-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --tmyl-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --tmyl-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ===== BREAKPOINTS (for reference) ===== */
+  
+  --tmyl-screen-sm: 640px;
+  --tmyl-screen-md: 768px;
+  --tmyl-screen-lg: 1024px;
+  --tmyl-screen-xl: 1280px;
+  --tmyl-screen-2xl: 1536px;
+  
+  /* ===== COMPONENT SPECIFIC TOKENS ===== */
+  
+  /* Buttons */
+  --tmyl-button-height-sm: 2rem;      /* 32px */
+  --tmyl-button-height-md: 2.5rem;    /* 40px */
+  --tmyl-button-height-lg: 3rem;      /* 48px */
+  --tmyl-button-height-xl: 3.5rem;    /* 56px */
+  
+  /* Form Elements */
+  --tmyl-input-height-sm: 2rem;       /* 32px */
+  --tmyl-input-height-md: 2.5rem;     /* 40px */
+  --tmyl-input-height-lg: 3rem;       /* 48px */
+  
+  /* Content Cards */
+  --tmyl-card-padding: var(--tmyl-space-4);
+  --tmyl-card-radius: var(--tmyl-radius-lg);
+  --tmyl-card-shadow: var(--tmyl-shadow-sm);
+  --tmyl-card-shadow-hover: var(--tmyl-shadow-md);
+  
+  /* Search Components */
+  --tmyl-search-bar-height: 3rem;     /* 48px */
+  --tmyl-search-suggestions-max-height: 20rem; /* 320px */
+  
+  /* Layout */
+  --tmyl-header-height: 4rem;         /* 64px */
+  --tmyl-sidebar-width: 16rem;        /* 256px */
+  --tmyl-content-max-width: 80rem;    /* 1280px */
+}
+
+/* ===== DARK MODE TOKENS ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Override tokens for dark mode */
+    --tmyl-bg-primary: var(--tmyl-neutral-900);
+    --tmyl-bg-secondary: var(--tmyl-neutral-800);
+    --tmyl-bg-tertiary: var(--tmyl-neutral-700);
+    
+    --tmyl-surface-primary: var(--tmyl-neutral-800);
+    --tmyl-surface-secondary: var(--tmyl-neutral-700);
+    --tmyl-surface-tertiary: var(--tmyl-neutral-600);
+    
+    --tmyl-text-primary: var(--tmyl-neutral-100);
+    --tmyl-text-secondary: var(--tmyl-neutral-300);
+    --tmyl-text-tertiary: var(--tmyl-neutral-400);
+    
+    --tmyl-border-primary: var(--tmyl-neutral-700);
+    --tmyl-border-secondary: var(--tmyl-neutral-600);
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tmyl-transition-fast: 0ms;
+    --tmyl-transition-base: 0ms;
+    --tmyl-transition-slow: 0ms;
+    --tmyl-transition-slower: 0ms;
+  }
+}

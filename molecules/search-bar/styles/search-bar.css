@@ -1,0 +1,205 @@
+/**
+ * Search Bar Component Styles
+ * Molecular CSS for search-bar component using atomic foundations
+ */
+
+.tmyl-search-bar {
+  position: relative;
+  display: block;
+  font-family: var(--tmyl-font-sans);
+}
+
+.tmyl-search-bar__container {
+  position: relative;
+  display: flex;
+  gap: var(--tmyl-space-2);
+  align-items: center;
+}
+
+.tmyl-search-bar__input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.tmyl-search-bar__input {
+  width: 100%;
+  padding-right: calc(var(--tmyl-space-4) + 3rem) !important;
+}
+
+.tmyl-search-bar__input--with-voice {
+  padding-right: calc(var(--tmyl-space-4) + 5rem) !important;
+}
+
+.tmyl-search-bar__actions {
+  position: absolute;
+  right: var(--tmyl-space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: var(--tmyl-space-1);
+  align-items: center;
+}
+
+.tmyl-search-bar__action-button {
+  padding: var(--tmyl-space-1_5) !important;
+  min-width: auto !important;
+  width: 2rem;
+  height: 2rem;
+}
+
+.tmyl-search-bar__voice-button {
+  color: var(--tmyl-neutral-500);
+  transition: var(--tmyl-transition-fast);
+}
+
+.tmyl-search-bar__voice-button:hover {
+  color: var(--tmyl-primary-600);
+}
+
+.tmyl-search-bar__voice-button--listening {
+  color: var(--tmyl-error-600);
+  animation: tmyl-search-bar-pulse 1.5s infinite;
+}
+
+.tmyl-search-bar__clear-button {
+  color: var(--tmyl-neutral-400);
+  transition: var(--tmyl-transition-fast);
+}
+
+.tmyl-search-bar__clear-button:hover {
+  color: var(--tmyl-neutral-600);
+}
+
+.tmyl-search-bar__submit-button {
+  flex-shrink: 0;
+}
+
+/* Suggestions */
+.tmyl-search-bar__suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--tmyl-neutral-0);
+  border: 1px solid var(--tmyl-neutral-200);
+  border-top: none;
+  border-radius: 0 0 var(--tmyl-radius-md) var(--tmyl-radius-md);
+  box-shadow: var(--tmyl-shadow-lg);
+  max-height: 20rem;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: var(--tmyl-transition-fast);
+}
+
+.tmyl-search-bar__suggestions--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.tmyl-search-bar__suggestion {
+  padding: var(--tmyl-space-3) var(--tmyl-space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--tmyl-space-3);
+  cursor: pointer;
+  transition: var(--tmyl-transition-fast);
+  border-bottom: 1px solid var(--tmyl-neutral-100);
+}
+
+.tmyl-search-bar__suggestion:hover,
+.tmyl-search-bar__suggestion--highlighted {
+  background-color: var(--tmyl-primary-50);
+}
+
+.tmyl-search-bar__suggestion:last-child {
+  border-bottom: none;
+}
+
+.tmyl-search-bar__suggestion-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--tmyl-neutral-400);
+  flex-shrink: 0;
+}
+
+.tmyl-search-bar__suggestion-text {
+  flex: 1;
+  font-size: var(--tmyl-text-sm);
+  color: var(--tmyl-neutral-700);
+}
+
+.tmyl-search-bar__suggestion-type {
+  font-size: var(--tmyl-text-xs);
+  color: var(--tmyl-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Size variants */
+.tmyl-search-bar--sm {
+  font-size: var(--tmyl-text-sm);
+}
+
+.tmyl-search-bar--sm .tmyl-search-bar__action-button {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: var(--tmyl-space-1) !important;
+}
+
+.tmyl-search-bar--lg {
+  font-size: var(--tmyl-text-lg);
+}
+
+.tmyl-search-bar--lg .tmyl-search-bar__action-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: var(--tmyl-space-2) !important;
+}
+
+.tmyl-search-bar--xl {
+  font-size: var(--tmyl-text-xl);
+}
+
+.tmyl-search-bar--xl .tmyl-search-bar__action-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: var(--tmyl-space-2_5) !important;
+}
+
+/* State variants */
+.tmyl-search-bar--loading .tmyl-search-bar__input {
+  pointer-events: none;
+}
+
+.tmyl-search-bar--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Animations */
+@keyframes tmyl-search-bar-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1.05);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .tmyl-search-bar__container {
+    flex-direction: column;
+    gap: var(--tmyl-space-2);
+  }
+  
+  .tmyl-search-bar__submit-button {
+    width: 100%;
+  }
+}

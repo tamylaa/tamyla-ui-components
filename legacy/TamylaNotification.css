@@ -1,0 +1,52 @@
+.tamyla-notification {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 3000;
+  padding: 14px 20px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  font-size: 1rem;
+  font-family: inherit;
+  animation: tamylaNotifSlideIn 0.25s;
+}
+.tamyla-notification.info {
+  background: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #90caf9;
+}
+.tamyla-notification.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+.tamyla-notification.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+.tamyla-notification button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.tamyla-notification button:hover {
+  background: rgba(0,0,0,0.08);
+}
+@keyframes tamylaNotifSlideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

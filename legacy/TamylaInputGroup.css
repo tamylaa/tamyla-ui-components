@@ -1,0 +1,24 @@
+.tamyla-input-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+.tamyla-input-label {
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+.tamyla-input-children {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tamyla-input-error {
+  color: #d32f2f;
+  font-size: 0.92rem;
+  margin-top: 4px;
+}
+.tamyla-input-group.error .tamyla-input-label {
+  color: #d32f2f;
+}

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modular vs Tightly Coupled Components Demo</title>
+    
+    <!-- Core Design System -->
+    <link rel="stylesheet" href="../core/tokens.css">
+    <link rel="stylesheet" href="../core/utilities.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: var(--tmyl-space-6);
+            background-color: var(--tmyl-bg-primary);
+            color: var(--tmyl-text-primary);
+            font-family: var(--tmyl-font-sans);
+            line-height: var(--tmyl-leading-normal);
+        }
+
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: var(--tmyl-space-12);
+            padding: var(--tmyl-space-6);
+            background-color: var(--tmyl-surface-primary);
+            border-radius: var(--tmyl-radius-lg);
+            border: 1px solid var(--tmyl-border-primary);
+        }
+
+        .demo-title {
+            font-size: var(--tmyl-text-2xl);
+            font-weight: var(--tmyl-font-bold);
+            margin-bottom: var(--tmyl-space-4);
+            color: var(--tmyl-text-primary);
+        }
+
+        .approach-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--tmyl-space-6);
+            margin-bottom: var(--tmyl-space-6);
+        }
+
+        .approach-card {
+            padding: var(--tmyl-space-4);
+            background-color: var(--tmyl-bg-secondary);
+            border-radius: var(--tmyl-radius-md);
+            border: 1px solid var(--tmyl-border-primary);
+        }
+
+        .approach-title {
+            font-size: var(--tmyl-text-lg);
+            font-weight: var(--tmyl-font-semibold);
+            margin-bottom: var(--tmyl-space-3);
+        }
+
+        .approach-title.good {
+            color: var(--tmyl-success-600);
+        }
+
+        .approach-title.bad {
+            color: var(--tmyl-error-600);
+        }
+
+        .pros-cons {
+            margin: var(--tmyl-space-3) 0;
+        }
+
+        .pros-cons h4 {
+            font-size: var(--tmyl-text-sm);
+            font-weight: var(--tmyl-font-medium);
+            margin: var(--tmyl-space-2) 0 var(--tmyl-space-1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pros-cons ul {
+            margin: 0;
+            padding-left: var(--tmyl-space-4);
+            font-size: var(--tmyl-text-sm);
+            color: var(--tmyl-text-secondary);
+        }
+
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--tmyl-space-3);
+            margin: var(--tmyl-space-4) 0;
+        }
+
+        .code-block {
+            background-color: var(--tmyl-neutral-900);
+            color: var(--tmyl-neutral-100);
+            padding: var(--tmyl-space-4);
+            border-radius: var(--tmyl-radius-md);
+            font-family: var(--tmyl-font-mono);
+            font-size: var(--tmyl-text-sm);
+            overflow-x: auto;
+            margin: var(--tmyl-space-3) 0;
+        }
+
+        .file-structure {
+            background-color: var(--tmyl-bg-tertiary);
+            padding: var(--tmyl-space-3);
+            border-radius: var(--tmyl-radius-sm);
+            font-family: var(--tmyl-font-mono);
+            font-size: var(--tmyl-text-sm);
+            color: var(--tmyl-text-secondary);
+            margin: var(--tmyl-space-3) 0;
+        }
+
+        .highlight {
+            background-color: var(--tmyl-warning-100);
+            color: var(--tmyl-warning-800);
+            padding: 0 4px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .approach-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <header style="text-align: center; margin-bottom: var(--tmyl-space-12);">
+            <h1 style="font-size: var(--tmyl-text-4xl); margin-bottom: var(--tmyl-space-3);">
+                Modular vs Tightly Coupled Components
+            </h1>
+            <p style="font-size: var(--tmyl-text-lg); color: var(--tmyl-text-secondary); max-width: 600px; margin: 0 auto;">
+                Demonstrating why separation of concerns leads to better maintainability and reusability
+            </p>
+        </header>
+
+        <!-- Problem Illustration -->
+        <section class="demo-section">
+            <h2 class="demo-title">❌ The Problem: Tightly Coupled Components</h2>
+            
+            <div class="approach-comparison">
+                <div class="approach-card">
+                    <h3 class="approach-title bad">Monolithic Approach</h3>
+                    <div class="file-structure">
+tmyl-button.js (500+ lines)
+├── HTML template inside JS
+├── CSS styles embedded  
+├── JavaScript logic mixed
+├── Icon definitions inline
+└── Event handling coupled
+                    </div>
+                    <div class="pros-cons">
+                        <h4 style="color: var(--tmyl-error-600);">❌ Problems:</h4>
+                        <ul>
+                            <li><span class="highlight">Tight coupling</span> - can't reuse CSS elsewhere</li>
+                            <li><span class="highlight">Large bundle size</span> - everything loads together</li>
+                            <li><span class="highlight">Hard to maintain</span> - changes affect multiple concerns</li>
+                            <li><span class="highlight">Poor reusability</span> - can't use styles without JS</li>
+                            <li><span class="highlight">Testing complexity</span> - must test everything together</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="approach-card">
+                    <h3 class="approach-title good">Modular Approach</h3>
+                    <div class="file-structure">
+atoms/button/
+├── styles/tmyl-button.css
+├── icons/button-icons.js
+├── templates/button-template.js
+├── controllers/button-controller.js
+└── index.js (orchestrator)
+                    </div>
+                    <div class="pros-cons">
+                        <h4 style="color: var(--tmyl-success-600);">✅ Benefits:</h4>
+                        <ul>
+                            <li><span class="highlight">Loose coupling</span> - each file has single responsibility</li>
+                            <li><span class="highlight">Tree shaking</span> - load only what you need</li>
+                            <li><span class="highlight">Easy maintenance</span> - change styles without touching JS</li>
+                            <li><span class="highlight">High reusability</span> - use CSS classes anywhere</li>
+                            <li><span class="highlight">Testable</span> - test each concern independently</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modular Implementation -->
+        <section class="demo-section">
+            <h2 class="demo-title">✅ Solution: Separated Concerns</h2>
+            
+            <h3 style="margin-bottom: var(--tmyl-space-3);">1. Pure CSS Approach (Most Modular)</h3>
+            <p style="color: var(--tmyl-text-secondary); margin-bottom: var(--tmyl-space-4);">
+                Use CSS classes directly in HTML - no JavaScript required for basic styling
+            </p>
+            
+            <div class="demo-buttons" id="css-buttons">
+                <!-- These will be created by pure CSS approach -->
+            </div>
+
+            <div class="code-block">
+<!-- Pure HTML + CSS Classes -->
+&lt;button class="tmyl-button tmyl-button--primary tmyl-button--md"&gt;
+    Primary Button
+&lt;/button&gt;
+
+&lt;button class="tmyl-button tmyl-button--secondary tmyl-button--sm"&gt;
+    Secondary
+&lt;/button&gt;
+
+&lt;button class="tmyl-button tmyl-button--ghost tmyl-button--lg tmyl-button--loading"&gt;
+    Loading...
+&lt;/button&gt;</div>
+
+            <h3 style="margin: var(--tmyl-space-6) 0 var(--tmyl-space-3);">2. Factory Pattern Approach</h3>
+            <p style="color: var(--tmyl-text-secondary); margin-bottom: var(--tmyl-space-4);">
+                JavaScript factory creates buttons using separated modules
+            </p>
+            
+            <div class="demo-buttons" id="factory-buttons">
+                <!-- These will be created by factory pattern -->
+            </div>
+
+            <div class="code-block">
+// Modular JavaScript Factory
+import { ButtonFactory } from './button-system.js';
+
+const button = ButtonFactory.create({
+    variant: 'primary',
+    size: 'md',
+    text: 'Click me',
+    icon: 'search',
+    onClick: () => console.log('Clicked!')
+});
+
+document.body.appendChild(button);</div>
+
+            <h3 style="margin: var(--tmyl-space-6) 0 var(--tmyl-space-3);">3. Custom Element Approach</h3>
+            <p style="color: var(--tmyl-text-secondary); margin-bottom: var(--tmyl-space-4);">
+                Web component that uses modular parts internally
+            </p>
+            
+            <div class="demo-buttons">
+                <tmyl-button-modular variant="primary" size="md">Custom Element</tmyl-button-modular>
+                <tmyl-button-modular variant="secondary" icon="plus" size="sm">With Icon</tmyl-button-modular>
+                <tmyl-button-modular variant="danger" loading size="lg">Loading State</tmyl-button-modular>
+            </div>
+
+            <div class="code-block">
+&lt;!-- Declarative HTML --&gt;
+&lt;tmyl-button-modular variant="primary" icon="search"&gt;
+    Search
+&lt;/tmyl-button-modular&gt;
+
+&lt;script&gt;
+// Still uses modular parts internally
+import './tmyl-button-vanilla.js';
+&lt;/script&gt;</div>
+        </section>
+
+        <!-- Benefits Demonstration -->
+        <section class="demo-section">
+            <h2 class="demo-title">🎯 Modular Benefits in Action</h2>
+            
+            <h3 style="margin-bottom: var(--tmyl-space-3);">Reuse CSS Classes Anywhere</h3>
+            <p style="color: var(--tmyl-text-secondary); margin-bottom: var(--tmyl-space-4);">
+                The same CSS classes work on any HTML element - not just custom components
+            </p>
+            
+            <div style="display: flex; gap: var(--tmyl-space-3); flex-wrap: wrap; margin: var(--tmyl-space-4) 0;">
+                <a href="#" class="tmyl-button tmyl-button--primary tmyl-button--md">Link as Button</a>
+                <div class="tmyl-button tmyl-button--secondary tmyl-button--sm">Div as Button</div>
+                <span class="tmyl-button tmyl-button--ghost tmyl-button--lg">Span as Button</span>
+            </div>
+
+            <h3 style="margin: var(--tmyl-space-6) 0 var(--tmyl-space-3);">Mix and Match Icons</h3>
+            <p style="color: var(--tmyl-text-secondary); margin-bottom: var(--tmyl-space-4);">
+                Icons are separated so they can be used independently
+            </p>
+            
+            <div style="display: flex; gap: var(--tmyl-space-2); align-items: center; margin: var(--tmyl-space-4) 0;">
+                <span class="tmyl-button__icon" style="width: 1.5rem; height: 1.5rem; color: var(--tmyl-primary-500);">
+                    <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                </span>
+                <span style="color: var(--tmyl-text-secondary);">Search icon used separately</span>
+            </div>
+
+            <h3 style="margin: var(--tmyl-space-6) 0 var(--tmyl-space-3);">Easy Customization</h3>
+            <div class="demo-buttons">
+                <button class="tmyl-button tmyl-button--primary tmyl-button--md custom-button">Custom Styled</button>
+            </div>
+
+            <style>
+                .custom-button {
+                    --tmyl-primary-600: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+                    --tmyl-primary-700: linear-gradient(45deg, #ff5252, #26a69a);
+                    border-radius: 25px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+            </style>
+
+            <div class="code-block">
+/* Easy customization with CSS variables */
+.custom-button {
+    --tmyl-primary-600: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    --tmyl-primary-700: linear-gradient(45deg, #ff5252, #26a69a);
+    border-radius: 25px;
+    text-transform: uppercase;
+}</div>
+        </section>
+
+        <!-- File Size Comparison -->
+        <section class="demo-section">
+            <h2 class="demo-title">📊 Bundle Size Comparison</h2>
+            
+            <div class="approach-comparison">
+                <div class="approach-card">
+                    <h3 class="approach-title bad">Monolithic Component</h3>
+                    <div style="font-family: var(--tmyl-font-mono); font-size: var(--tmyl-text-sm);">
+                        <div>tmyl-button.js: <strong>45KB</strong></div>
+                        <div style="color: var(--tmyl-text-tertiary);">├── HTML template: 8KB</div>
+                        <div style="color: var(--tmyl-text-tertiary);">├── CSS styles: 15KB</div>
+                        <div style="color: var(--tmyl-text-tertiary);">├── JavaScript: 12KB</div>
+                        <div style="color: var(--tmyl-text-tertiary);">├── Icons: 8KB</div>
+                        <div style="color: var(--tmyl-text-tertiary);">└── Framework: 2KB</div>
+                    </div>
+                    <p style="color: var(--tmyl-error-600); font-size: var(--tmyl-text-sm); margin-top: var(--tmyl-space-2);">
+                        ❌ Must load everything even for simple styling
+                    </p>
+                </div>
+
+                <div class="approach-card">
+                    <h3 class="approach-title good">Modular System</h3>
+                    <div style="font-family: var(--tmyl-font-mono); font-size: var(--tmyl-text-sm);">
+                        <div>CSS only: <strong>8KB</strong></div>
+                        <div>CSS + Icons: <strong>12KB</strong></div>
+                        <div>CSS + Factory: <strong>15KB</strong></div>
+                        <div>Full component: <strong>25KB</strong></div>
+                    </div>
+                    <p style="color: var(--tmyl-success-600); font-size: var(--tmyl-text-sm); margin-top: var(--tmyl-space-2);">
+                        ✅ Load only what you need with tree shaking
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Load the modular components -->
+    <script type="module">
+        import { ButtonFactory } from './button-system.js';
+        import './tmyl-button-vanilla.js';
+
+        // Demo 1: Pure CSS buttons (no JS needed)
+        const cssContainer = document.getElementById('css-buttons');
+        cssContainer.innerHTML = `
+            <button class="tmyl-button tmyl-button--primary tmyl-button--md">Primary</button>
+            <button class="tmyl-button tmyl-button--secondary tmyl-button--sm">Secondary</button>
+            <button class="tmyl-button tmyl-button--ghost tmyl-button--lg">Ghost</button>
+            <button class="tmyl-button tmyl-button--danger tmyl-button--md">Danger</button>
+            <button class="tmyl-button tmyl-button--primary tmyl-button--md tmyl-button--loading">Loading</button>
+        `;
+
+        // Demo 2: Factory-created buttons
+        const factoryContainer = document.getElementById('factory-buttons');
+        
+        const buttons = [
+            { variant: 'primary', size: 'md', text: 'Factory Primary', icon: 'search' },
+            { variant: 'secondary', size: 'sm', text: 'Factory Secondary', icon: 'plus' },
+            { variant: 'ghost', size: 'lg', text: 'Factory Ghost', icon: 'download' },
+            { variant: 'success', size: 'md', text: 'With Click', onClick: () => alert('Factory button clicked!') }
+        ];
+
+        buttons.forEach(config => {
+            const button = ButtonFactory.create(config);
+            factoryContainer.appendChild(button);
+        });
+
+        // Demo 3: Show runtime modification
+        setTimeout(() => {
+            const loadingButton = cssContainer.querySelector('.tmyl-button--loading');
+            if (loadingButton) {
+                loadingButton.classList.remove('tmyl-button--loading');
+                loadingButton.textContent = 'Loaded!';
+                loadingButton.classList.add('tmyl-button--success');
+            }
+        }, 2000);
+
+        console.log('🎯 Modular Components Demo Loaded');
+        console.log('✅ Separated concerns: CSS, JS, HTML, Icons');
+        console.log('📦 Tree-shakeable and reusable');
+    </script>
+</body>
+</html>

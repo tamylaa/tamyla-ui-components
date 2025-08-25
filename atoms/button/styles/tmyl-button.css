@@ -1,0 +1,156 @@
+/**
+ * Button Component Styles
+ * Modular CSS for tmyl-button component
+ */
+
+.tmyl-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-family: var(--tmyl-font-sans);
+  font-weight: var(--tmyl-font-medium);
+  line-height: 1;
+  text-decoration: none;
+  outline: none;
+  transition: var(--tmyl-transition-fast);
+  border-radius: var(--tmyl-radius-md);
+  white-space: nowrap;
+}
+
+.tmyl-button--full-width {
+  width: 100%;
+}
+
+/* Sizes */
+.tmyl-button--sm {
+  height: var(--tmyl-button-height-sm);
+  padding: 0 var(--tmyl-space-3);
+  font-size: var(--tmyl-text-sm);
+  gap: var(--tmyl-space-1_5);
+}
+
+.tmyl-button--md {
+  height: var(--tmyl-button-height-md);
+  padding: 0 var(--tmyl-space-4);
+  font-size: var(--tmyl-text-base);
+  gap: var(--tmyl-space-2);
+}
+
+.tmyl-button--lg {
+  height: var(--tmyl-button-height-lg);
+  padding: 0 var(--tmyl-space-6);
+  font-size: var(--tmyl-text-lg);
+  gap: var(--tmyl-space-2_5);
+}
+
+.tmyl-button--xl {
+  height: var(--tmyl-button-height-xl);
+  padding: 0 var(--tmyl-space-8);
+  font-size: var(--tmyl-text-xl);
+  gap: var(--tmyl-space-3);
+}
+
+/* Variants */
+.tmyl-button--primary {
+  background-color: var(--tmyl-primary-600);
+  color: var(--tmyl-neutral-0);
+  border: 1px solid var(--tmyl-primary-600);
+}
+
+.tmyl-button--primary:hover:not(:disabled) {
+  background-color: var(--tmyl-primary-700);
+  border-color: var(--tmyl-primary-700);
+}
+
+.tmyl-button--primary:focus {
+  box-shadow: var(--tmyl-shadow-focus);
+}
+
+.tmyl-button--secondary {
+  background-color: var(--tmyl-neutral-0);
+  color: var(--tmyl-primary-600);
+  border: 1px solid var(--tmyl-primary-600);
+}
+
+.tmyl-button--secondary:hover:not(:disabled) {
+  background-color: var(--tmyl-primary-50);
+}
+
+.tmyl-button--ghost {
+  background-color: transparent;
+  color: var(--tmyl-primary-600);
+  border: 1px solid transparent;
+}
+
+.tmyl-button--ghost:hover:not(:disabled) {
+  background-color: var(--tmyl-primary-50);
+}
+
+.tmyl-button--danger {
+  background-color: var(--tmyl-error-600);
+  color: var(--tmyl-neutral-0);
+  border: 1px solid var(--tmyl-error-600);
+}
+
+.tmyl-button--danger:hover:not(:disabled) {
+  background-color: var(--tmyl-error-700);
+  border-color: var(--tmyl-error-700);
+}
+
+.tmyl-button--success {
+  background-color: var(--tmyl-success-600);
+  color: var(--tmyl-neutral-0);
+  border: 1px solid var(--tmyl-success-600);
+}
+
+.tmyl-button--success:hover:not(:disabled) {
+  background-color: var(--tmyl-success-700);
+  border-color: var(--tmyl-success-700);
+}
+
+/* States */
+.tmyl-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.tmyl-button--loading {
+  color: transparent;
+}
+
+/* Loading spinner */
+.tmyl-button__loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: tmyl-button-spin 1s linear infinite;
+}
+
+@keyframes tmyl-button-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Icon styles */
+.tmyl-button__icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.tmyl-button__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}

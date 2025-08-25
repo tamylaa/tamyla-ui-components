@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamyla Design System - Modular Components Demo</title>
+    
+    <!-- Core Design System -->
+    <link rel="stylesheet" href="./ui-components/core/tokens.css">
+    <link rel="stylesheet" href="./ui-components/core/utilities.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--tmyl-bg-primary);
+            color: var(--tmyl-text-primary);
+            font-family: var(--tmyl-font-sans);
+            line-height: var(--tmyl-leading-normal);
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--tmyl-space-6);
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: var(--tmyl-space-12);
+            padding-bottom: var(--tmyl-space-6);
+            border-bottom: 1px solid var(--tmyl-border-primary);
+        }
+
+        .demo-title {
+            font-size: var(--tmyl-text-4xl);
+            font-weight: var(--tmyl-font-bold);
+            color: var(--tmyl-text-primary);
+            margin-bottom: var(--tmyl-space-3);
+        }
+
+        .demo-subtitle {
+            font-size: var(--tmyl-text-lg);
+            color: var(--tmyl-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: var(--tmyl-leading-relaxed);
+        }
+
+        .demo-section {
+            margin-bottom: var(--tmyl-space-12);
+        }
+
+        .demo-section-title {
+            font-size: var(--tmyl-text-2xl);
+            font-weight: var(--tmyl-font-semibold);
+            color: var(--tmyl-text-primary);
+            margin-bottom: var(--tmyl-space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--tmyl-space-2);
+        }
+
+        .demo-section-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--tmyl-space-1) var(--tmyl-space-2);
+            background-color: var(--tmyl-primary-100);
+            color: var(--tmyl-primary-700);
+            border-radius: var(--tmyl-radius-full);
+            font-size: var(--tmyl-text-xs);
+            font-weight: var(--tmyl-font-medium);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-grid {
+            display: grid;
+            gap: var(--tmyl-space-6);
+        }
+
+        .demo-grid--2col {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .demo-grid--3col {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .demo-grid--4col {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .demo-item {
+            padding: var(--tmyl-space-4);
+            background-color: var(--tmyl-surface-primary);
+            border: 1px solid var(--tmyl-border-primary);
+            border-radius: var(--tmyl-radius-lg);
+        }
+
+        .demo-item-title {
+            font-size: var(--tmyl-text-base);
+            font-weight: var(--tmyl-font-medium);
+            color: var(--tmyl-text-primary);
+            margin-bottom: var(--tmyl-space-3);
+        }
+
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--tmyl-space-2);
+            align-items: center;
+        }
+
+        .demo-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: var(--tmyl-space-3);
+        }
+
+        .demo-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--tmyl-space-4);
+        }
+
+        .demo-search-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .demo-interface-container {
+            background-color: var(--tmyl-bg-secondary);
+            border-radius: var(--tmyl-radius-xl);
+            padding: var(--tmyl-space-6);
+            margin: var(--tmyl-space-6) 0;
+        }
+
+        .feature-highlight {
+            background: linear-gradient(135deg, var(--tmyl-primary-50), var(--tmyl-secondary-50));
+            padding: var(--tmyl-space-6);
+            border-radius: var(--tmyl-radius-xl);
+            border: 1px solid var(--tmyl-primary-200);
+            margin: var(--tmyl-space-6) 0;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--tmyl-space-3);
+            list-style: none;
+            padding: 0;
+            margin: var(--tmyl-space-4) 0 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: var(--tmyl-space-2);
+            color: var(--tmyl-text-secondary);
+            font-size: var(--tmyl-text-sm);
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: var(--tmyl-success-500);
+            font-weight: bold;
+        }
+
+        .code-snippet {
+            background-color: var(--tmyl-neutral-900);
+            color: var(--tmyl-neutral-100);
+            padding: var(--tmyl-space-4);
+            border-radius: var(--tmyl-radius-md);
+            font-family: var(--tmyl-font-mono);
+            font-size: var(--tmyl-text-sm);
+            overflow-x: auto;
+            margin: var(--tmyl-space-3) 0;
+        }
+
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: var(--tmyl-space-4);
+            }
+
+            .demo-title {
+                font-size: var(--tmyl-text-3xl);
+            }
+
+            .demo-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .demo-grid--2col,
+            .demo-grid--3col,
+            .demo-grid--4col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <header class="demo-header">
+            <h1 class="demo-title">Tamyla Design System</h1>
+            <p class="demo-subtitle">
+                Modular, reusable, and composable UI components built with atomic design principles. 
+                Each component is designed to be plug-and-play with consistent visual language throughout the system.
+            </p>
+        </header>
+
+        <!-- Feature Highlight -->
+        <div class="feature-highlight">
+            <h2 style="margin: 0 0 var(--tmyl-space-2); color: var(--tmyl-primary-700); font-size: var(--tmyl-text-xl);">
+                🎯 Design System Benefits
+            </h2>
+            <p style="margin: 0 0 var(--tmyl-space-4); color: var(--tmyl-text-secondary);">
+                This modular approach provides maximum reusability and consistency across all Tamyla interfaces.
+            </p>
+            <ul class="feature-list">
+                <li>Atomic Design Architecture</li>
+                <li>Design Token System</li>
+                <li>Consistent Visual Language</li>
+                <li>Plug & Play Components</li>
+                <li>Voice Search Integration</li>
+                <li>Responsive by Default</li>
+                <li>Accessibility Built-in</li>
+                <li>Dark Mode Support</li>
+            </ul>
+        </div>
+
+        <!-- Atoms Section -->
+        <section class="demo-section">
+            <h2 class="demo-section-title">
+                <span class="demo-section-badge">Atoms</span>
+                Basic Building Blocks
+            </h2>
+            
+            <div class="demo-grid demo-grid--3col">
+                <!-- Buttons -->
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Buttons</h3>
+                    <div class="demo-buttons">
+                        <tmyl-button variant="primary">Primary</tmyl-button>
+                        <tmyl-button variant="secondary">Secondary</tmyl-button>
+                        <tmyl-button variant="ghost">Ghost</tmyl-button>
+                        <tmyl-button variant="danger" size="sm">Danger</tmyl-button>
+                        <tmyl-button variant="success" icon="plus" size="lg">With Icon</tmyl-button>
+                        <tmyl-button loading>Loading</tmyl-button>
+                    </div>
+                    <div class="code-snippet">
+&lt;tmyl-button variant="primary" size="md"&gt;
+  Click me
+&lt;/tmyl-button&gt;</div>
+                </div>
+
+                <!-- Inputs -->
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Input Fields</h3>
+                    <div class="demo-inputs">
+                        <tmyl-input 
+                            label="Email" 
+                            type="email" 
+                            placeholder="Enter your email..."
+                            icon="email"
+                        ></tmyl-input>
+                        <tmyl-input 
+                            label="Search" 
+                            placeholder="Search..."
+                            icon="search"
+                            clearable
+                        ></tmyl-input>
+                        <tmyl-input 
+                            label="Password" 
+                            type="password" 
+                            placeholder="Password"
+                            icon="lock"
+                            helper-text="Must be at least 8 characters"
+                        ></tmyl-input>
+                    </div>
+                    <div class="code-snippet">
+&lt;tmyl-input 
+  label="Email" 
+  icon="email"
+  clearable
+&gt;&lt;/tmyl-input&gt;</div>
+                </div>
+
+                <!-- Cards -->
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Cards</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--tmyl-space-3);">
+                        <tmyl-card variant="flat" padding="sm">
+                            <p style="margin: 0;">Flat card with small padding</p>
+                        </tmyl-card>
+                        <tmyl-card variant="elevated" hover clickable>
+                            <h4 style="margin: 0 0 var(--tmyl-space-2);">Elevated Card</h4>
+                            <p style="margin: 0; color: var(--tmyl-text-secondary);">Clickable with hover effects</p>
+                        </tmyl-card>
+                    </div>
+                    <div class="code-snippet">
+&lt;tmyl-card variant="elevated" hover&gt;
+  Content here
+&lt;/tmyl-card&gt;</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Molecules Section -->
+        <section class="demo-section">
+            <h2 class="demo-section-title">
+                <span class="demo-section-badge">Molecules</span>
+                Composite Components
+            </h2>
+
+            <div class="demo-grid demo-grid--2col">
+                <!-- Search Bar -->
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Search Bar</h3>
+                    <div class="demo-search-container">
+                        <tmyl-search-bar 
+                            placeholder="Try voice search or type..."
+                            voice-enabled
+                            clearable
+                        ></tmyl-search-bar>
+                    </div>
+                    <div class="code-snippet">
+&lt;tmyl-search-bar 
+  voice-enabled
+  clearable
+  placeholder="Search..."
+&gt;&lt;/tmyl-search-bar&gt;</div>
+                </div>
+
+                <!-- Content Cards -->
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Content Cards</h3>
+                    <tmyl-content-card 
+                        id="demo-content-card"
+                        size="compact"
+                        selectable
+                        show-actions
+                    ></tmyl-content-card>
+                    <div class="code-snippet">
+&lt;tmyl-content-card
+  .content="${content}"
+  selectable
+  show-actions
+&gt;&lt;/tmyl-content-card&gt;</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Organisms Section -->
+        <section class="demo-section">
+            <h2 class="demo-section-title">
+                <span class="demo-section-badge">Organisms</span>
+                Complete Interfaces
+            </h2>
+
+            <div class="demo-interface-container">
+                <h3 style="margin: 0 0 var(--tmyl-space-4); color: var(--tmyl-text-primary);">
+                    Complete Search Interface
+                </h3>
+                <tmyl-search-interface 
+                    id="demo-search-interface"
+                    enable-voice-search
+                    enable-selection
+                ></tmyl-search-interface>
+            </div>
+
+            <div class="code-snippet">
+&lt;tmyl-search-interface
+  enable-voice-search
+  enable-selection
+  show-filters
+&gt;&lt;/tmyl-search-interface&gt;</div>
+        </section>
+
+        <!-- Design Tokens Section -->
+        <section class="demo-section">
+            <h2 class="demo-section-title">
+                <span class="demo-section-badge">Tokens</span>
+                Design System Foundation
+            </h2>
+
+            <div class="demo-grid demo-grid--4col">
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Colors</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--tmyl-space-2);">
+                        <div style="background: var(--tmyl-primary-500); height: 2rem; border-radius: var(--tmyl-radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--tmyl-text-xs);">Primary</div>
+                        <div style="background: var(--tmyl-secondary-500); height: 2rem; border-radius: var(--tmyl-radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--tmyl-text-xs);">Secondary</div>
+                        <div style="background: var(--tmyl-success-500); height: 2rem; border-radius: var(--tmyl-radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--tmyl-text-xs);">Success</div>
+                        <div style="background: var(--tmyl-error-500); height: 2rem; border-radius: var(--tmyl-radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--tmyl-text-xs);">Error</div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Typography</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--tmyl-space-2);">
+                        <div style="font-size: var(--tmyl-text-xs);">Extra Small</div>
+                        <div style="font-size: var(--tmyl-text-sm);">Small</div>
+                        <div style="font-size: var(--tmyl-text-base);">Base</div>
+                        <div style="font-size: var(--tmyl-text-lg);">Large</div>
+                        <div style="font-size: var(--tmyl-text-xl);">Extra Large</div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Spacing</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--tmyl-space-1);">
+                        <div style="background: var(--tmyl-primary-100); height: var(--tmyl-space-2); border-radius: var(--tmyl-radius-sm);"></div>
+                        <div style="background: var(--tmyl-primary-200); height: var(--tmyl-space-4); border-radius: var(--tmyl-radius-sm);"></div>
+                        <div style="background: var(--tmyl-primary-300); height: var(--tmyl-space-6); border-radius: var(--tmyl-radius-sm);"></div>
+                        <div style="background: var(--tmyl-primary-400); height: var(--tmyl-space-8); border-radius: var(--tmyl-radius-sm);"></div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Shadows</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--tmyl-space-3);">
+                        <div style="background: white; height: 2rem; border-radius: var(--tmyl-radius-md); box-shadow: var(--tmyl-shadow-sm); display: flex; align-items: center; justify-content: center; font-size: var(--tmyl-text-xs);">Small</div>
+                        <div style="background: white; height: 2rem; border-radius: var(--tmyl-radius-md); box-shadow: var(--tmyl-shadow-md); display: flex; align-items: center; justify-content: center; font-size: var(--tmyl-text-xs);">Medium</div>
+                        <div style="background: white; height: 2rem; border-radius: var(--tmyl-radius-md); box-shadow: var(--tmyl-shadow-lg); display: flex; align-items: center; justify-content: center; font-size: var(--tmyl-text-xs);">Large</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Usage Examples -->
+        <section class="demo-section">
+            <h2 class="demo-section-title">
+                <span class="demo-section-badge">Usage</span>
+                Implementation Examples
+            </h2>
+
+            <div class="demo-grid demo-grid--2col">
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Basic Setup</h3>
+                    <div class="code-snippet">
+// Import core styles
+import './ui-components/core/tokens.css';
+import './ui-components/core/utilities.css';
+
+// Import components
+import './ui-components/atoms/tmyl-button.js';
+import './ui-components/molecules/tmyl-search-bar.js';
+
+// Use in HTML
+&lt;tmyl-search-bar voice-enabled&gt;&lt;/tmyl-search-bar&gt;</div>
+                </div>
+
+                <div class="demo-item">
+                    <h3 class="demo-item-title">Event Handling</h3>
+                    <div class="code-snippet">
+// Listen to component events
+searchInterface.addEventListener('tmyl-search', (e) => {
+  console.log('Search query:', e.detail.query);
+});
+
+searchInterface.addEventListener('tmyl-content-select', (e) => {
+  console.log('Selected:', e.detail.content);
+});</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Load Components -->
+    <script type="module" src="./ui-components/atoms/tmyl-button.js"></script>
+    <script type="module" src="./ui-components/atoms/tmyl-input.js"></script>
+    <script type="module" src="./ui-components/atoms/tmyl-card.js"></script>
+    <script type="module" src="./ui-components/molecules/tmyl-search-bar.js"></script>
+    <script type="module" src="./ui-components/molecules/tmyl-content-card.js"></script>
+    <script type="module" src="./ui-components/organisms/tmyl-search-interface.js"></script>
+
+    <script>
+        // Demo data and interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup demo content card
+            const contentCard = document.getElementById('demo-content-card');
+            if (contentCard) {
+                contentCard.content = {
+                    id: 'demo-1',
+                    title: 'Advanced Search Strategies for Content Discovery',
+                    description: 'Learn how to leverage natural language processing and voice search to find exactly what you need in your content library.',
+                    type: 'document',
+                    author: 'Sarah Johnson',
+                    createdAt: '2024-01-15',
+                    tags: ['search', 'AI', 'productivity'],
+                    views: 1247,
+                    size: 2048576
+                };
+            }
+
+            // Setup demo search interface
+            const searchInterface = document.getElementById('demo-search-interface');
+            if (searchInterface) {
+                // Mock search results
+                const mockResults = [
+                    {
+                        id: '1',
+                        title: 'Q4 Marketing Campaign Analysis',
+                        description: 'Comprehensive analysis of our Q4 marketing performance with key insights and recommendations for the upcoming quarter.',
+                        type: 'presentation',
+                        author: 'Marketing Team',
+                        createdAt: '2024-01-10',
+                        tags: ['marketing', 'analysis', 'Q4'],
+                        views: 856
+                    },
+                    {
+                        id: '2',
+                        title: 'Product Roadmap 2024',
+                        description: 'Strategic roadmap outlining our product development priorities and timeline for 2024.',
+                        type: 'document',
+                        author: 'Product Team',
+                        createdAt: '2024-01-08',
+                        tags: ['roadmap', 'strategy', '2024'],
+                        views: 2341
+                    },
+                    {
+                        id: '3',
+                        title: 'Brand Guidelines v3.0',
+                        description: 'Updated brand guidelines including new logo variations, color palettes, and typography standards.',
+                        type: 'pdf',
+                        author: 'Design Team',
+                        createdAt: '2024-01-05',
+                        tags: ['brand', 'design', 'guidelines'],
+                        views: 1567
+                    }
+                ];
+
+                // Handle search events
+                searchInterface.addEventListener('tmyl-search-request', (e) => {
+                    console.log('Search requested:', e.detail);
+                    searchInterface.setLoading(true);
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        searchInterface.setResults(mockResults, mockResults.length);
+                    }, 1000);
+                });
+
+                searchInterface.addEventListener('tmyl-suggestions-request', (e) => {
+                    console.log('Suggestions requested:', e.detail);
+                    const suggestions = [
+                        { text: 'marketing campaign', type: 'recent' },
+                        { text: 'product roadmap', type: 'content' },
+                        { text: 'brand guidelines', type: 'content' },
+                        { text: 'Q4 analysis', type: 'recent' }
+                    ];
+                    searchInterface.setSuggestions(suggestions);
+                });
+
+                searchInterface.addEventListener('tmyl-content-action', (e) => {
+                    console.log('Content action:', e.detail);
+                    alert(`Action: ${e.detail.action} on ${e.detail.content.title}`);
+                });
+
+                searchInterface.addEventListener('tmyl-bulk-action', (e) => {
+                    console.log('Bulk action:', e.detail);
+                    alert(`Bulk action: ${e.detail.action} on ${e.detail.items.length} items`);
+                });
+
+                // Set initial results
+                searchInterface.setResults(mockResults, mockResults.length);
+            }
+
+            // Demo search bar events
+            const searchBars = document.querySelectorAll('tmyl-search-bar');
+            searchBars.forEach(searchBar => {
+                searchBar.addEventListener('tmyl-search', (e) => {
+                    console.log('Search:', e.detail.query);
+                });
+
+                searchBar.addEventListener('tmyl-voice-result', (e) => {
+                    console.log('Voice result:', e.detail.transcript);
+                });
+
+                searchBar.addEventListener('tmyl-suggestions-request', (e) => {
+                    const suggestions = [
+                        { text: 'marketing campaign', type: 'recent' },
+                        { text: 'product roadmap', type: 'content' },
+                        { text: 'design system', type: 'content' }
+                    ];
+                    searchBar.setSuggestions(suggestions);
+                });
+            });
+
+            // Demo content card events
+            const contentCards = document.querySelectorAll('tmyl-content-card');
+            contentCards.forEach(card => {
+                card.addEventListener('tmyl-content-select', (e) => {
+                    console.log('Content selected:', e.detail);
+                });
+
+                card.addEventListener('tmyl-content-action', (e) => {
+                    console.log('Content action:', e.detail);
+                    alert(`Action: ${e.detail.action}`);
+                });
+            });
+
+            console.log('🎨 Tamyla Design System Demo Loaded');
+            console.log('✨ All components are modular and reusable');
+            console.log('🔧 Built with atomic design principles');
+        });
+    </script>
+</body>
+</html>

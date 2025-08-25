@@ -1,0 +1,77 @@
+.tamyla-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44, 62, 80, 0.35);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: tamylaModalFadeIn 0.2s;
+}
+.tamyla-modal {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.18);
+  min-width: 320px;
+  max-width: 95vw;
+  min-height: 120px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: tamylaModalPopIn 0.2s;
+}
+.tamyla-modal-md { width: 480px; }
+.tamyla-modal-lg { width: 700px; }
+.tamyla-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 12px 24px;
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+.tamyla-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+.tamyla-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.tamyla-modal-close:hover {
+  background: #e9ecef;
+  color: #007bff;
+}
+.tamyla-modal-body {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+.tamyla-modal-actions {
+  padding: 16px 24px;
+  border-top: 1px solid #e9ecef;
+  background: #f8f9fa;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+@keyframes tamylaModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes tamylaModalPopIn {
+  from { transform: scale(0.97); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
