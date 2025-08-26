@@ -5,7 +5,7 @@
 
 import { createSearchInterfaceTemplate, searchInterfaceTemplates } from './templates/search-interface-template.js';
 import { createSearchInterfaceController, searchInterfaceUtils } from './controllers/search-interface-controller.js';
-import { MoleculeFactory } from '../molecules/molecule-factory.js';
+import { MoleculeFactory } from '../../molecules/molecule-factory.js';
 
 /**
  * Search Interface Factory

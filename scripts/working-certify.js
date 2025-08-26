@@ -114,32 +114,32 @@ coverage/
     console.log(chalk.cyan('\n🔨 Testing build system...'));
 
     try {
-      // Test simple CSS build
+      // Test the actual build command used for publishing
+      console.log(chalk.gray('  Testing main build command...'));
+      this.safeExec('npm run build', { timeout: 60000 });
+      console.log(chalk.green('  ✓ Main build successful'));
+
+      // Verify critical outputs exist
+      const distDir = path.join(this.projectRoot, 'dist');
+      const expectedFiles = ['tamyla-ui.esm.js', 'tamyla-ui.umd.js'];
+      
+      for (const file of expectedFiles) {
+        const filePath = path.join(distDir, file);
+        if (!fs.existsSync(filePath)) {
+          throw new Error(`Missing build output: ${file}`);
+        }
+        const stats = fs.statSync(filePath);
+        const sizeKB = (stats.size / 1024).toFixed(1);
+        console.log(chalk.green(`  ✓ ${file}: ${sizeKB}KB`));
+      }
+
+      // Test CSS build separately
       console.log(chalk.gray('  Testing CSS build...'));
-      this.safeExec('node build/scripts/simple-build-css.js');
+      this.safeExec('npm run build:css');
       console.log(chalk.green('  ✓ CSS build successful'));
 
-      // Check if rollup config exists and try building
-      const rollupConfig = path.join(this.projectRoot, 'build/rollup.config.js');
-      if (fs.existsSync(rollupConfig)) {
-        console.log(chalk.gray('  Testing bundle build...'));
-        try {
-          this.safeExec('npm run build:bundle', { timeout: 30000 });
-          console.log(chalk.green('  ✓ Bundle build successful'));
-        } catch (error) {
-          console.log(chalk.yellow('  ⚠ Bundle build skipped (dependencies may be needed)'));
-        }
-      }
-
-      // Verify outputs
-      const distDir = path.join(this.projectRoot, 'dist');
-      if (fs.existsSync(distDir)) {
-        const files = fs.readdirSync(distDir);
-        console.log(chalk.green(`  ✓ Build outputs created (${files.length} files)`));
-      }
-
     } catch (error) {
-      console.log(chalk.yellow(`  ⚠ Build test completed with warnings: ${error.message}`));
+      throw new Error(`Build system failed: ${error.message}`);
     }
   }
 

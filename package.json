@@ -45,9 +45,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:types && npm run build:bundle && npm run build:css",
-    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist/types",
-    "build:bundle": "rollup -c build/rollup.config.js",
+        "build": "rollup -c build/rollup-simple.config.js",
+    "build:types": "echo 'TypeScript types generation - skipped for JavaScript project'",
+    "build:bundle": "rollup -c build/rollup-simple.config.js",
     "build:css": "node build/scripts/build-css.js",
     "build:individual": "node build/scripts/build-components.js",
     "clean": "rimraf dist",

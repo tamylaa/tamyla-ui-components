@@ -3,7 +3,7 @@
  * Organism-level behavior orchestrating molecular components
  */
 
-import { MoleculeFactory } from '../../molecules/molecule-factory.js';
+import { MoleculeFactory } from '../../../molecules/molecule-factory.js';
 import { 
   updateSearchInterfaceResults, 
   updateSearchInterfaceLoading, 

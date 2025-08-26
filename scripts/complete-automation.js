@@ -94,6 +94,26 @@ class CompleteUIComponentsAutomation {
     console.log(chalk.blue.bold('\n🔨 PHASE 2: Build System Validation'));
     console.log(chalk.blue('=' .repeat(40)));
 
+    // Test main build system first
+    try {
+      console.log(chalk.cyan('Testing main build system...'));
+      this.safeExec('npm run build');
+      console.log(chalk.green('✓ Main build successful'));
+
+      // Verify JS outputs
+      const expectedFiles = ['tamyla-ui.esm.js', 'tamyla-ui.umd.js'];
+      for (const file of expectedFiles) {
+        const filePath = path.join(this.projectRoot, 'dist', file);
+        if (fs.existsSync(filePath)) {
+          const stats = fs.statSync(filePath);
+          const sizeKB = (stats.size / 1024).toFixed(1);
+          console.log(chalk.green(`✓ ${file}: ${sizeKB}KB`));
+        }
+      }
+    } catch (error) {
+      throw new Error(`Main build failed: ${error.message}`);
+    }
+
     // Test CSS build
     try {
       console.log(chalk.cyan('Testing CSS build system...'));
@@ -275,6 +295,15 @@ class CompleteUIComponentsAutomation {
     console.log(chalk.blue.bold('\n📦 PHASE 6: NPM Package Preparation'));
     console.log(chalk.blue('=' .repeat(40)));
 
+    // Test the prepublishOnly script (what runs before npm publish)
+    try {
+      console.log(chalk.cyan('Testing prepublishOnly build...'));
+      this.safeExec('npm run prepublishOnly');
+      console.log(chalk.green('✓ prepublishOnly script successful'));
+    } catch (error) {
+      throw new Error(`prepublishOnly failed: ${error.message}`);
+    }
+
     // Test package creation
     try {
       console.log(chalk.cyan('Testing NPM package creation...'));
@@ -288,7 +317,7 @@ class CompleteUIComponentsAutomation {
       }
       
     } catch (error) {
-      console.log(chalk.yellow('⚠ NPM pack test failed, but package.json exists'));
+      throw new Error(`NPM pack failed: ${error.message}`);
     }
 
     // Verify package.json has all required fields

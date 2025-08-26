@@ -4,19 +4,19 @@
  */
 
 // Core utilities and design system
-export * from './core/design-tokens.js';
-export * from './core/shared-utilities.js';
-export { default as ReactPatternAdapters } from './core/react-pattern-adapters.js';
+export * from '../core/design-tokens.js';
+export * from '../core/shared-utilities.js';
+export { default as ReactPatternAdapters } from '../core/react-pattern-adapters.js';
 
 // Atomic Design System Exports
-export * from './atoms/atom-factory.js';
-export * from './molecules/molecule-factory.js';
-export * from './organisms/organism-factory.js';
+export * from '../atoms/atom-factory.js';
+export * from '../molecules/molecule-factory.js';
+export * from '../organisms/organism-factory.js';
 
 // Individual Atom Components
-export { ButtonFactory } from './atoms/button/button-system.js';
-export { InputFactory } from './atoms/input/input-system.js';
-export { CardFactory } from './atoms/card/card-system.js';
+export { ButtonFactory } from '../atoms/button/button-system.js';
+export { InputFactory } from '../atoms/input/input-system.js';
+export { CardFactory } from '../atoms/card/card-system.js';
 
 // Individual Molecule Components
 export { ContentCardFactory } from './molecules/content-card/content-card-system.js';

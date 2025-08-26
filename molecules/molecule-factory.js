@@ -486,11 +486,6 @@ export {
 };
 
 /**
- * Export registry for advanced use cases
- */
-export { molecularRegistry };
-
-/**
  * Default export - main factory function
  */
 export default MoleculeFactory;

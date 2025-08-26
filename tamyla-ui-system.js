@@ -19,8 +19,7 @@ import { OrganismFactory, organismRegistry } from './organisms/organism-factory.
 import { SearchInterfaceFactory } from './organisms/search-interface/search-interface-system.js';
 
 // Application Layer
-import { EnhancedSearchApplicationFactory } from './applications/enhanced-search-application.js';
-import { ContentManagerApplicationFactory } from './applications/content-manager-application.js';
+import { EnhancedSearchApplicationFactory, ContentManagerApplicationFactory } from './applications/index.js';
 
 /**
  * Tamyla UI System Registry
@@ -563,8 +562,7 @@ export {
   // Registries
   atomicRegistry,
   molecularRegistry,
-  organismRegistry,
-  tamylaUISystem
+  organismRegistry
 };
 
 /**

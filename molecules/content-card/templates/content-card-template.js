@@ -3,8 +3,8 @@
  * Pure HTML template generation for content-card molecule
  */
 
-import { cardTemplates } from '../../atoms/card/templates/card-template.js';
-import { createButtonTemplate } from '../../atoms/button/templates/button-template.js';
+import { cardTemplates } from '../../../atoms/card/templates/card-template.js';
+import { createButtonTemplate } from '../../../atoms/button/templates/button-template.js';
 
 export function createContentCardTemplate(props) {
   const {

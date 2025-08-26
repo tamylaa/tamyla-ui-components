@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist",
+    "declarationDir": "./dist/types",
+    "rootDir": "./",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": false,
+    "lib": ["ES2020", "DOM"],
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*",
+    "atoms/**/*",
+    "molecules/**/*", 
+    "organisms/**/*",
+    "applications/**/*",
+    "core/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "**/*.test.js",
+    "**/*.spec.js",
+    "scripts/**/*",
+    "legacy/**/*"
+  ]
+}

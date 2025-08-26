@@ -555,11 +555,6 @@ export {
 };
 
 /**
- * Export registry for advanced use cases
- */
-export { organismRegistry };
-
-/**
  * Default export - main factory function
  */
 export default OrganismFactory;
