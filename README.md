@@ -1,6 +1,36 @@
-# Tamyla Design System
+# Tamyla UI Components
+
+**📦 NPM Package:** `@tamyla/ui-components@1.0.0`  
+**🔗 GitHub:** https://github.com/tamylaa/tamyla-ui-components  
+**✅ Status:** Production Ready - Published and Certified
 
 A modular, reusable, and composable UI component library built with atomic design principles. Each component is designed to be plug-and-play with a consistent visual language throughout the entire system.
+
+## 🚀 Quick Start
+
+```bash
+npm install @tamyla/ui-components
+```
+
+```javascript
+import { createButton, createInput, createCard, TamylaUI } from '@tamyla/ui-components';
+
+// Create components
+const button = createButton({ text: 'Click me!' });
+const input = createInput({ placeholder: 'Type here...' });
+const card = createCard({ title: 'My Card', content: 'Card content' });
+
+// Or use the factory
+const factoryButton = TamylaUI('button', { text: 'Factory button' });
+```
+
+## 📚 Documentation
+
+- **📋 [Complete Implementation Summary](./COMPLETE_IMPLEMENTATION_SUMMARY.md)** - Full project overview and achievements
+- **🔧 [Future Development Process](./FUTURE_DEVELOPMENT_PROCESS.md)** - Guidelines for making changes and maintaining quality
+- **📖 [Reuse Guide](./REUSE_GUIDE.md)** - How to use these components in other projects
+- **🏗️ [Build System Documentation](./COMPLETE_BUILD_SYSTEM.md)** - Technical build system details
+- **🚀 [Certification System](./CERTIFICATION_SYSTEM_README.md)** - Quality assurance process
 
 ## 🎯 Design Philosophy
 
