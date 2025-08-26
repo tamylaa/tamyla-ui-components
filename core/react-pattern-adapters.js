@@ -28,3 +28,16 @@ export {
 
 // Maintain backward compatibility with old naming
 export const notificationFactory = notificationAdapter;
+
+// Default export for main index compatibility
+export default {
+  EmailRecipientsAdapter,
+  FileListAdapter,
+  ModalAdapter,
+  NotificationAdapter,
+  emailRecipientsAdapter,
+  fileListAdapter,
+  modalAdapter,
+  notificationAdapter,
+  notificationFactory
+};

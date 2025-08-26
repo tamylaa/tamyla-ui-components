@@ -3,8 +3,8 @@
  * Pure HTML template generation for search-bar molecule
  */
 
-import { inputTemplates } from '../../atoms/input/templates/input-template.js';
-import { createButtonTemplate } from '../../atoms/button/templates/button-template.js';
+import { inputTemplates } from '../../../atoms/input/templates/input-template.js';
+import { createButtonTemplate } from '../../../atoms/button/templates/button-template.js';
 
 export function createSearchBarTemplate(props) {
   const {

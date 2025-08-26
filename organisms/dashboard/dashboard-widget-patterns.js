@@ -4,7 +4,7 @@
  * Single responsibility: Grid layouts, card hovering, data visualization, and modular dashboard components
  */
 
-import { ENHANCED_TOKENS } from '../core/design-tokens.js';
+import { ENHANCED_TOKENS } from '../../core/design-tokens.js';
 
 /**
  * Create Dashboard Widget

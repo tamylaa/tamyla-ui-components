@@ -3,7 +3,7 @@
  * Application-level component for content management with enhanced search
  */
 
-import { OrganismFactory, OrganismTemplates } from '../organisms/organism-factory.js';
+import { OrganismFactory, OrganismTemplates } from '../../organisms/organism-factory.js';
 import { EnhancedSearchApplicationFactory } from './enhanced-search-application.js';
 
 /**

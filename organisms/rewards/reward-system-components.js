@@ -4,7 +4,7 @@
  * Single responsibility: Achievement badges, progress indicators, and reward notifications
  */
 
-import { ENHANCED_TOKENS } from '../core/design-tokens.js';
+import { ENHANCED_TOKENS } from '../../core/design-tokens.js';
 
 /**
  * Create Achievement Badge

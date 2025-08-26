@@ -76,3 +76,10 @@ export class ButtonController {
     this.element.removeEventListener('keydown', this.handleKeydown);
   }
 }
+
+/**
+ * Factory function to create button controller
+ */
+export function createButtonController(element, config = {}) {
+  return new ButtonController(element, config);
+}

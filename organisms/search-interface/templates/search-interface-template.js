@@ -3,9 +3,9 @@
  * Complete search interface organism template
  */
 
-import { createSearchBarTemplate } from '../../molecules/search-bar/templates/search-bar-template.js';
-import { createContentCardTemplate } from '../../molecules/content-card/templates/content-card-template.js';
-import { createButtonTemplate } from '../atoms/button/templates/button-template.js';
+import { createSearchBarTemplate } from '../../../molecules/search-bar/templates/search-bar-template.js';
+import { createContentCardTemplate } from '../../../molecules/content-card/templates/content-card-template.js';
+import { createButtonTemplate } from '../../../atoms/button/templates/button-template.js';
 
 export function createSearchInterfaceTemplate(props) {
   const {

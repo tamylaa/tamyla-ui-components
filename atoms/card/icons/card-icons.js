@@ -284,3 +284,18 @@ export const cardIconCollections = {
 };
 
 export default cardIcons;
+
+/**
+ * Get icon by name with fallback
+ */
+export function getCardIcon(iconName, fallback = 'document') {
+  return cardIcons[iconName] || cardIcons[fallback] || '';
+}
+
+/**
+ * Get icon HTML with styling
+ */
+export function createCardIconHTML(iconName, className = 'card-icon') {
+  const icon = getCardIcon(iconName);
+  return icon ? `<span class="${className}">${icon}</span>` : '';
+}

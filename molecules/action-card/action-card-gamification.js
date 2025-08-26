@@ -4,7 +4,7 @@
  * Single responsibility: Display actionable cards with XP rewards and visual feedback
  */
 
-import { ENHANCED_TOKENS } from '../core/design-tokens.js';
+import { ENHANCED_TOKENS } from '../../core/design-tokens.js';
 
 /**
  * Create an Action Card with gamification elements

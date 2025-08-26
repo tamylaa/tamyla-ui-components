@@ -346,3 +346,9 @@ export const compose = {
  *   cancelButton: { text: 'Cancel' }
  * });
  */
+
+
+/**
+ * Generic export for atomicRegistry
+ */
+export const atomicRegistry = {};

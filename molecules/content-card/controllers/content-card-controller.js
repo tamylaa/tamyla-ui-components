@@ -3,7 +3,7 @@
  * Behavior and interaction logic for content-card molecule
  */
 
-import { createButtonController } from '../../atoms/button/controllers/button-controller.js';
+import { createButtonController } from '../../../atoms/button/controllers/button-controller.js';
 import { updateContentCardState } from '../templates/content-card-template.js';
 
 export function createContentCardController(element, options = {}) {

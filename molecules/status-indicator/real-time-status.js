@@ -4,7 +4,7 @@
  * Single responsibility: Display connection status with real-time updates
  */
 
-import { ENHANCED_TOKENS } from '../core/design-tokens.js';
+import { ENHANCED_TOKENS } from '../../core/design-tokens.js';
 
 /**
  * Status types with their visual configurations

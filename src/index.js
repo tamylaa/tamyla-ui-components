@@ -29,12 +29,13 @@ export { CampaignSelectorSystem } from '../applications/campaign-selector/campai
 export { ContentManagerApplicationFactory } from '../applications/content-manager/content-manager-system.js';
 
 // Legacy React Pattern Components (for backward compatibility)
-export { 
-  TamylaEmailRecipients,
-  TamylaFileList, 
-  TamylaModal,
-  TamylaNotification
-} from '../legacy/index.js';
+// Note: JSX components excluded from vanilla JS build - available separately as React components
+// export { 
+//   TamylaEmailRecipients, // JSX - excluded from build
+//   TamylaFileList,        // JSX - excluded from build
+//   TamylaModal,           // JSX - excluded from build
+//   TamylaNotification     // JSX - excluded from build
+// } from '../legacy/index.js';
 
 // Enhanced Main UI System Factory
 export { default as TamylaUISystem } from '../tamyla-ui-system.js';

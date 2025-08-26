@@ -232,3 +232,15 @@ export function createCampaignSelectorTemplate(campaignType, maxSelections) {
     </div>
   `;
 }
+
+
+/**
+ * Template function
+ */
+export function CampaignSelectorTemplate(props = {}) {
+  return '<div>Template placeholder</div>';
+}
+
+/**
+ * Template function
+ */
