@@ -6,6 +6,9 @@
   "main": "dist/tamyla-ui.umd.js",
   "module": "dist/tamyla-ui.esm.js",
   "types": "dist/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "import": "./dist/tamyla-ui.esm.js",
