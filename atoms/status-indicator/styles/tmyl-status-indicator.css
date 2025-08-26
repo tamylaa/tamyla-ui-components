@@ -1,0 +1,399 @@
+/**
+ * Enhanced Status Indicator Styles - Trading Portal Real-time Patterns
+ * Professional status indicators with sophisticated animations
+ */
+
+/* Enhanced design tokens for status indicators */
+:root {
+  /* Status colors from Trading Portal analysis */
+  --tmyl-status-pending-bg: #fff3cd;
+  --tmyl-status-pending-text: #856404;
+  --tmyl-status-pending-dot: #ffc107;
+  
+  --tmyl-status-filled-bg: #d4edda;
+  --tmyl-status-filled-text: #155724;
+  --tmyl-status-filled-dot: #28a745;
+  
+  --tmyl-status-cancelled-bg: #f8d7da;
+  --tmyl-status-cancelled-text: #721c24;
+  --tmyl-status-cancelled-dot: #dc3545;
+  
+  --tmyl-status-rejected-bg: #f8d7da;
+  --tmyl-status-rejected-text: #721c24;
+  --tmyl-status-rejected-dot: #dc3545;
+  
+  --tmyl-status-active-bg: #d1ecf1;
+  --tmyl-status-active-text: #0c5460;
+  --tmyl-status-active-dot: #17a2b8;
+  
+  --tmyl-status-inactive-bg: #e2e3e5;
+  --tmyl-status-inactive-text: #495057;
+  --tmyl-status-inactive-dot: #6c757d;
+  
+  --tmyl-status-warning-bg: #fff3cd;
+  --tmyl-status-warning-text: #856404;
+  --tmyl-status-warning-dot: #ffc107;
+  
+  --tmyl-status-info-bg: #d1ecf1;
+  --tmyl-status-info-text: #0c5460;
+  --tmyl-status-info-dot: #17a2b8;
+  
+  --tmyl-status-success-bg: #d4edda;
+  --tmyl-status-success-text: #155724;
+  --tmyl-status-success-dot: #28a745;
+  
+  --tmyl-status-error-bg: #f8d7da;
+  --tmyl-status-error-text: #721c24;
+  --tmyl-status-error-dot: #dc3545;
+  
+  --tmyl-status-connected-bg: #d4edda;
+  --tmyl-status-connected-text: #155724;
+  --tmyl-status-connected-dot: #28a745;
+  
+  --tmyl-status-disconnected-bg: #f8d7da;
+  --tmyl-status-disconnected-text: #721c24;
+  --tmyl-status-disconnected-dot: #dc3545;
+  
+  --tmyl-status-connecting-bg: #d1ecf1;
+  --tmyl-status-connecting-text: #0c5460;
+  --tmyl-status-connecting-dot: #17a2b8;
+}
+
+.tmyl-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tmyl-space-1_5);
+  padding: var(--tmyl-space-1) var(--tmyl-space-2);
+  border-radius: var(--tmyl-radius-sm);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: var(--tmyl-transition-fast);
+}
+
+.tmyl-status--interactive {
+  cursor: pointer;
+  outline: none;
+}
+
+.tmyl-status--interactive:hover,
+.tmyl-status--hovering {
+  transform: translateY(-1px);
+  box-shadow: var(--tmyl-shadow-sm);
+}
+
+.tmyl-status--interactive:focus {
+  box-shadow: var(--tmyl-shadow-focus);
+}
+
+/* Status dot */
+.tmyl-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.tmyl-status--animated .tmyl-status__dot {
+  animation: tmyl-status-pulse 2s infinite;
+}
+
+/* Status text */
+.tmyl-status__text {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.tmyl-status--uppercase .tmyl-status__text {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Connecting spinner */
+.tmyl-status__spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: tmyl-status-spin 1s linear infinite;
+  flex-shrink: 0;
+}
+
+/* Size variants */
+.tmyl-status--xs {
+  font-size: 10px;
+  padding: var(--tmyl-space-0_5) var(--tmyl-space-1);
+  gap: var(--tmyl-space-1);
+}
+
+.tmyl-status--xs .tmyl-status__dot {
+  width: 6px;
+  height: 6px;
+}
+
+.tmyl-status--xs .tmyl-status__spinner {
+  width: 8px;
+  height: 8px;
+  border-width: 1px;
+}
+
+.tmyl-status--sm {
+  font-size: 12px;
+  padding: var(--tmyl-space-1) var(--tmyl-space-1_5);
+  gap: var(--tmyl-space-1);
+}
+
+.tmyl-status--sm .tmyl-status__dot {
+  width: 6px;
+  height: 6px;
+}
+
+.tmyl-status--sm .tmyl-status__spinner {
+  width: 10px;
+  height: 10px;
+  border-width: 1.5px;
+}
+
+.tmyl-status--md {
+  font-size: 13px;
+  padding: var(--tmyl-space-1) var(--tmyl-space-2);
+  gap: var(--tmyl-space-1_5);
+}
+
+.tmyl-status--lg {
+  font-size: 14px;
+  padding: var(--tmyl-space-1_5) var(--tmyl-space-2_5);
+  gap: var(--tmyl-space-2);
+}
+
+.tmyl-status--lg .tmyl-status__dot {
+  width: 10px;
+  height: 10px;
+}
+
+.tmyl-status--lg .tmyl-status__spinner {
+  width: 14px;
+  height: 14px;
+}
+
+/* Dot-only variant */
+.tmyl-status--dot-only {
+  padding: var(--tmyl-space-1);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  justify-content: center;
+}
+
+.tmyl-status--dot-only .tmyl-status__dot {
+  width: 12px;
+  height: 12px;
+}
+
+/* Status type styles */
+.tmyl-status--pending {
+  background: var(--tmyl-status-pending-bg);
+  color: var(--tmyl-status-pending-text);
+}
+
+.tmyl-status--pending .tmyl-status__dot {
+  background: var(--tmyl-status-pending-dot);
+}
+
+.tmyl-status--filled {
+  background: var(--tmyl-status-filled-bg);
+  color: var(--tmyl-status-filled-text);
+}
+
+.tmyl-status--filled .tmyl-status__dot {
+  background: var(--tmyl-status-filled-dot);
+}
+
+.tmyl-status--cancelled {
+  background: var(--tmyl-status-cancelled-bg);
+  color: var(--tmyl-status-cancelled-text);
+}
+
+.tmyl-status--cancelled .tmyl-status__dot {
+  background: var(--tmyl-status-cancelled-dot);
+}
+
+.tmyl-status--rejected {
+  background: var(--tmyl-status-rejected-bg);
+  color: var(--tmyl-status-rejected-text);
+}
+
+.tmyl-status--rejected .tmyl-status__dot {
+  background: var(--tmyl-status-rejected-dot);
+}
+
+.tmyl-status--active {
+  background: var(--tmyl-status-active-bg);
+  color: var(--tmyl-status-active-text);
+}
+
+.tmyl-status--active .tmyl-status__dot {
+  background: var(--tmyl-status-active-dot);
+}
+
+.tmyl-status--inactive {
+  background: var(--tmyl-status-inactive-bg);
+  color: var(--tmyl-status-inactive-text);
+}
+
+.tmyl-status--inactive .tmyl-status__dot {
+  background: var(--tmyl-status-inactive-dot);
+}
+
+.tmyl-status--warning {
+  background: var(--tmyl-status-warning-bg);
+  color: var(--tmyl-status-warning-text);
+}
+
+.tmyl-status--warning .tmyl-status__dot {
+  background: var(--tmyl-status-warning-dot);
+}
+
+.tmyl-status--info {
+  background: var(--tmyl-status-info-bg);
+  color: var(--tmyl-status-info-text);
+}
+
+.tmyl-status--info .tmyl-status__dot {
+  background: var(--tmyl-status-info-dot);
+}
+
+.tmyl-status--success {
+  background: var(--tmyl-status-success-bg);
+  color: var(--tmyl-status-success-text);
+}
+
+.tmyl-status--success .tmyl-status__dot {
+  background: var(--tmyl-status-success-dot);
+}
+
+.tmyl-status--error {
+  background: var(--tmyl-status-error-bg);
+  color: var(--tmyl-status-error-text);
+}
+
+.tmyl-status--error .tmyl-status__dot {
+  background: var(--tmyl-status-error-dot);
+}
+
+.tmyl-status--connected {
+  background: var(--tmyl-status-connected-bg);
+  color: var(--tmyl-status-connected-text);
+}
+
+.tmyl-status--connected .tmyl-status__dot {
+  background: var(--tmyl-status-connected-dot);
+}
+
+.tmyl-status--disconnected {
+  background: var(--tmyl-status-disconnected-bg);
+  color: var(--tmyl-status-disconnected-text);
+}
+
+.tmyl-status--disconnected .tmyl-status__dot {
+  background: var(--tmyl-status-disconnected-dot);
+}
+
+.tmyl-status--connecting {
+  background: var(--tmyl-status-connecting-bg);
+  color: var(--tmyl-status-connecting-text);
+}
+
+.tmyl-status--connecting .tmyl-status__dot {
+  background: var(--tmyl-status-connecting-dot);
+}
+
+/* Update animation */
+.tmyl-status--updating {
+  animation: tmyl-status-update 0.3s ease-out;
+}
+
+/* Animations */
+@keyframes tmyl-status-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes tmyl-status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tmyl-status-update {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Real-time connection status with enhanced animation */
+.tmyl-status--connected.tmyl-status--animated .tmyl-status__dot::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid var(--tmyl-status-connected-dot);
+  border-radius: 50%;
+  opacity: 0;
+  animation: tmyl-status-ping 2s infinite;
+}
+
+.tmyl-status--connecting .tmyl-status__dot {
+  animation: tmyl-status-pulse 1s infinite;
+}
+
+@keyframes tmyl-status-ping {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .tmyl-status--animated .tmyl-status__dot,
+  .tmyl-status__spinner,
+  .tmyl-status--updating {
+    animation: none;
+  }
+  
+  .tmyl-status--interactive:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .tmyl-status {
+    border: 2px solid currentColor;
+  }
+  
+  .tmyl-status--interactive:focus {
+    outline: 3px solid #ffff00;
+    outline-offset: 2px;
+  }
+}

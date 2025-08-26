@@ -1,0 +1,356 @@
+/**
+ * Enhanced Action Card Styles - Trading Portal Gamification Patterns
+ * Premium interactive cards with sophisticated micro-interactions
+ */
+
+/* Enhanced design tokens for action cards */
+:root {
+  /* Action card specific spacing */
+  --tmyl-action-card-padding-sm: var(--tmyl-space-4);
+  --tmyl-action-card-padding-md: var(--tmyl-space-5);
+  --tmyl-action-card-padding-lg: var(--tmyl-space-6);
+  
+  /* Action card colors from Trading Portal */
+  --tmyl-action-card-bg: #ffffff;
+  --tmyl-action-card-border: #e1e4e8;
+  --tmyl-action-card-hover-border: var(--tmyl-button-primary-bg);
+  --tmyl-action-card-shadow: rgba(60, 64, 67, 0.15);
+  
+  /* Status colors */
+  --tmyl-action-card-available-bg: var(--tmyl-action-card-bg);
+  --tmyl-action-card-completed-bg: #f0f9f0;
+  --tmyl-action-card-locked-bg: #f8f9fa;
+  --tmyl-action-card-disabled-bg: #f1f3f4;
+  
+  /* Reward colors */
+  --tmyl-action-card-reward-bg: var(--tmyl-button-primary-bg);
+  --tmyl-action-card-reward-text: #ffffff;
+  
+  /* Progress colors */
+  --tmyl-action-card-progress-bg: #e8eaed;
+  --tmyl-action-card-progress-fill: var(--tmyl-button-success-bg);
+}
+
+.tmyl-action-card {
+  position: relative;
+  background: var(--tmyl-action-card-bg);
+  border: 2px solid var(--tmyl-action-card-border);
+  border-radius: var(--tmyl-radius-lg);
+  overflow: hidden;
+  transition: var(--tmyl-transition-base);
+  cursor: default;
+  outline: none;
+}
+
+.tmyl-action-card--interactive {
+  cursor: pointer;
+}
+
+/* Card background gradient overlay */
+.tmyl-action-card__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(26, 115, 232, 0.02) 0%, rgba(26, 115, 232, 0.08) 100%);
+  opacity: 0;
+  transition: var(--tmyl-transition-base);
+}
+
+/* Card content */
+.tmyl-action-card__content {
+  position: relative;
+  z-index: 2;
+  padding: var(--tmyl-action-card-padding-md);
+  display: flex;
+  align-items: center;
+  gap: var(--tmyl-space-4);
+}
+
+.tmyl-action-card__icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--tmyl-radius-md);
+  background: linear-gradient(135deg, rgba(26, 115, 232, 0.1) 0%, rgba(26, 115, 232, 0.2) 100%);
+}
+
+.tmyl-action-card__info {
+  flex: 1;
+  text-align: left;
+}
+
+.tmyl-action-card__title {
+  margin: 0 0 var(--tmyl-space-1) 0;
+  font-size: var(--tmyl-text-lg);
+  font-weight: 600;
+  color: #202124;
+  line-height: 1.3;
+}
+
+.tmyl-action-card__description {
+  margin: 0;
+  font-size: var(--tmyl-text-sm);
+  color: #5f6368;
+  line-height: 1.4;
+  margin-bottom: var(--tmyl-space-2);
+}
+
+/* Progress indicator */
+.tmyl-action-card__progress {
+  margin-top: var(--tmyl-space-2);
+}
+
+.tmyl-action-card__progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--tmyl-action-card-progress-bg);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tmyl-action-card__progress-fill {
+  height: 100%;
+  background: var(--tmyl-action-card-progress-fill);
+  border-radius: 3px;
+  transition: width 0.5s ease-out;
+}
+
+.tmyl-action-card__progress-text {
+  display: block;
+  font-size: var(--tmyl-text-xs);
+  color: #5f6368;
+  margin-top: var(--tmyl-space-1);
+  font-weight: 500;
+}
+
+/* Reward badge */
+.tmyl-action-card__reward {
+  background: var(--tmyl-action-card-reward-bg);
+  color: var(--tmyl-action-card-reward-text);
+  padding: var(--tmyl-space-1_5) var(--tmyl-space-3);
+  border-radius: var(--tmyl-radius-md);
+  font-size: var(--tmyl-text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: var(--tmyl-shadow-sm);
+}
+
+/* Status indicators */
+.tmyl-action-card__check {
+  position: absolute;
+  top: var(--tmyl-space-3);
+  right: var(--tmyl-space-3);
+  width: 32px;
+  height: 32px;
+  background: var(--tmyl-button-success-bg);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--tmyl-shadow-md);
+}
+
+.tmyl-action-card__lock {
+  position: absolute;
+  top: var(--tmyl-space-3);
+  right: var(--tmyl-space-3);
+  width: 28px;
+  height: 28px;
+  color: #80868b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ripple effect container */
+.tmyl-action-card__ripple-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.tmyl-action-card__ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(26, 115, 232, 0.2);
+  transform: scale(0);
+  animation: tmyl-action-card-ripple 0.8s ease-out;
+}
+
+/* Status variants */
+.tmyl-action-card--available {
+  background: var(--tmyl-action-card-available-bg);
+}
+
+.tmyl-action-card--available.tmyl-action-card--interactive:hover,
+.tmyl-action-card--available.tmyl-action-card--hovering {
+  transform: translateY(-3px);
+  box-shadow: var(--tmyl-shadow-lg);
+  border-color: var(--tmyl-action-card-hover-border);
+}
+
+.tmyl-action-card--available.tmyl-action-card--hovering .tmyl-action-card__background {
+  opacity: 1;
+}
+
+.tmyl-action-card--completed {
+  background: var(--tmyl-action-card-completed-bg);
+  border-color: var(--tmyl-button-success-bg);
+  cursor: default;
+}
+
+.tmyl-action-card--locked {
+  background: var(--tmyl-action-card-locked-bg);
+  border-color: #dadce0;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.tmyl-action-card--disabled {
+  background: var(--tmyl-action-card-disabled-bg);
+  border-color: #dadce0;
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Color variants */
+.tmyl-action-card--primary .tmyl-action-card__icon {
+  background: linear-gradient(135deg, rgba(26, 115, 232, 0.1) 0%, rgba(26, 115, 232, 0.2) 100%);
+}
+
+.tmyl-action-card--secondary .tmyl-action-card__icon {
+  background: linear-gradient(135deg, rgba(95, 99, 104, 0.1) 0%, rgba(95, 99, 104, 0.2) 100%);
+}
+
+.tmyl-action-card--success .tmyl-action-card__icon {
+  background: linear-gradient(135deg, rgba(52, 168, 83, 0.1) 0%, rgba(52, 168, 83, 0.2) 100%);
+}
+
+.tmyl-action-card--warning .tmyl-action-card__icon {
+  background: linear-gradient(135deg, rgba(251, 188, 4, 0.1) 0%, rgba(251, 188, 4, 0.2) 100%);
+}
+
+.tmyl-action-card--info .tmyl-action-card__icon {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.2) 100%);
+}
+
+/* Size variants */
+.tmyl-action-card--sm .tmyl-action-card__content {
+  padding: var(--tmyl-action-card-padding-sm);
+  gap: var(--tmyl-space-3);
+}
+
+.tmyl-action-card--sm .tmyl-action-card__icon {
+  width: 48px;
+  height: 48px;
+  font-size: 2rem;
+}
+
+.tmyl-action-card--sm .tmyl-action-card__title {
+  font-size: var(--tmyl-text-base);
+}
+
+.tmyl-action-card--lg .tmyl-action-card__content {
+  padding: var(--tmyl-action-card-padding-lg);
+  gap: var(--tmyl-space-5);
+}
+
+.tmyl-action-card--lg .tmyl-action-card__icon {
+  width: 72px;
+  height: 72px;
+  font-size: 3rem;
+}
+
+.tmyl-action-card--lg .tmyl-action-card__title {
+  font-size: var(--tmyl-text-xl);
+}
+
+/* Focus state */
+.tmyl-action-card--focused {
+  box-shadow: var(--tmyl-shadow-focus);
+  border-color: var(--tmyl-button-primary-bg);
+}
+
+/* Completion animation */
+.tmyl-action-card--completing {
+  animation: tmyl-action-card-complete 1s ease-out;
+}
+
+/* Animations */
+@keyframes tmyl-action-card-ripple {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes tmyl-action-card-complete {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: var(--tmyl-shadow-xl);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .tmyl-action-card__content {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--tmyl-action-card-padding-sm);
+  }
+  
+  .tmyl-action-card__info {
+    text-align: center;
+  }
+  
+  .tmyl-action-card__check,
+  .tmyl-action-card__lock {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-top: var(--tmyl-space-2);
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .tmyl-action-card,
+  .tmyl-action-card__ripple,
+  .tmyl-action-card__progress-fill {
+    transition: none;
+    animation: none;
+  }
+  
+  .tmyl-action-card--available.tmyl-action-card--interactive:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .tmyl-action-card {
+    border-width: 3px;
+  }
+  
+  .tmyl-action-card--focused {
+    outline: 3px solid #ffff00;
+    outline-offset: 2px;
+  }
+}

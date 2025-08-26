@@ -1,0 +1,53 @@
+<!-- Order Status Card Template -->
+<div class="tmyl-order-status" data-status="" data-order-id="" data-testid="order-status">
+  <div class="order-header">
+    <div class="order-info">
+      <span class="order-id" data-testid="order-id"></span>
+      <span class="order-symbol" data-testid="order-symbol"></span>
+    </div>
+    <div class="order-status-badge">
+      <span class="status-icon" data-testid="order-status-icon"></span>
+      <span class="status-text" data-testid="order-status-text"></span>
+    </div>
+  </div>
+  
+  <div class="order-details">
+    <div class="order-detail-row">
+      <span class="detail-label">Type:</span>
+      <span class="detail-value" data-testid="order-type"></span>
+    </div>
+    <div class="order-detail-row">
+      <span class="detail-label">Quantity:</span>
+      <span class="detail-value" data-testid="order-quantity"></span>
+    </div>
+    <div class="order-detail-row">
+      <span class="detail-label">Price:</span>
+      <span class="detail-value" data-testid="order-price"></span>
+    </div>
+    <div class="order-detail-row">
+      <span class="detail-label">Time:</span>
+      <span class="detail-value" data-testid="order-timestamp"></span>
+    </div>
+  </div>
+  
+  <div class="order-progress" data-testid="order-progress">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="progress-text">
+      <span class="filled-amount" data-testid="filled-amount"></span>
+      <span class="total-amount" data-testid="total-amount"></span>
+    </div>
+  </div>
+  
+  <div class="order-actions">
+    <button class="order-action-btn cancel-btn" data-testid="cancel-order" type="button">
+      <span class="btn-icon">❌</span>
+      <span class="btn-text">Cancel</span>
+    </button>
+    <button class="order-action-btn modify-btn" data-testid="modify-order" type="button">
+      <span class="btn-icon">✏️</span>
+      <span class="btn-text">Modify</span>
+    </button>
+  </div>
+</div>

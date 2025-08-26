@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refactored Action Card Demo</title>
+    <link rel="stylesheet" href="core/tokens.css">
+    <link rel="stylesheet" href="core/utilities.css">
+    <style>
+        body {
+            font-family: var(--tmyl-font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+            background: var(--tmyl-bg-primary, #ffffff);
+            margin: 0;
+            padding: 2rem;
+        }
+        
+        .demo-section {
+            margin-bottom: 3rem;
+        }
+        
+        .demo-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--tmyl-text-primary, #1a1a1a);
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+        }
+        
+        .benefits-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .benefits-list li {
+            padding: 0.5rem 0;
+            border-left: 3px solid #28a745;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+        }
+        
+        .benefits-list li::before {
+            content: "✅ ";
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Refactored Action Card System Demo</h1>
+    <p>Demonstrating the improved modular architecture with separated concerns.</p>
+    
+    <div class="demo-section">
+        <h2 class="demo-title">Architecture Benefits</h2>
+        <ul class="benefits-list">
+            <li>Templates separated from business logic</li>
+            <li>Controllers handle interactions independently</li>
+            <li>Icons centralized and reusable</li>
+            <li>Configuration validated and typed</li>
+            <li>Easy testing of individual components</li>
+            <li>Clean API with index.js exports</li>
+        </ul>
+    </div>
+    
+    <div class="demo-section">
+        <h2 class="demo-title">Basic Action Cards</h2>
+        <div class="cards-grid" id="basic-cards"></div>
+        <div class="code-example">
+// Simple import - all components available
+import { createActionCard, createAvailableCard } from './molecules/action-card/index.js';
+
+// Clean API
+const card = createActionCard({
+    title: 'Complete Tutorial',
+    description: 'Learn the basics',
+    reward: '100 XP',
+    status: 'available'
+});
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2 class="demo-title">Advanced Examples</h2>
+        <div class="cards-grid" id="advanced-cards"></div>
+        <div class="code-example">
+// Use specific components for fine-grained control
+import { ActionCardFactory } from './molecules/action-card/action-card-system.js';
+import { actionCardIcons } from './molecules/action-card/icons/action-card-icons.js';
+
+const factory = new ActionCardFactory();
+const card = factory.create({
+    title: 'Advanced Challenge',
+    icon: actionCardIcons.trophy,
+    progress: 75,
+    showProgress: true,
+    analytics: true,
+    onClick: (e) => console.log('Card clicked!', e)
+});
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2 class="demo-title">Component Testing</h2>
+        <div class="code-example">
+// Easy to test individual components
+import { createActionCardTemplate } from './molecules/action-card/templates/action-card-template.js';
+import { ActionCardController } from './molecules/action-card/controllers/action-card-controller.js';
+import { actionCardValidation } from './molecules/action-card/config/action-card-config.js';
+
+// Test template generation
+const template = createActionCardTemplate({ title: 'Test', status: 'available' });
+assert(template.includes('tmyl-action-card__title'));
+
+// Test validation
+const errors = actionCardValidation.validateProps({ title: '', status: 'invalid' });
+assert(errors.length > 0);
+
+// Test controller interactions
+const mockElement = document.createElement('div');
+const controller = new ActionCardController(mockElement, { title: 'Test' });
+// Test event handling, etc.
+        </div>
+    </div>
+
+    <script type="module">
+        import { createActionCard, createAvailableCard, createCompletedCard, createLockedCard, createProgressCard } from './molecules/action-card/index.js';
+        
+        // Basic cards demonstration
+        const basicCardsContainer = document.getElementById('basic-cards');
+        
+        const basicCards = [
+            createAvailableCard({
+                title: 'Start Your Journey',
+                description: 'Complete your first task to begin earning rewards',
+                reward: '50 XP',
+                icon: '🚀'
+            }),
+            
+            createCompletedCard({
+                title: 'Tutorial Completed',
+                description: 'You successfully finished the onboarding',
+                reward: '100 XP',
+                icon: '✅'
+            }),
+            
+            createLockedCard({
+                title: 'Advanced Features',
+                description: 'Complete 5 basic tasks to unlock',
+                reward: '200 XP',
+                icon: '🔒'
+            })
+        ];
+        
+        basicCards.forEach(card => basicCardsContainer.appendChild(card));
+        
+        // Advanced cards demonstration  
+        const advancedCardsContainer = document.getElementById('advanced-cards');
+        
+        const advancedCards = [
+            createProgressCard({
+                title: 'Skill Building',
+                description: 'Practice makes perfect',
+                progress: 75,
+                reward: '150 XP',
+                icon: '📈',
+                analytics: true,
+                onClick: (e) => {
+                    console.log('Progress card clicked!');
+                    // Simulate progress update
+                    setTimeout(() => {
+                        e.target._actionCardController?.updateProgress(100);
+                    }, 1000);
+                }
+            }),
+            
+            createActionCard({
+                title: 'Team Challenge',
+                description: 'Work together to achieve goals',
+                reward: '500 XP',
+                status: 'available',
+                color: 'success',
+                size: 'lg',
+                icon: '👥',
+                interactive: true,
+                analytics: true
+            }),
+            
+            createActionCard({
+                title: 'Special Event',
+                description: 'Limited time opportunity',
+                reward: '1000 XP',
+                status: 'available',
+                color: 'warning',
+                icon: '⚡',
+                showProgress: false
+            })
+        ];
+        
+        advancedCards.forEach(card => advancedCardsContainer.appendChild(card));
+        
+        // Add click handlers for demonstration
+        document.querySelectorAll('.tmyl-action-card').forEach(card => {
+            card.addEventListener('tmyl-action-card-click', (e) => {
+                console.log('Action card clicked:', e.detail);
+            });
+        });
+    </script>
+</body>
+</html>

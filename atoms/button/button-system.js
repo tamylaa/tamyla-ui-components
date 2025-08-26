@@ -1,6 +1,7 @@
 /**
- * Button Factory System - Modular button component creation
- * Creates button components using separated concerns (CSS, JS, HTML, Icons)
+ * Enhanced Button Factory System - World-Class Button Components
+ * Integrates Trading Portal's sophisticated patterns with modern architecture
+ * Creates buttons with micro-interactions, accessibility, and premium polish
  */
 
 import { designTokens } from '../../core/design-tokens.js';
@@ -10,7 +11,7 @@ import { ButtonController } from './controllers/button-controller.js';
 import { buttonIcons, getButtonIcon } from './icons/button-icons.js';
 
 /**
- * Button Factory - Creates button components with full modularity
+ * Enhanced Button Factory - World-class button components with Trading Portal sophistication
  */
 export class ButtonFactory {
   constructor() {
@@ -21,14 +22,33 @@ export class ButtonFactory {
       loading: false,
       fullWidth: false,
       icon: '',
-      iconPosition: 'left'
+      iconPosition: 'left',
+      // Enhanced Trading Portal patterns
+      elevation: true,        // Hover elevation micro-interaction
+      rippleEffect: true,     // Click ripple feedback
+      focusRing: true,        // Enhanced focus indicator
+      accessibility: true,    // Full WCAG compliance
+      hapticFeedback: false,  // For mobile devices
+      analyticsTracking: false // Optional click tracking
     };
 
+    // Enhanced variants from Trading Portal analysis
     this.variants = [
-      'primary', 'secondary', 'ghost', 'danger', 'success'
+      'primary',      // Main call-to-action
+      'secondary',    // Secondary actions
+      'ghost',        // Subtle actions
+      'danger',       // Destructive actions
+      'success',      // Positive confirmations
+      'warning',      // Caution actions
+      'info',         // Information actions
+      'action-card',  // Gamification style from Trading Portal
+      'status-pending',   // Status indicators from Trading Portal
+      'status-filled',
+      'status-cancelled'
     ];
 
-    this.sizes = ['sm', 'md', 'lg', 'xl'];
+    // Enhanced sizes with Trading Portal accessibility
+    this.sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
     // Ensure CSS is loaded
     this.ensureCSS();
@@ -47,26 +67,184 @@ export class ButtonFactory {
   }
 
   /**
-   * Create a button element with all functionality
+   * Enhanced create method with Trading Portal sophistication
+   * Creates buttons with micro-interactions, accessibility, and premium polish
    */
   create(props = {}) {
     const finalProps = { ...this.defaultProps, ...props };
     
-    // Create container
+    // Validate props for enhanced experience
+    this.validateProps(finalProps);
+    
+    // Create container with enhanced structure
     const container = document.createElement('div');
     container.innerHTML = createButtonTemplate(finalProps);
     const button = container.firstElementChild;
 
-    // Attach controller for behavior
+    // Enhanced Trading Portal micro-interactions
+    this.attachEnhancedInteractions(button, finalProps);
+
+    // Attach enhanced controller for sophisticated behavior
     const controller = new ButtonController(button);
+    controller.enableTradingPortalPatterns(finalProps);
     button._controller = controller;
 
-    // Add click handler if provided
+    // Enhanced click handler with analytics and haptics
     if (finalProps.onClick) {
-      button.addEventListener('tmyl-click', finalProps.onClick);
+      button.addEventListener('tmyl-click', (e) => {
+        // Analytics tracking if enabled
+        if (finalProps.analyticsTracking) {
+          this.trackButtonClick(finalProps, e);
+        }
+        
+        // Haptic feedback on mobile if enabled
+        if (finalProps.hapticFeedback && 'vibrate' in navigator) {
+          navigator.vibrate(50);
+        }
+        
+        finalProps.onClick(e);
+      });
     }
 
+    // Enhanced accessibility from Trading Portal
+    this.enhanceAccessibility(button, finalProps);
+
     return button;
+  }
+
+  /**
+   * Validate props for enhanced experience
+   */
+  validateProps(props) {
+    if (!this.variants.includes(props.variant)) {
+      console.warn(`Invalid button variant: ${props.variant}. Using 'primary'.`);
+      props.variant = 'primary';
+    }
+    
+    if (!this.sizes.includes(props.size)) {
+      console.warn(`Invalid button size: ${props.size}. Using 'md'.`);
+      props.size = 'md';
+    }
+  }
+
+  /**
+   * Attach Trading Portal micro-interactions
+   */
+  attachEnhancedInteractions(button, props) {
+    // Hover elevation effect from Trading Portal
+    if (props.elevation) {
+      button.addEventListener('mouseenter', () => {
+        if (!button.disabled && !button.classList.contains('tmyl-button--loading')) {
+          button.style.transform = 'translateY(-1px)';
+          button.style.boxShadow = 'var(--tmyl-shadow-md)';
+        }
+      });
+
+      button.addEventListener('mouseleave', () => {
+        button.style.transform = '';
+        button.style.boxShadow = '';
+      });
+    }
+
+    // Click ripple effect
+    if (props.rippleEffect) {
+      button.addEventListener('click', (e) => {
+        const ripple = document.createElement('span');
+        ripple.className = 'tmyl-button__ripple';
+        
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        
+        button.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    }
+
+    // Active state micro-feedback from Trading Portal
+    button.addEventListener('mousedown', () => {
+      if (!button.disabled) {
+        button.style.transform = props.elevation ? 'translateY(1px)' : 'scale(0.98)';
+      }
+    });
+
+    button.addEventListener('mouseup', () => {
+      setTimeout(() => {
+        button.style.transform = props.elevation ? 'translateY(-1px)' : '';
+      }, 100);
+    });
+  }
+
+  /**
+   * Enhanced accessibility from Trading Portal patterns
+   */
+  enhanceAccessibility(button, props) {
+    // Ensure minimum touch target size (Trading Portal standard)
+    const minSize = 44; // WCAG requirement
+    const computedStyle = window.getComputedStyle(button);
+    const currentHeight = parseInt(computedStyle.height);
+    
+    if (currentHeight < minSize) {
+      button.style.minHeight = minSize + 'px';
+    }
+
+    // Enhanced focus management
+    if (props.focusRing) {
+      button.addEventListener('focus', () => {
+        button.classList.add('tmyl-button--focused');
+      });
+
+      button.addEventListener('blur', () => {
+        button.classList.remove('tmyl-button--focused');
+      });
+    }
+
+    // Enhanced keyboard interaction
+    button.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (!button.disabled && !button.classList.contains('tmyl-button--loading')) {
+          button.click();
+        }
+      }
+    });
+
+    // Screen reader enhancements
+    if (props.loading) {
+      button.setAttribute('aria-busy', 'true');
+      button.setAttribute('aria-describedby', 'button-loading-description');
+    }
+
+    if (props.disabled) {
+      button.setAttribute('aria-disabled', 'true');
+    }
+  }
+
+  /**
+   * Track button clicks for analytics
+   */
+  trackButtonClick(props, event) {
+    const analyticsData = {
+      component: 'button',
+      variant: props.variant,
+      size: props.size,
+      text: props.text || '',
+      timestamp: Date.now(),
+      userAgent: navigator.userAgent
+    };
+
+    // Send to analytics service
+    if (window.tamylaAnalytics && typeof window.tamylaAnalytics.track === 'function') {
+      window.tamylaAnalytics.track('button_click', analyticsData);
+    }
   }
 
   /**

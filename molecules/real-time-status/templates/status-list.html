@@ -1,0 +1,52 @@
+<!-- Status List Template -->
+<div class="tmyl-status-list" data-testid="status-list">
+  <div class="status-list-header">
+    <h3 class="list-title" data-testid="list-title">System Status</h3>
+    <div class="list-controls">
+      <button class="list-refresh-btn" data-testid="refresh-list" type="button" title="Refresh">
+        <span class="btn-icon">🔄</span>
+      </button>
+      <button class="list-filter-btn" data-testid="filter-list" type="button" title="Filter">
+        <span class="btn-icon">🔍</span>
+      </button>
+      <button class="list-settings-btn" data-testid="list-settings" type="button" title="Settings">
+        <span class="btn-icon">⚙️</span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="status-list-filters" data-testid="status-filters">
+    <div class="filter-group">
+      <label class="filter-label">Status:</label>
+      <select class="filter-select" data-testid="status-filter">
+        <option value="">All</option>
+        <option value="live">Live</option>
+        <option value="offline">Offline</option>
+        <option value="connecting">Connecting</option>
+        <option value="pending">Pending</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label class="filter-label">Type:</label>
+      <select class="filter-select" data-testid="type-filter">
+        <option value="">All</option>
+        <option value="connection">Connection</option>
+        <option value="order">Order</option>
+        <option value="session">Session</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="status-list-content" data-testid="status-items">
+    <!-- Status items will be dynamically inserted here -->
+  </div>
+  
+  <div class="status-list-empty" data-testid="empty-state" style="display: none;">
+    <div class="empty-icon">📊</div>
+    <div class="empty-text">No status items to display</div>
+    <button class="empty-action-btn" data-testid="add-status" type="button">
+      <span class="btn-icon">➕</span>
+      <span class="btn-text">Add Status Item</span>
+    </button>
+  </div>
+</div>

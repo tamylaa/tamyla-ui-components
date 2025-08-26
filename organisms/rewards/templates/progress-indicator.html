@@ -1,0 +1,43 @@
+<!-- Progress Indicator Template -->
+<div class="progress-container">
+  <div class="progress-label" style="display: none;"></div>
+  
+  <!-- Linear Progress -->
+  <div class="progress-linear" style="display: none;">
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="progress-value" style="display: none;"></div>
+  </div>
+  
+  <!-- Circular Progress -->
+  <div class="progress-circular" style="display: none;">
+    <svg viewBox="0 0 36 36" class="circular-chart">
+      <path class="circle-bg"
+        d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+      <path class="circle"
+        d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+    </svg>
+    <div class="progress-percentage" style="display: none;"></div>
+  </div>
+  
+  <!-- Steps Progress -->
+  <div class="progress-steps" style="display: none;">
+    <!-- Steps will be inserted here -->
+  </div>
+</div>
+
+<!-- Step Template -->
+<template id="step-template">
+  <div class="progress-step">
+    <div class="step-indicator"></div>
+    <div class="step-label"></div>
+  </div>
+  <div class="step-connector"></div>
+</template>

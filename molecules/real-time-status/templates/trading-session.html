@@ -1,0 +1,50 @@
+<!-- Trading Session Status Template -->
+<div class="tmyl-trading-session" data-status="" data-market="" data-testid="trading-session">
+  <div class="session-header">
+    <div class="market-info">
+      <h3 class="market-name" data-testid="market-name"></h3>
+      <span class="market-timezone" data-testid="market-timezone"></span>
+    </div>
+    <div class="session-status">
+      <span class="status-dot" data-testid="session-dot"></span>
+      <span class="status-text" data-testid="session-status"></span>
+    </div>
+  </div>
+  
+  <div class="session-times">
+    <div class="time-block">
+      <span class="time-label">Current:</span>
+      <span class="time-value current-time" data-testid="current-time"></span>
+    </div>
+    <div class="time-block">
+      <span class="time-label">Open:</span>
+      <span class="time-value open-time" data-testid="open-time"></span>
+    </div>
+    <div class="time-block">
+      <span class="time-label">Close:</span>
+      <span class="time-value close-time" data-testid="close-time"></span>
+    </div>
+  </div>
+  
+  <div class="session-countdown" data-testid="session-countdown">
+    <div class="countdown-title" data-testid="countdown-title"></div>
+    <div class="countdown-timer">
+      <span class="countdown-hours" data-testid="countdown-hours">00</span>
+      <span class="countdown-separator">:</span>
+      <span class="countdown-minutes" data-testid="countdown-minutes">00</span>
+      <span class="countdown-separator">:</span>
+      <span class="countdown-seconds" data-testid="countdown-seconds">00</span>
+    </div>
+  </div>
+  
+  <div class="session-actions">
+    <button class="session-btn primary-btn" data-testid="start-trading" type="button">
+      <span class="btn-icon">📈</span>
+      <span class="btn-text">Start Trading</span>
+    </button>
+    <button class="session-btn secondary-btn" data-testid="view-schedule" type="button">
+      <span class="btn-icon">📅</span>
+      <span class="btn-text">View Schedule</span>
+    </button>
+  </div>
+</div>

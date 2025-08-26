@@ -1,0 +1,906 @@
+/**
+ * Real-time Status Components - Design System
+ * Trading Portal professional aesthetic with animations and accessibility
+ */
+
+/* ================================
+   CSS Custom Properties (Design System)
+   ================================ */
+:root {
+  /* Status Colors */
+  --status-live-color: #10b981;
+  --status-live-bg: #d1fae5;
+  --status-live-border: #a7f3d0;
+  
+  --status-offline-color: #ef4444;
+  --status-offline-bg: #fee2e2;
+  --status-offline-border: #fecaca;
+  
+  --status-connecting-color: #f59e0b;
+  --status-connecting-bg: #fef3c7;
+  --status-connecting-border: #fde68a;
+  
+  --status-pending-color: #8b5cf6;
+  --status-pending-bg: #e7d3ff;
+  --status-pending-border: #ddd6fe;
+  
+  --status-filled-color: #10b981;
+  --status-filled-bg: #d1fae5;
+  --status-filled-border: #a7f3d0;
+  
+  --status-cancelled-color: #6b7280;
+  --status-cancelled-bg: #f3f4f6;
+  --status-cancelled-border: #e5e7eb;
+  
+  --status-rejected-color: #ef4444;
+  --status-rejected-bg: #fee2e2;
+  --status-rejected-border: #fecaca;
+  
+  /* Component Spacing */
+  --status-padding-sm: 0.5rem;
+  --status-padding-md: 0.75rem;
+  --status-padding-lg: 1rem;
+  --status-border-radius: 0.5rem;
+  --status-border-width: 1px;
+  
+  /* Typography */
+  --status-font-size-sm: 0.75rem;
+  --status-font-size-md: 0.875rem;
+  --status-font-size-lg: 1rem;
+  --status-font-weight-normal: 400;
+  --status-font-weight-medium: 500;
+  --status-font-weight-semibold: 600;
+  
+  /* Shadows */
+  --status-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --status-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --status-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  /* Animations */
+  --status-transition-fast: 0.15s ease-out;
+  --status-transition-normal: 0.3s ease-out;
+  --status-transition-slow: 0.5s ease-out;
+  --status-pulse-duration: 2s;
+  --status-pulse-delay: 0.5s;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"], .dark-mode {
+  --status-cancelled-color: #9ca3af;
+  --status-cancelled-bg: #374151;
+  --status-cancelled-border: #4b5563;
+}
+
+/* ================================
+   Status Indicator Base Styles
+   ================================ */
+.tmyl-status-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--status-padding-md);
+  border-radius: var(--status-border-radius);
+  border: var(--status-border-width) solid;
+  background-color: var(--status-bg, #f3f4f6);
+  border-color: var(--status-border, #e5e7eb);
+  color: var(--status-color, #6b7280);
+  font-size: var(--status-font-size-md);
+  font-weight: var(--status-font-weight-medium);
+  transition: all var(--status-transition-normal);
+  box-shadow: var(--status-shadow-sm);
+}
+
+.tmyl-status-indicator:hover {
+  box-shadow: var(--status-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Size variants */
+.tmyl-status-indicator.size-sm {
+  padding: var(--status-padding-sm);
+  font-size: var(--status-font-size-sm);
+  gap: 0.25rem;
+}
+
+.tmyl-status-indicator.size-lg {
+  padding: var(--status-padding-lg);
+  font-size: var(--status-font-size-lg);
+  gap: 0.75rem;
+}
+
+/* Status content layout */
+.status-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.status-icon {
+  font-size: 1.2em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.status-text {
+  font-weight: var(--status-font-weight-semibold);
+  white-space: nowrap;
+}
+
+.status-timestamp {
+  font-size: 0.8em;
+  opacity: 0.7;
+  margin-left: 0.25rem;
+}
+
+/* Pulse animation ring */
+.status-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: none;
+}
+
+.tmyl-status-indicator.pulsing .status-pulse-ring {
+  animation: statusPulse var(--status-pulse-duration) infinite ease-out;
+  animation-delay: var(--status-pulse-delay);
+}
+
+@keyframes statusPulse {
+  0% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+/* Status change animation */
+.tmyl-status-indicator.status-changing {
+  animation: statusChange 0.3s ease-out;
+}
+
+@keyframes statusChange {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Status-specific styling */
+.tmyl-status-indicator[data-status="live"] {
+  --status-color: var(--status-live-color);
+  --status-bg: var(--status-live-bg);
+  --status-border: var(--status-live-border);
+}
+
+.tmyl-status-indicator[data-status="offline"] {
+  --status-color: var(--status-offline-color);
+  --status-bg: var(--status-offline-bg);
+  --status-border: var(--status-offline-border);
+}
+
+.tmyl-status-indicator[data-status="connecting"] {
+  --status-color: var(--status-connecting-color);
+  --status-bg: var(--status-connecting-bg);
+  --status-border: var(--status-connecting-border);
+}
+
+.tmyl-status-indicator[data-status="pending"] {
+  --status-color: var(--status-pending-color);
+  --status-bg: var(--status-pending-bg);
+  --status-border: var(--status-pending-border);
+}
+
+.tmyl-status-indicator[data-status="filled"] {
+  --status-color: var(--status-filled-color);
+  --status-bg: var(--status-filled-bg);
+  --status-border: var(--status-filled-border);
+}
+
+.tmyl-status-indicator[data-status="cancelled"] {
+  --status-color: var(--status-cancelled-color);
+  --status-bg: var(--status-cancelled-bg);
+  --status-border: var(--status-cancelled-border);
+}
+
+.tmyl-status-indicator[data-status="rejected"] {
+  --status-color: var(--status-rejected-color);
+  --status-bg: var(--status-rejected-bg);
+  --status-border: var(--status-rejected-border);
+}
+
+/* ================================
+   Status Tooltip
+   ================================ */
+.status-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.5rem;
+  background: #1f2937;
+  color: white;
+  padding: 0.75rem;
+  border-radius: var(--status-border-radius);
+  font-size: var(--status-font-size-sm);
+  box-shadow: var(--status-shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--status-transition-normal);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.tmyl-status-indicator:hover .status-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-0.25rem);
+}
+
+.tooltip-content {
+  text-align: left;
+}
+
+.tooltip-title {
+  font-weight: var(--status-font-weight-semibold);
+  margin-bottom: 0.25rem;
+}
+
+.tooltip-details {
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+}
+
+.tooltip-timestamp {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #1f2937;
+}
+
+/* ================================
+   Connection Banner Styles
+   ================================ */
+.tmyl-connection-banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--status-bg, #f3f4f6);
+  border: var(--status-border-width) solid var(--status-border, #e5e7eb);
+  border-radius: var(--status-border-radius);
+  overflow: hidden;
+  transition: all var(--status-transition-normal);
+  box-shadow: var(--status-shadow-sm);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.banner-icon {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.icon-primary {
+  font-size: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.icon-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.tmyl-connection-banner[data-status="connecting"] .icon-pulse,
+.tmyl-connection-banner[data-status="pending"] .icon-pulse {
+  animation: iconPulse 2s infinite ease-out;
+}
+
+@keyframes iconPulse {
+  0% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.5);
+  }
+}
+
+.banner-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.banner-title {
+  font-weight: var(--status-font-weight-semibold);
+  color: var(--status-color);
+  margin-bottom: 0.25rem;
+}
+
+.banner-subtitle {
+  font-size: var(--status-font-size-sm);
+  opacity: 0.8;
+}
+
+.banner-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.banner-retry-btn,
+.banner-dismiss-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: calc(var(--status-border-radius) * 0.75);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--status-color);
+  cursor: pointer;
+  transition: all var(--status-transition-fast);
+  font-size: var(--status-font-size-sm);
+}
+
+.banner-retry-btn:hover,
+.banner-dismiss-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.banner-dismiss-btn {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Progress bar */
+.banner-progress {
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--status-color);
+  width: 0%;
+  transition: width var(--status-transition-normal);
+}
+
+.tmyl-connection-banner[data-status="connecting"] .progress-fill {
+  animation: progressPulse 2s infinite ease-in-out;
+}
+
+@keyframes progressPulse {
+  0%, 100% { width: 0%; }
+  50% { width: 100%; }
+}
+
+/* ================================
+   Order Status Card Styles
+   ================================ */
+.tmyl-order-status {
+  background: white;
+  border: var(--status-border-width) solid var(--status-border, #e5e7eb);
+  border-radius: var(--status-border-radius);
+  padding: 1rem;
+  box-shadow: var(--status-shadow-sm);
+  transition: all var(--status-transition-normal);
+}
+
+.tmyl-order-status:hover {
+  box-shadow: var(--status-shadow-md);
+  transform: translateY(-1px);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.order-id {
+  font-size: var(--status-font-size-sm);
+  font-weight: var(--status-font-weight-medium);
+  color: #6b7280;
+}
+
+.order-symbol {
+  font-size: var(--status-font-size-lg);
+  font-weight: var(--status-font-weight-semibold);
+  color: #1f2937;
+}
+
+.order-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: calc(var(--status-border-radius) * 0.75);
+  background: var(--status-bg);
+  border: var(--status-border-width) solid var(--status-border);
+  color: var(--status-color);
+  font-size: var(--status-font-size-sm);
+  font-weight: var(--status-font-weight-medium);
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.order-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-label {
+  font-size: var(--status-font-size-sm);
+  color: #6b7280;
+}
+
+.detail-value {
+  font-weight: var(--status-font-weight-medium);
+  color: #1f2937;
+}
+
+.order-progress {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar .progress-fill {
+  height: 100%;
+  background: var(--status-color);
+  border-radius: 4px;
+  transition: width var(--status-transition-normal);
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--status-font-size-sm);
+  color: #6b7280;
+}
+
+.order-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.order-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: var(--status-border-width) solid #e5e7eb;
+  border-radius: var(--status-border-radius);
+  background: white;
+  color: #6b7280;
+  font-size: var(--status-font-size-sm);
+  font-weight: var(--status-font-weight-medium);
+  cursor: pointer;
+  transition: all var(--status-transition-fast);
+}
+
+.order-action-btn:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+.cancel-btn:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #ef4444;
+}
+
+.modify-btn:hover {
+  background: #f0f9ff;
+  border-color: #bfdbfe;
+  color: #3b82f6;
+}
+
+/* ================================
+   Trading Session Styles
+   ================================ */
+.tmyl-trading-session {
+  background: white;
+  border: var(--status-border-width) solid var(--status-border, #e5e7eb);
+  border-radius: var(--status-border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--status-shadow-sm);
+}
+
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.market-info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: var(--status-font-size-lg);
+  font-weight: var(--status-font-weight-semibold);
+  color: #1f2937;
+}
+
+.market-timezone {
+  font-size: var(--status-font-size-sm);
+  color: #6b7280;
+}
+
+.session-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--status-color);
+}
+
+.session-times {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.time-block {
+  text-align: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: var(--status-border-radius);
+}
+
+.time-label {
+  display: block;
+  font-size: var(--status-font-size-sm);
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.time-value {
+  display: block;
+  font-size: var(--status-font-size-lg);
+  font-weight: var(--status-font-weight-semibold);
+  color: #1f2937;
+}
+
+.session-countdown {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.countdown-title {
+  font-size: var(--status-font-size-md);
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 2rem;
+  font-weight: var(--status-font-weight-semibold);
+  color: var(--status-color);
+  font-family: 'Courier New', monospace;
+}
+
+.countdown-separator {
+  opacity: 0.5;
+}
+
+.session-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.session-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: var(--status-border-width) solid;
+  border-radius: var(--status-border-radius);
+  font-size: var(--status-font-size-md);
+  font-weight: var(--status-font-weight-medium);
+  cursor: pointer;
+  transition: all var(--status-transition-fast);
+}
+
+.primary-btn {
+  background: var(--status-live-color);
+  border-color: var(--status-live-color);
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #059669;
+  border-color: #059669;
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  background: white;
+  border-color: #e5e7eb;
+  color: #6b7280;
+}
+
+.secondary-btn:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+/* ================================
+   Status List Styles
+   ================================ */
+.tmyl-status-list {
+  background: white;
+  border: var(--status-border-width) solid #e5e7eb;
+  border-radius: var(--status-border-radius);
+  overflow: hidden;
+  box-shadow: var(--status-shadow-sm);
+}
+
+.status-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border-bottom: var(--status-border-width) solid #e5e7eb;
+}
+
+.list-title {
+  margin: 0;
+  font-size: var(--status-font-size-lg);
+  font-weight: var(--status-font-weight-semibold);
+  color: #1f2937;
+}
+
+.list-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.list-refresh-btn,
+.list-filter-btn,
+.list-settings-btn {
+  padding: 0.5rem;
+  border: none;
+  border-radius: calc(var(--status-border-radius) * 0.5);
+  background: white;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all var(--status-transition-fast);
+  box-shadow: var(--status-shadow-sm);
+}
+
+.list-refresh-btn:hover,
+.list-filter-btn:hover,
+.list-settings-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+  transform: scale(1.05);
+}
+
+.status-list-filters {
+  padding: 1rem;
+  background: #fafafa;
+  border-bottom: var(--status-border-width) solid #e5e7eb;
+  display: none;
+}
+
+.status-list-filters.active {
+  display: flex;
+  gap: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-size: var(--status-font-size-sm);
+  color: #6b7280;
+  font-weight: var(--status-font-weight-medium);
+}
+
+.filter-select {
+  padding: 0.5rem;
+  border: var(--status-border-width) solid #e5e7eb;
+  border-radius: calc(var(--status-border-radius) * 0.75);
+  background: white;
+  font-size: var(--status-font-size-sm);
+}
+
+.status-list-content {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.status-list-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-text {
+  font-size: var(--status-font-size-md);
+  margin-bottom: 1rem;
+}
+
+.empty-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: var(--status-border-width) solid #e5e7eb;
+  border-radius: var(--status-border-radius);
+  background: white;
+  color: #6b7280;
+  font-size: var(--status-font-size-sm);
+  cursor: pointer;
+  transition: all var(--status-transition-fast);
+}
+
+.empty-action-btn:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+/* ================================
+   Responsive Design
+   ================================ */
+@media (max-width: 768px) {
+  .order-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .session-times {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .session-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .banner-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .banner-actions {
+    align-self: stretch;
+    justify-content: flex-end;
+  }
+  
+  .status-list-filters.active {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* ================================
+   Accessibility Features
+   ================================ */
+@media (prefers-reduced-motion: reduce) {
+  .tmyl-status-indicator.pulsing .status-pulse-ring,
+  .icon-pulse,
+  .progress-fill {
+    animation: none;
+  }
+  
+  .tmyl-status-indicator,
+  .tmyl-connection-banner,
+  .tmyl-order-status,
+  .order-action-btn,
+  .session-btn {
+    transition: none;
+  }
+}
+
+/* Focus management */
+.tmyl-status-indicator:focus,
+.order-action-btn:focus,
+.session-btn:focus,
+.list-refresh-btn:focus,
+.list-filter-btn:focus,
+.list-settings-btn:focus,
+.banner-retry-btn:focus,
+.banner-dismiss-btn:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .tmyl-status-indicator,
+  .tmyl-connection-banner,
+  .tmyl-order-status,
+  .tmyl-trading-session,
+  .tmyl-status-list {
+    border-width: 2px;
+  }
+  
+  .status-tooltip {
+    border: 2px solid white;
+  }
+}
