@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/tamyla-ui.esm.js",
   "module": "dist/tamyla-ui.esm.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "publishConfig": {
     "access": "public",
     "directory": "dist"
@@ -15,7 +15,7 @@
       "import": "./dist/tamyla-ui.esm.js",
       "require": "./dist/tamyla-ui.umd.js",
       "default": "./dist/tamyla-ui.esm.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/types/src/index.d.ts"
     },
     "./core": {
       "import": "./dist/core/index.esm.js",
