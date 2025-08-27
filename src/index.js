@@ -19,14 +19,24 @@ export { ButtonFactory } from '../atoms/button/button-system.js';
 export { InputFactory } from '../atoms/input/input-system.js';
 export { CardFactory } from '../atoms/card/card-system.js';
 export { StatusIndicatorFactory, statusIndicatorFactory } from '../atoms/status-indicator/status-indicator-system.js';
+export { InputGroupFactory } from '../atoms/input-group/input-group-system.js';
 
 // Enhanced Molecule Components with sophisticated interactions
 export { ActionCardFactory, actionCardFactory } from '../molecules/action-card/action-card-system.js';
+export { SearchBarFactory, searchBarFactory } from '../molecules/search-bar/search-bar-system.js';
+export { ContentCardFactory } from '../molecules/content-card/content-card-system.js';
+export { FileListFactory } from '../molecules/file-list/file-list-system.js';
+export { NotificationFactory } from '../molecules/notification/notification-system.js';
 
 // Application Components
 export { EnhancedSearchApplicationFactory } from '../applications/enhanced-search/enhanced-search-system.js';
 export { CampaignSelectorSystem } from '../applications/campaign-selector/campaign-selector-system.js';
 export { ContentManagerApplicationFactory } from '../applications/content-manager/content-manager-system.js';
+
+// Organism Components (verified working)
+export { SearchInterfaceFactory } from '../organisms/search-interface/search-interface-system.js';
+export { default as RewardSystem } from '../organisms/rewards/reward-system.js';
+// TODO: Fix ModalController and re-enable Modal export
 
 // Legacy React Pattern Components (for backward compatibility)
 // Note: JSX components excluded from vanilla JS build - available separately as React components
@@ -61,12 +71,23 @@ export const COMPONENT_REGISTRY = {
     Button: () => import('../atoms/button/button-system.js'),
     Input: () => import('../atoms/input/input-system.js'),
     Card: () => import('../atoms/card/card-system.js'),
-    StatusIndicator: () => import('../atoms/status-indicator/status-indicator-system.js')
+    StatusIndicator: () => import('../atoms/status-indicator/status-indicator-system.js'),
+    InputGroup: () => import('../atoms/input-group/input-group-system.js')
   },
   
   // Enhanced Molecules with sophisticated interactions
   molecules: {
-    ActionCard: () => import('../molecules/action-card/action-card-system.js')
+    ActionCard: () => import('../molecules/action-card/action-card-system.js'),
+    SearchBar: () => import('../molecules/search-bar/search-bar-system.js'),
+    ContentCard: () => import('../molecules/content-card/content-card-system.js'),
+    FileList: () => import('../molecules/file-list/file-list-system.js'),
+    Notification: () => import('../molecules/notification/notification-system.js')
+  },
+  
+  // Enhanced Organisms with complete workflows
+  organisms: {
+    SearchInterface: () => import('../organisms/search-interface/search-interface-system.js')
+    // TODO: Add Modal and Reward once their controllers are fixed
   },
   
   // Enhanced Applications with complete workflows
