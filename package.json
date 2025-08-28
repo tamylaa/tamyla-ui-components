@@ -134,10 +134,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tamylaa/ui-components.git"
+    "url": "https://github.com/tamylaa/tamyla-ui-components.git"
   },
   "bugs": {
-    "url": "https://github.com/tamylaa/ui-components/issues"
+    "url": "https://github.com/tamylaa/tamyla-ui-components/issues"
   },
   "homepage": "https://ui.tamyla.com",
   "dependencies": {
