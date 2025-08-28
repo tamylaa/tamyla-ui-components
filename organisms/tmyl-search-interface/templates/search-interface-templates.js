@@ -318,10 +318,10 @@ export function renderEmptyState(props) {
         ${currentQuery ? 'No results found' : 'Start searching'}
       </div>
       <div class="empty-state__description">
-        ${currentQuery 
-          ? `Try adjusting your search or filters to find what you're looking for.`
-          : 'Use the search bar above to find content, documents, and campaigns.'
-        }
+        ${currentQuery
+    ? 'Try adjusting your search or filters to find what you\'re looking for.'
+    : 'Use the search bar above to find content, documents, and campaigns.'
+}
       </div>
     </div>
   `;

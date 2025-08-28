@@ -13,7 +13,7 @@ export { CardFactory } from './card/card-system.js';
 // Atom utilities
 export const AVAILABLE_ATOMS = [
   'button',
-  'input', 
+  'input',
   'card'
 ];
 
@@ -24,12 +24,12 @@ export async function loadAtom(atomName) {
     input: () => import('./input/input-system.js'),
     card: () => import('./card/card-system.js')
   };
-  
+
   const loader = atomMap[atomName];
   if (!loader) {
     throw new Error(`Atom '${atomName}' not found. Available atoms: ${AVAILABLE_ATOMS.join(', ')}`);
   }
-  
+
   try {
     const module = await loader();
     return module.default || module[Object.keys(module)[0]];
@@ -42,7 +42,7 @@ export async function loadAtom(atomName) {
 // Batch atom loader
 export async function loadAtoms(atomNames) {
   const results = {};
-  
+
   for (const atomName of atomNames) {
     try {
       results[atomName] = await loadAtom(atomName);
@@ -51,7 +51,7 @@ export async function loadAtoms(atomNames) {
       results[atomName] = null;
     }
   }
-  
+
   return results;
 }
 

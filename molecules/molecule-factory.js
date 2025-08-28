@@ -39,13 +39,13 @@ class MolecularFactoryRegistry {
    */
   create(type, props = {}, id = null) {
     const Factory = this.factories.get(type);
-    
+
     if (!Factory) {
       throw new Error(`Unknown molecular component type: ${type}`);
     }
 
     const instance = Factory(props);
-    
+
     if (id) {
       this.instances.set(id, instance);
     }
@@ -246,13 +246,13 @@ export const MolecularTemplates = {
             item.title?.toLowerCase().includes(query.toLowerCase()) ||
             item.description?.toLowerCase().includes(query.toLowerCase())
           );
-          
+
           if (contentGrid) {
-            contentGrid.filterCards(item => 
+            contentGrid.filterCards(item =>
               filtered.some(f => f.id === item.id)
             );
           }
-          
+
           if (onFilter) {
             onFilter(filtered, query);
           }
@@ -389,10 +389,10 @@ export const MolecularComposition = {
    */
   createLayout(config) {
     const { type, components, layout, container } = config;
-    
+
     const layoutElement = document.createElement('div');
     layoutElement.className = `tmyl-molecular-layout tmyl-molecular-layout--${type}`;
-    
+
     // Apply layout styles
     if (layout.grid) {
       layoutElement.style.display = 'grid';
@@ -406,27 +406,27 @@ export const MolecularComposition = {
         layoutElement.style.gap = layout.grid.gap;
       }
     }
-    
+
     // Create components
     const instances = components.map(comp => {
       const instance = MoleculeFactory(comp.type, comp.props, comp.id);
       const wrapper = document.createElement('div');
       wrapper.className = `tmyl-molecular-layout__item ${comp.className || ''}`;
-      
+
       if (comp.gridArea) {
         wrapper.style.gridArea = comp.gridArea;
       }
-      
+
       instance.render(wrapper);
       layoutElement.appendChild(wrapper);
-      
+
       return { instance, wrapper, config: comp };
     });
-    
+
     if (container) {
       container.appendChild(layoutElement);
     }
-    
+
     return {
       element: layoutElement,
       instances,

@@ -597,10 +597,10 @@ export class TmylSearchInterface extends LitElement {
           ${this.currentQuery ? 'No results found' : 'Start searching'}
         </div>
         <div class="empty-state__description">
-          ${this.currentQuery 
-            ? `We couldn't find any content matching "${this.currentQuery}". Try adjusting your search terms or filters.`
-            : 'Enter a search term to find content, documents, and campaigns.'
-          }
+          ${this.currentQuery
+    ? `We couldn't find any content matching "${this.currentQuery}". Try adjusting your search terms or filters.`
+    : 'Enter a search term to find content, documents, and campaigns.'
+}
         </div>
       </div>
     `;
@@ -710,7 +710,7 @@ export class TmylSearchInterface extends LitElement {
 
   _handleContentSelect(e) {
     const { content, selected } = e.detail;
-    
+
     if (selected) {
       this.selectedItems = [...this.selectedItems, content];
     } else {

@@ -51,7 +51,7 @@ async function loadTemplate(templatePath) {
  */
 function injectStyles() {
   const styleId = 'action-card-styles';
-  
+
   if (document.getElementById(styleId)) {
     return; // Already injected
   }
@@ -60,7 +60,7 @@ function injectStyles() {
   link.id = styleId;
   link.rel = 'stylesheet';
   link.href = './styles/action-card.css';
-  
+
   // Fallback to inline styles if CSS file not found
   link.onerror = () => {
     const style = document.createElement('style');
@@ -88,7 +88,7 @@ function injectStyles() {
     `;
     document.head.appendChild(style);
   };
-  
+
   document.head.appendChild(link);
 }
 
@@ -100,7 +100,7 @@ function injectStyles() {
 export async function createActionCard(options = {}) {
   // Merge with defaults
   const config = { ...ACTION_CARD_CONFIG.defaults, ...options };
-  
+
   // Validate configuration
   if (config.title && config.title.length > ACTION_CARD_CONFIG.validation.title.maxLength) {
     throw new Error(`Title too long. Max ${ACTION_CARD_CONFIG.validation.title.maxLength} characters.`);
@@ -126,14 +126,14 @@ export async function createActionCard(options = {}) {
   return {
     element,
     controller,
-    
+
     // Convenience methods
     complete: () => controller.complete(),
     updateProgress: (progress) => controller.updateProgress(progress),
     setDisabled: (disabled) => controller.setDisabled(disabled),
     reset: () => controller.reset(),
     destroy: () => controller.destroy(),
-    
+
     // State accessors
     get completed() { return controller.isCompleted(); },
     get disabled() { return controller.isDisabled(); },
@@ -150,7 +150,7 @@ export async function createActionCard(options = {}) {
  */
 export async function createActionCardFromPreset(presetId, overrides = {}) {
   const preset = ACTION_CARD_CONFIG.tradingPortalPresets?.find(p => p.id === presetId);
-  
+
   if (!preset) {
     throw new Error(`Preset not found: ${presetId}`);
   }
@@ -170,11 +170,11 @@ export class ActionCardManager {
 
   async addCard(id, options) {
     const card = await createActionCard({ ...options, id });
-    
+
     // Listen for completion events
     card.element.addEventListener('actioncard:complete', (event) => {
       this.totalXP += event.detail.xpEarned;
-      
+
       // Trigger manager-level event
       document.dispatchEvent(new CustomEvent('actionmanager:xp-gained', {
         detail: {

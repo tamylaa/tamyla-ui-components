@@ -286,7 +286,7 @@ const XP_CONFIG = {
   },
 
   levelFormula: (level) => Math.floor(XP_CONFIG.baseXP * Math.pow(XP_CONFIG.multiplier, level - 1)),
-  
+
   getXPForLevel: (targetLevel) => {
     let totalXP = 0;
     for (let level = 1; level < targetLevel; level++) {
@@ -298,14 +298,14 @@ const XP_CONFIG = {
   getLevelFromXP: (xp) => {
     let level = 1;
     let requiredXP = 0;
-    
+
     while (level <= XP_CONFIG.maxLevel) {
       const levelXP = XP_CONFIG.levelFormula(level);
       if (requiredXP + levelXP > xp) break;
       requiredXP += levelXP;
       level++;
     }
-    
+
     return {
       level: level,
       currentXP: xp - requiredXP,

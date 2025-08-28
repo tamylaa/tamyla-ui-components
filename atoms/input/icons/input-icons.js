@@ -181,22 +181,22 @@ export const iconUtils = {
 export const iconCollections = {
   // Authentication fields
   auth: ['user', 'email', 'lock', 'key'],
-  
+
   // Contact information
   contact: ['user', 'email', 'phone', 'location'],
-  
+
   // Financial fields
   payment: ['creditCard', 'currency'],
-  
+
   // Date and time
   temporal: ['calendar', 'clock'],
-  
+
   // File operations
   file: ['upload', 'download', 'attachment'],
-  
+
   // Status indicators
   status: ['check', 'x', 'exclamation', 'info'],
-  
+
   // Visibility toggles
   visibility: ['eye', 'eyeOff']
 };

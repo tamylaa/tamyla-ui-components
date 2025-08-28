@@ -58,11 +58,11 @@ export function createActionCard(options = {}) {
   if (onClick && !disabled) {
     card.addEventListener('click', (e) => {
       e.preventDefault();
-      
+
       // Add click animation
       card.classList.add('clicking');
       setTimeout(() => card.classList.remove('clicking'), 150);
-      
+
       // Call handler with card data
       onClick({
         id,
@@ -121,7 +121,7 @@ export const TRADING_PORTAL_ACTIONS = {
     color: '#667eea',
     reward: '+10 XP'
   },
-  
+
   testComponents: {
     id: 'test-components',
     title: 'Test Enhanced Components',
@@ -130,7 +130,7 @@ export const TRADING_PORTAL_ACTIONS = {
     color: '#00d2ff',
     reward: '+15 XP'
   },
-  
+
   enhancedTrading: {
     id: 'enhanced-trading',
     title: 'Enhanced Trading',
@@ -139,7 +139,7 @@ export const TRADING_PORTAL_ACTIONS = {
     color: '#4ecdc4',
     reward: '+20 XP'
   },
-  
+
   viewAnalytics: {
     id: 'view-analytics',
     title: 'View Analytics',
@@ -148,7 +148,7 @@ export const TRADING_PORTAL_ACTIONS = {
     color: '#764ba2',
     reward: '+5 XP'
   },
-  
+
   dailySummary: {
     id: 'daily-summary',
     title: 'Daily Summary',
@@ -157,7 +157,7 @@ export const TRADING_PORTAL_ACTIONS = {
     color: '#f093fb',
     reward: '+3 XP'
   },
-  
+
   achievements: {
     id: 'achievements',
     title: 'View Achievements',
@@ -195,7 +195,7 @@ export class ActionCardManager {
 
     this.completedActions.add(actionId);
     cardData.card.classList.add('completed');
-    
+
     // Update reward display
     const rewardElement = cardData.card.querySelector('.action-card-reward');
     if (rewardElement) {
@@ -232,11 +232,11 @@ export class ActionCardManager {
 
     const progressFill = cardData.card.querySelector('.progress-fill');
     const progressText = cardData.card.querySelector('.progress-text');
-    
+
     if (progressFill) {
       progressFill.style.width = `${progress}%`;
     }
-    
+
     if (progressText) {
       progressText.textContent = `${progress}% Complete`;
     }

@@ -16,11 +16,11 @@ export { ActionCardController, actionCardUtils } from './controllers/action-card
 export { actionCardIcons, iconUtils } from './icons/action-card-icons.js';
 
 // Configuration
-export { 
-  defaultActionCardProps, 
-  actionCardConfig, 
-  actionCardValidation, 
-  actionCardThemes 
+export {
+  defaultActionCardProps,
+  actionCardConfig,
+  actionCardValidation,
+  actionCardThemes
 } from './config/action-card-config.js';
 
 /**

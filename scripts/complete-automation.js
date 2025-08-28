@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Complete UI Components Setup & Deployment Automation
- * 
+ *
  * This script does EVERYTHING:
  * 1. Repository setup and commits
  * 2. Build validation and testing
@@ -49,10 +49,10 @@ class CompleteUIComponentsAutomation {
       await this.phase5_GitHubDeployment();
       await this.phase6_NPMPreparation();
       await this.phase7_FinalSummary();
-      
+
       console.log(chalk.green.bold('\n🎉 COMPLETE AUTOMATION SUCCESS!'));
       console.log(chalk.green('Your UI components are ready for production use!'));
-      
+
     } catch (error) {
       console.log(chalk.red.bold('\n❌ AUTOMATION FAILED!'));
       console.log(chalk.red(`Error: ${error.message}`));
@@ -64,7 +64,7 @@ class CompleteUIComponentsAutomation {
   async phase1_GitSetup() {
     console.log(chalk.blue.bold('\n📁 PHASE 1: Git Repository Setup'));
     console.log(chalk.blue('=' .repeat(40)));
-    
+
     // Initialize git if needed
     if (!fs.existsSync(path.join(this.projectRoot, '.git'))) {
       this.safeExec('git init');
@@ -78,7 +78,7 @@ class CompleteUIComponentsAutomation {
 
     // Add and commit all files
     this.safeExec('git add .');
-    
+
     try {
       this.safeExec('git commit -m "Complete UI Components System: ESM modules, atomic design, cross-framework compatibility, automated build system, and deployment scripts"');
       console.log(chalk.green('✓ All code committed to repository'));
@@ -136,7 +136,7 @@ class CompleteUIComponentsAutomation {
       console.log(chalk.cyan('Validating build configuration...'));
       const buildFiles = [
         'build/rollup.config.js',
-        'build/vite.config.js', 
+        'build/vite.config.js',
         'build/jest.config.js'
       ];
 
@@ -169,7 +169,7 @@ class CompleteUIComponentsAutomation {
       if (fs.existsSync(dirPath)) {
         const components = fs.readdirSync(dirPath)
           .filter(item => fs.statSync(path.join(dirPath, item)).isDirectory());
-        
+
         totalComponents += components.length;
         componentDetails[dir] = components;
         console.log(chalk.green(`✓ ${dir}: ${components.length} components`));
@@ -203,10 +203,10 @@ class CompleteUIComponentsAutomation {
     const gitStatus = this.safeExec('git status --porcelain').toString().trim();
     const branch = this.safeExec('git branch --show-current').toString().trim();
     const commits = this.safeExec('git rev-list --count HEAD').toString().trim();
-    
+
     console.log(chalk.green(`✓ Git branch: ${branch}`));
     console.log(chalk.green(`✓ Total commits: ${commits}`));
-    
+
     if (gitStatus) {
       console.log(chalk.yellow(`⚠ Uncommitted changes: ${gitStatus.split('\n').length} files`));
     } else {
@@ -256,17 +256,17 @@ class CompleteUIComponentsAutomation {
 
       // Create GitHub repository
       const createCommand = `gh repo create ${this.repoName} --public --description "Modular UI component system with atomic design principles - cross-framework compatible" --source .`;
-      
+
       try {
         this.safeExec(createCommand);
         console.log(chalk.green('✓ GitHub repository created'));
-        
+
         // Push to GitHub
         this.safeExec('git push -u origin master');
         console.log(chalk.green('✓ Code pushed to GitHub'));
-        
+
         this.results.github = true;
-        
+
       } catch (error) {
         if (error.message.includes('already exists')) {
           console.log(chalk.yellow('⚠ Repository already exists, attempting to push...'));
@@ -281,7 +281,7 @@ class CompleteUIComponentsAutomation {
           throw error;
         }
       }
-      
+
     } catch (error) {
       console.log(chalk.yellow('⚠ GitHub CLI not available, providing manual setup:'));
       this.showManualGitHubSetup();
@@ -309,13 +309,13 @@ class CompleteUIComponentsAutomation {
       console.log(chalk.cyan('Testing NPM package creation...'));
       const packResult = this.safeExec('npm pack --dry-run');
       console.log(chalk.green('✓ NPM package validation successful'));
-      
+
       // Show what would be included
       const packageData = packResult.toString();
       if (packageData.includes('package size')) {
         console.log(chalk.green('✓ Package contents validated'));
       }
-      
+
     } catch (error) {
       throw new Error(`NPM pack failed: ${error.message}`);
     }
@@ -323,7 +323,7 @@ class CompleteUIComponentsAutomation {
     // Verify package.json has all required fields
     const packagePath = path.join(this.projectRoot, 'package.json');
     const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-    
+
     const requiredFields = ['name', 'version', 'description', 'main', 'module', 'exports'];
     for (const field of requiredFields) {
       if (pkg[field]) {
@@ -371,7 +371,7 @@ class CompleteUIComponentsAutomation {
 
   async createComprehensiveGitignore() {
     const gitignorePath = path.join(this.projectRoot, '.gitignore');
-    
+
     const gitignoreContent = `# Dependencies
 node_modules/
 npm-debug.log*
@@ -438,7 +438,7 @@ storybook-static/
 
   async generateCompleteDeploymentGuide() {
     const guidePath = path.join(this.projectRoot, 'COMPLETE_DEPLOYMENT_GUIDE.md');
-    
+
     const guide = `# Complete UI Components Deployment Guide
 
 Generated: ${new Date().toISOString()}

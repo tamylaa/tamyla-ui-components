@@ -280,14 +280,14 @@ export const ENHANCED_TOKENS = {
     warning: '#F59E0B',
     neutral: '#6B7280'
   },
-  
+
   // Enhanced animations
   animations: {
     microInteraction: 'cubic-bezier(0.4, 0, 0.2, 1)',
     premium: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     smooth: 'cubic-bezier(0.16, 1, 0.3, 1)'
   },
-  
+
   // Premium shadows
   shadows: {
     premium: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',

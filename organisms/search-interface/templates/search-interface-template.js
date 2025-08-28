@@ -46,11 +46,11 @@ export function createSearchInterfaceTemplate(props) {
       <div class="tmyl-search-interface__controls">
         <div class="tmyl-search-interface__search-bar">
           ${createSearchBarTemplate({
-            placeholder: 'Search content...',
-            showVoiceInput: true,
-            showAdvancedFilters: false,
-            ...searchProps
-          })}
+    placeholder: 'Search content...',
+    showVoiceInput: true,
+    showAdvancedFilters: false,
+    ...searchProps
+  })}
         </div>
 
         ${showFilters && filters.length ? `
@@ -72,33 +72,33 @@ export function createSearchInterfaceTemplate(props) {
             ${showResultsActions ? `
               <div class="tmyl-search-interface__results-actions">
                 ${createButtonTemplate({
-                  variant: 'ghost',
-                  size: 'sm',
-                  icon: 'grid',
-                  'aria-label': 'Grid view',
-                  'data-view': 'grid'
-                })}
+    variant: 'ghost',
+    size: 'sm',
+    icon: 'grid',
+    'aria-label': 'Grid view',
+    'data-view': 'grid'
+  })}
                 ${createButtonTemplate({
-                  variant: 'ghost',
-                  size: 'sm',
-                  icon: 'list',
-                  'aria-label': 'List view',
-                  'data-view': 'list'
-                })}
+    variant: 'ghost',
+    size: 'sm',
+    icon: 'list',
+    'aria-label': 'List view',
+    'data-view': 'list'
+  })}
                 ${createButtonTemplate({
-                  variant: 'ghost',
-                  size: 'sm',
-                  icon: 'filter',
-                  'aria-label': 'Filter options',
-                  'data-action': 'filter'
-                })}
+    variant: 'ghost',
+    size: 'sm',
+    icon: 'filter',
+    'aria-label': 'Filter options',
+    'data-action': 'filter'
+  })}
                 ${createButtonTemplate({
-                  variant: 'ghost',
-                  size: 'sm',
-                  icon: 'sort',
-                  'aria-label': 'Sort options',
-                  'data-action': 'sort'
-                })}
+    variant: 'ghost',
+    size: 'sm',
+    icon: 'sort',
+    'aria-label': 'Sort options',
+    'data-action': 'sort'
+  })}
               </div>
             ` : ''}
           </div>
@@ -138,8 +138,8 @@ function createFilterGroup(filter) {
   const { type, label, options = [], selected = [] } = filter;
 
   switch (type) {
-    case 'select':
-      return `
+  case 'select':
+    return `
         <div class="tmyl-search-interface__filter-group">
           <label class="tmyl-search-interface__filter-label">${label}</label>
           <select class="tmyl-filter-select" data-filter="${filter.key}">
@@ -153,8 +153,8 @@ function createFilterGroup(filter) {
         </div>
       `;
 
-    case 'checkbox':
-      return `
+  case 'checkbox':
+    return `
         <div class="tmyl-search-interface__filter-group">
           <span class="tmyl-search-interface__filter-label">${label}</span>
           <div class="tmyl-filter-checkboxes">
@@ -168,8 +168,8 @@ function createFilterGroup(filter) {
         </div>
       `;
 
-    case 'radio':
-      return `
+  case 'radio':
+    return `
         <div class="tmyl-search-interface__filter-group">
           <span class="tmyl-search-interface__filter-label">${label}</span>
           <div class="tmyl-filter-radios">
@@ -183,8 +183,8 @@ function createFilterGroup(filter) {
         </div>
       `;
 
-    default:
-      return '';
+  default:
+    return '';
   }
 }
 
@@ -199,12 +199,12 @@ function createResultsGrid(results) {
   return `
     <div class="tmyl-content-grid" role="grid" aria-label="Search results">
       ${results.map(result => createContentCardTemplate({
-        content: result,
-        variant: 'default',
-        size: 'md',
-        selectable: true,
-        showActions: true
-      })).join('')}
+    content: result,
+    variant: 'default',
+    size: 'md',
+    selectable: true,
+    showActions: true
+  })).join('')}
     </div>
   `;
 }
@@ -272,11 +272,11 @@ function createErrorState(error) {
         ${error.message || 'An error occurred while searching. Please try again.'}
       </p>
       ${createButtonTemplate({
-        variant: 'primary',
-        size: 'sm',
-        text: 'Try Again',
-        'data-action': 'retry'
-      })}
+    variant: 'primary',
+    size: 'sm',
+    text: 'Try Again',
+    'data-action': 'retry'
+  })}
     </div>
   `;
 }
@@ -298,16 +298,16 @@ function formatResultsCount(count) {
 export function updateSearchInterfaceResults(element, newResults, resultsCount) {
   const contentGrid = element.querySelector('.tmyl-search-interface__content-grid');
   const resultsCountElement = element.querySelector('.tmyl-search-interface__results-count');
-  
+
   if (contentGrid) {
-    contentGrid.innerHTML = createResultsContent({ 
-      results: newResults, 
-      loading: false, 
-      error: null, 
-      resultsCount 
+    contentGrid.innerHTML = createResultsContent({
+      results: newResults,
+      loading: false,
+      error: null,
+      resultsCount
     });
   }
-  
+
   if (resultsCountElement) {
     resultsCountElement.textContent = formatResultsCount(resultsCount);
   }
@@ -318,7 +318,7 @@ export function updateSearchInterfaceResults(element, newResults, resultsCount) 
  */
 export function updateSearchInterfaceLoading(element, loading) {
   const contentGrid = element.querySelector('.tmyl-search-interface__content-grid');
-  
+
   if (loading) {
     element.classList.add('tmyl-search-interface--loading');
     if (contentGrid) {
@@ -334,7 +334,7 @@ export function updateSearchInterfaceLoading(element, loading) {
  */
 export function updateSearchInterfaceError(element, error) {
   const contentGrid = element.querySelector('.tmyl-search-interface__content-grid');
-  
+
   if (error) {
     element.classList.add('tmyl-search-interface--error');
     if (contentGrid) {

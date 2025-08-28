@@ -24,14 +24,14 @@ export function ContentCardFactory(props = {}) {
     lazy = true,
     trackInteractions = true,
     className = '',
-    
+
     // Event handlers
     onSelect,
     onAction,
     onInteraction,
     onMediaError,
     onIntersection,
-    
+
     // Container element
     container = null
   } = props;
@@ -134,16 +134,16 @@ export function ContentCardFactory(props = {}) {
         ...newProps,
         container: null
       }).getElement();
-      
+
       if (parent) {
         parent.replaceChild(newElement, element);
       }
-      
+
       // Cleanup old controller
       if (controller) {
         controller.destroy();
       }
-      
+
       element = newElement;
       controller = element._contentCardController;
     }
@@ -194,11 +194,11 @@ export function ContentCardFactory(props = {}) {
     render,
     update,
     destroy,
-    
+
     // Access
     getElement,
     getController,
-    
+
     // Properties
     get props() {
       return {
@@ -354,7 +354,7 @@ export function ContentCardGridFactory(props = {}) {
       });
 
       const cardElement = cardFactory.getElement();
-      
+
       if (position === 'start') {
         element.insertBefore(cardElement, element.firstChild);
       } else {
@@ -393,7 +393,7 @@ export function ContentCardGridFactory(props = {}) {
     if (!element) return;
 
     Object.assign(gridProps, newGridProps);
-    
+
     // Apply new properties
     Object.entries(newGridProps).forEach(([key, value]) => {
       if (key.startsWith('data-') || key.startsWith('aria-')) {
@@ -411,7 +411,7 @@ export function ContentCardGridFactory(props = {}) {
     cards.forEach((card, id) => {
       const cardElement = card.getElement();
       const shouldShow = predicate(card.props.content, id);
-      
+
       cardElement.style.display = shouldShow ? '' : 'none';
     });
   }
@@ -458,19 +458,19 @@ export function ContentCardGridFactory(props = {}) {
     // Lifecycle
     render,
     destroy,
-    
+
     // Content management
     addItems,
     removeItems,
     filterCards,
     setHighlightTerms,
-    
+
     // Layout
     updateLayout,
-    
+
     // Selection
     getSelection,
-    
+
     // Access
     getElement: () => element,
     getCards: () => cards,
@@ -563,10 +563,10 @@ export const ContentCardHelpers = {
           comments: data.comments
         }
       },
-      
+
       file: {
-        type: data.mimeType?.includes('image/') ? 'image' : 
-              data.mimeType?.includes('video/') ? 'video' : 'document',
+        type: data.mimeType?.includes('image/') ? 'image' :
+          data.mimeType?.includes('video/') ? 'video' : 'document',
         title: data.name || data.filename,
         description: data.description,
         url: data.url || data.downloadUrl,
@@ -575,7 +575,7 @@ export const ContentCardHelpers = {
           downloads: data.downloads
         }
       },
-      
+
       user: {
         type: 'profile',
         title: data.name || data.displayName,

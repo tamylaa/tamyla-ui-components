@@ -12,7 +12,7 @@ import { DashboardGridController } from './controllers/dashboard-grid-controller
  */
 async function loadTemplate(templateName) {
   const templatePath = `./templates/${templateName}`;
-  
+
   try {
     const response = await fetch(templatePath);
     if (!response.ok) {
@@ -21,7 +21,7 @@ async function loadTemplate(templateName) {
     return await response.text();
   } catch (error) {
     console.error('Template loading error:', error);
-    
+
     // Fallback templates
     const fallbacks = {
       'dashboard-widget.html': `
@@ -48,7 +48,7 @@ async function loadTemplate(templateName) {
         </div>
       `
     };
-    
+
     return fallbacks[templateName] || fallbacks['dashboard-widget.html'];
   }
 }
@@ -58,7 +58,7 @@ async function loadTemplate(templateName) {
  */
 function injectStyles() {
   const styleId = 'dashboard-widget-styles';
-  
+
   if (document.getElementById(styleId)) {
     return; // Already injected
   }
@@ -67,7 +67,7 @@ function injectStyles() {
   link.id = styleId;
   link.rel = 'stylesheet';
   link.href = './styles/dashboard-widget.css';
-  
+
   // Fallback to inline styles if CSS file not found
   link.onerror = () => {
     const style = document.createElement('style');
@@ -101,7 +101,7 @@ function injectStyles() {
     `;
     document.head.appendChild(style);
   };
-  
+
   document.head.appendChild(link);
 }
 
@@ -156,7 +156,7 @@ export async function createDashboardWidget(options = {}) {
   return {
     element,
     controller,
-    
+
     // Convenience methods
     refresh: () => controller.refresh(),
     updateData: (data) => controller.updateData(data),
@@ -165,7 +165,7 @@ export async function createDashboardWidget(options = {}) {
     clearError: () => controller.clearError(),
     toggleCollapse: () => controller.toggleCollapse(),
     destroy: () => controller.destroy(),
-    
+
     // State accessors
     get loading() { return controller.isLoading(); },
     get error() { return controller.hasError(); },
@@ -192,7 +192,7 @@ export function createDashboardGrid(options = {}) {
   return {
     element,
     controller,
-    
+
     // Widget management
     addWidget: (widget, position) => controller.addWidget(widget.element || widget, position),
     removeWidget: (widgetId) => controller.removeWidget(widgetId),
@@ -200,18 +200,18 @@ export function createDashboardGrid(options = {}) {
     getWidget: (widgetId) => controller.getWidget(widgetId),
     getAllWidgets: () => controller.getAllWidgets(),
     clear: () => controller.clear(),
-    
+
     // Grid management
     setColumns: (columns) => controller.setColumns(columns),
     setGap: (gap) => controller.setGap(gap),
-    
+
     // Layout management
     getLayout: () => controller.getLayout(),
     setLayout: (layout) => controller.setLayout(layout),
-    
+
     // Utilities
     findEmptySpace: (cols, rows) => controller.findEmptySpace(cols, rows),
-    
+
     // State accessors
     get state() { return controller.getState(); }
   };
@@ -225,7 +225,7 @@ export function createDashboardGrid(options = {}) {
  */
 export async function createWidgetFromPreset(presetId, overrides = {}) {
   const preset = TRADING_PORTAL_WIDGET_PRESETS[presetId];
-  
+
   if (!preset) {
     throw new Error(`Widget preset not found: ${presetId}`);
   }
@@ -241,7 +241,7 @@ export class DashboardManager {
   constructor(container, options = {}) {
     this.container = container;
     this.options = options;
-    
+
     // Create grid
     this.grid = createDashboardGrid({
       columns: options.columns || 12,
@@ -249,7 +249,7 @@ export class DashboardManager {
       draggable: options.draggable || false,
       ...options.gridOptions
     });
-    
+
     this.container.appendChild(this.grid.element);
     this.widgets = new Map();
     this.activeLayout = null;
@@ -259,14 +259,14 @@ export class DashboardManager {
   async addWidget(config, position) {
     const widget = await createDashboardWidget(config);
     const widgetId = this.grid.addWidget(widget, position);
-    
+
     // Store widget reference
     this.widgets.set(widgetId, widget);
-    
+
     // Listen for widget events
     widget.element.addEventListener('widget:refresh', this.handleWidgetEvent.bind(this));
     widget.element.addEventListener('widget:error', this.handleWidgetEvent.bind(this));
-    
+
     return { id: widgetId, widget };
   }
 
@@ -355,10 +355,10 @@ export class DashboardManager {
 
     try {
       const layout = JSON.parse(saved);
-      
+
       // Clear current dashboard
       this.clearAllWidgets();
-      
+
       // Recreate widgets
       layout.grid.forEach(async (item) => {
         const widgetConfig = layout.widgets[item.id];
@@ -366,7 +366,7 @@ export class DashboardManager {
           await this.addWidget(widgetConfig, item.position);
         }
       });
-      
+
       return true;
     } catch (err) {
       console.error('Failed to load saved layout:', err);

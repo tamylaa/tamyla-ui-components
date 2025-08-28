@@ -4,7 +4,7 @@
  * Features: micro-interactions, accessibility, gamification, real-time status
  */
 
-import { 
+import {
   TradingPortalIntegration,
   createTradingPortalButton,
   createTradingPortalActionCard,
@@ -13,7 +13,7 @@ import {
   actionCardFactory,
   statusIndicatorFactory,
   VERSION,
-  FEATURES 
+  FEATURES
 } from './src/index.js';
 
 // Initialize Trading Portal patterns

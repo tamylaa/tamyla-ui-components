@@ -65,7 +65,7 @@ export const EnhancedSearchTemplates = {
     const breadcrumbItems = breadcrumbs.map((crumb, index) => {
       const isLast = index === breadcrumbs.length - 1;
       const link = isLast ? crumb.name : `<a href="${crumb.url}" class="tmyl-enhanced-search__breadcrumb-link">${crumb.name}</a>`;
-      
+
       return `
         <span class="tmyl-enhanced-search__breadcrumb ${isLast ? 'tmyl-enhanced-search__breadcrumb--current' : ''}">
           ${link}
@@ -130,7 +130,7 @@ export const EnhancedSearchTemplates = {
       maxItems = 5
     } = props;
 
-    const searchItems = searches.slice(0, maxItems).map(search => 
+    const searchItems = searches.slice(0, maxItems).map(search =>
       `<li class="tmyl-enhanced-search__recent-search" 
            data-search-query="${search.query}"
            title="${search.query} - ${search.timestamp}">
@@ -143,10 +143,10 @@ export const EnhancedSearchTemplates = {
         <h3 class="tmyl-enhanced-search__filter-title">${title}</h3>
         <ul class="tmyl-enhanced-search__recent-searches">
           ${searchItems}
-          ${searches.length === 0 ? 
-            '<li class="tmyl-enhanced-search__recent-search tmyl-enhanced-search__recent-search--empty">No recent searches</li>' : 
-            ''
-          }
+          ${searches.length === 0 ?
+    '<li class="tmyl-enhanced-search__recent-search tmyl-enhanced-search__recent-search--empty">No recent searches</li>' :
+    ''
+}
         </ul>
       </div>
     `;
@@ -161,7 +161,7 @@ export const EnhancedSearchTemplates = {
       searches = []
     } = props;
 
-    const searchItems = searches.map(search => 
+    const searchItems = searches.map(search =>
       `<li class="tmyl-enhanced-search__saved-search" 
            data-search-id="${search.id}">
          <span class="tmyl-enhanced-search__saved-search-name">${search.name}</span>
@@ -176,10 +176,10 @@ export const EnhancedSearchTemplates = {
         <h3 class="tmyl-enhanced-search__filter-title">${title}</h3>
         <ul class="tmyl-enhanced-search__saved-searches">
           ${searchItems}
-          ${searches.length === 0 ? 
-            '<li class="tmyl-enhanced-search__saved-search tmyl-enhanced-search__saved-search--empty">No saved searches</li>' : 
-            ''
-          }
+          ${searches.length === 0 ?
+    '<li class="tmyl-enhanced-search__saved-search tmyl-enhanced-search__saved-search--empty">No saved searches</li>' :
+    ''
+}
         </ul>
       </div>
     `;
@@ -239,7 +239,7 @@ export const EnhancedSearchTemplates = {
       showExport = false
     } = props;
 
-    const viewToggles = viewModes.map(mode => 
+    const viewToggles = viewModes.map(mode =>
       `<button class="tmyl-enhanced-search__view-toggle" 
                data-view-mode="${mode}"
                aria-label="Switch to ${mode} view">
@@ -248,7 +248,7 @@ export const EnhancedSearchTemplates = {
        </button>`
     ).join('');
 
-    const sortOptionElements = sortOptions.map(option => 
+    const sortOptionElements = sortOptions.map(option =>
       `<option value="${option.value}">${option.label}</option>`
     ).join('');
 
@@ -369,9 +369,9 @@ export const EnhancedSearchTemplates = {
 
     const suggestionsList = showSuggestions && suggestions.length > 0 ? `
       <ul class="tmyl-enhanced-search__empty-suggestions">
-        ${suggestions.map(suggestion => 
-          `<li class="tmyl-enhanced-search__empty-suggestion">${suggestion}</li>`
-        ).join('')}
+        ${suggestions.map(suggestion =>
+    `<li class="tmyl-enhanced-search__empty-suggestion">${suggestion}</li>`
+  ).join('')}
       </ul>
     ` : '';
 
@@ -436,7 +436,7 @@ export const EnhancedSearchTemplates = {
       if (page === '...') {
         return '<span class="tmyl-enhanced-search__pagination-ellipsis">...</span>';
       }
-      
+
       const isActive = page === currentPage;
       return `
         <button class="tmyl-enhanced-search__pagination-page ${isActive ? 'tmyl-enhanced-search__pagination-page--active' : ''}"
@@ -488,34 +488,34 @@ export const EnhancedSearchTemplates = {
   generatePageNumbers(currentPage, totalPages) {
     const delta = 2; // Number of pages to show around current page
     const pages = [];
-    
+
     // Always show first page
     pages.push(1);
-    
+
     // Calculate range around current page
     const rangeStart = Math.max(2, currentPage - delta);
     const rangeEnd = Math.min(totalPages - 1, currentPage + delta);
-    
+
     // Add ellipsis if there's a gap after first page
     if (rangeStart > 2) {
       pages.push('...');
     }
-    
+
     // Add pages around current page
     for (let i = rangeStart; i <= rangeEnd; i++) {
       pages.push(i);
     }
-    
+
     // Add ellipsis if there's a gap before last page
     if (rangeEnd < totalPages - 1) {
       pages.push('...');
     }
-    
+
     // Always show last page (if more than 1 page)
     if (totalPages > 1) {
       pages.push(totalPages);
     }
-    
+
     return pages;
   },
 
@@ -529,7 +529,7 @@ export const EnhancedSearchTemplates = {
       showDetails = false
     } = props;
 
-    const insightTags = insights.map(insight => 
+    const insightTags = insights.map(insight =>
       `<span class="tmyl-enhanced-search__insight-tag">${insight}</span>`
     ).join('');
 
@@ -582,7 +582,7 @@ export const EnhancedSearchTemplates = {
       customLinks = []
     } = props;
 
-    const links = customLinks.map(link => 
+    const links = customLinks.map(link =>
       `<a href="${link.url}" class="tmyl-enhanced-search__footer-link">${link.label}</a>`
     ).join(' | ');
 
@@ -658,7 +658,7 @@ export const EnhancedSearchTemplateUtils = {
    */
   sanitizeContent(content) {
     if (typeof content !== 'string') return '';
-    
+
     return content
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -679,19 +679,19 @@ export const EnhancedSearchTemplateUtils = {
    */
   validateProps(props, schema) {
     const errors = [];
-    
+
     for (const [key, rules] of Object.entries(schema)) {
       const value = props[key];
-      
+
       if (rules.required && (value === undefined || value === null)) {
         errors.push(`Missing required prop: ${key}`);
       }
-      
+
       if (value !== undefined && rules.type && typeof value !== rules.type) {
         errors.push(`Invalid type for prop ${key}: expected ${rules.type}, got ${typeof value}`);
       }
     }
-    
+
     return errors;
   }
 };

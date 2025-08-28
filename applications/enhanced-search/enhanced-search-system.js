@@ -14,12 +14,12 @@ export function EnhancedSearchApplicationFactory(props = {}) {
   const {
     // Container
     container = null,
-    
+
     // API Configuration
     meilisearchUrl = '/api/search',
     apiBase = '/api/content',
     analyticsEndpoint = '/api/analytics',
-    
+
     // Feature Configuration
     voiceEnabled = true,
     naturalLanguage = true,
@@ -29,7 +29,7 @@ export function EnhancedSearchApplicationFactory(props = {}) {
     enableAnalytics = true,
     enableAutoComplete = true,
     enableExport = false,
-    
+
     // UI Configuration
     title = 'Enhanced Search',
     description = 'Intelligent content discovery with natural language processing',
@@ -41,25 +41,25 @@ export function EnhancedSearchApplicationFactory(props = {}) {
     showLogo = false,
     logoUrl = '',
     breadcrumbs = [],
-    
+
     // Styling
     theme = 'default',
     darkMode = 'auto',
     customStyles = '',
-    
+
     // Event Handlers
     onSearch = null,
     onResults = null,
     onContentSelection = null,
     onError = null,
     onAnalytics = null,
-    
+
     // Advanced Options
     searchEngines = ['meilisearch', 'vectorize'],
     cacheResults = true,
     debounceDelay = 300,
     maxRecentSearches = 10,
-    
+
     // Accessibility
     ariaLabel = 'Enhanced search application',
     announceResults = true,
@@ -78,11 +78,11 @@ export function EnhancedSearchApplicationFactory(props = {}) {
       element = createApplicationElement();
       styleSheet = createStyleSheet();
       controller = createController();
-      
+
       if (container) {
         mount(container);
       }
-      
+
       return {
         element,
         controller,
@@ -110,7 +110,7 @@ export function EnhancedSearchApplicationFactory(props = {}) {
     appElement.setAttribute('role', 'application');
     appElement.setAttribute('aria-label', ariaLabel);
     appElement.setAttribute('data-enhanced-search-app', '');
-    
+
     // Apply theme classes
     appElement.className = `tmyl-enhanced-search tmyl-enhanced-search--theme-${theme}`;
     if (darkMode !== 'auto') {
@@ -143,11 +143,11 @@ export function EnhancedSearchApplicationFactory(props = {}) {
     // CSS is imported separately, but we could inject dynamic styles here
     const style = document.createElement('style');
     style.setAttribute('data-enhanced-search-styles', '');
-    
+
     // Add dynamic theme variables
     const themeVars = generateThemeVariables();
     style.textContent = `:root { ${themeVars} }`;
-    
+
     document.head.appendChild(style);
     return style;
   }
@@ -157,7 +157,7 @@ export function EnhancedSearchApplicationFactory(props = {}) {
    */
   function generateThemeVariables() {
     const vars = [];
-    
+
     // Apply theme-specific color overrides
     if (theme === 'corporate') {
       vars.push('--color-primary: #1a365d');
@@ -169,7 +169,7 @@ export function EnhancedSearchApplicationFactory(props = {}) {
       vars.push('--color-primary: #2d3748');
       vars.push('--color-accent: #4a5568');
     }
-    
+
     return vars.join('; ');
   }
 
@@ -258,7 +258,7 @@ export function EnhancedSearchApplicationFactory(props = {}) {
     }
 
     targetContainer.appendChild(element);
-    
+
     // Trigger mounted event
     element.dispatchEvent(new CustomEvent('tmyl-enhanced-search:mounted', {
       detail: { factory: create },
@@ -272,7 +272,7 @@ export function EnhancedSearchApplicationFactory(props = {}) {
   function unmount() {
     if (element && element.parentNode) {
       element.parentNode.removeChild(element);
-      
+
       // Trigger unmounted event
       element.dispatchEvent(new CustomEvent('tmyl-enhanced-search:unmounted', {
         detail: { factory: create },
@@ -284,7 +284,7 @@ export function EnhancedSearchApplicationFactory(props = {}) {
   /**
    * Public API methods
    */
-  
+
   function search(query, options = {}) {
     if (!controller) {
       throw new Error('Controller not initialized');
@@ -467,7 +467,7 @@ export class EnhancedSearchApplicationManager {
 
     const app = EnhancedSearchApplicationFactory(props);
     this.applications.set(id, app);
-    
+
     return app;
   }
 
@@ -510,11 +510,11 @@ export class EnhancedSearchApplicationManager {
    */
   createAuto(props = {}) {
     const id = `search-app-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     if (this.defaultContainer && !props.container) {
       props.container = this.defaultContainer;
     }
-    
+
     return this.create(id, props);
   }
 
@@ -531,7 +531,7 @@ export class EnhancedSearchApplicationManager {
    */
   getStats() {
     const apps = Array.from(this.applications.values());
-    
+
     return {
       totalApplications: apps.length,
       totalSearches: apps.reduce((sum, app) => {
@@ -555,23 +555,23 @@ export const EnhancedSearchApplicationUtils = {
    */
   validateConfig(config) {
     const errors = [];
-    
+
     if (config.meilisearchUrl && typeof config.meilisearchUrl !== 'string') {
       errors.push('meilisearchUrl must be a string');
     }
-    
+
     if (config.perPage && (!Number.isInteger(config.perPage) || config.perPage < 1)) {
       errors.push('perPage must be a positive integer');
     }
-    
+
     if (config.searchEngines && !Array.isArray(config.searchEngines)) {
       errors.push('searchEngines must be an array');
     }
-    
+
     if (config.theme && !['default', 'modern', 'minimal', 'corporate'].includes(config.theme)) {
       errors.push('theme must be one of: default, modern, minimal, corporate');
     }
-    
+
     return errors;
   },
 
@@ -605,7 +605,7 @@ export const EnhancedSearchApplicationUtils = {
         searchSuggestions: true
       }
     };
-    
+
     return configs[useCase] || {};
   },
 
@@ -614,11 +614,11 @@ export const EnhancedSearchApplicationUtils = {
    */
   autoDetectConfig(container) {
     const config = {};
-    
+
     // Detect container size for responsive settings
     if (container) {
       const width = container.offsetWidth;
-      
+
       if (width < 768) {
         config.showSidebar = false;
         config.layout = 'compact';
@@ -634,18 +634,18 @@ export const EnhancedSearchApplicationUtils = {
         config.perPage = 30;
       }
     }
-    
+
     // Detect dark mode preference
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       config.darkMode = true;
     }
-    
+
     // Detect touch device
     if ('ontouchstart' in window) {
       config.voiceEnabled = true;
       config.keyboardShortcuts = false;
     }
-    
+
     return config;
   },
 
@@ -658,20 +658,20 @@ export const EnhancedSearchApplicationUtils = {
       renderTimes: [],
       errorCount: 0
     };
-    
+
     app.on('search', (event) => {
       const startTime = performance.now();
-      
+
       app.on('resultsUpdated', (resultsEvent) => {
         const endTime = performance.now();
         monitor.searchTimes.push(endTime - startTime);
       });
     });
-    
+
     app.on('error', () => {
       monitor.errorCount++;
     });
-    
+
     return {
       getStats: () => ({
         averageSearchTime: monitor.searchTimes.reduce((a, b) => a + b, 0) / monitor.searchTimes.length || 0,

@@ -10,7 +10,7 @@ class AchievementController {
     this.achievements = new Map();
     this.userProgress = new Map();
     this.listeners = new Map();
-    
+
     this.options = {
       autoSave: true,
       validateData: true,
@@ -76,7 +76,7 @@ class AchievementController {
 
     const oldProgress = userProgress.progress;
     const newProgress = this.calculateProgress(achievement, progress, metadata);
-    
+
     userProgress.progress = newProgress;
     userProgress.attempts++;
     userProgress.lastUpdated = Date.now();
@@ -107,17 +107,17 @@ class AchievementController {
     const { requirements } = achievement;
 
     switch (requirements.type) {
-      case 'count':
-        return Math.min(value, requirements.target);
-      
-      case 'condition':
-        return this.evaluateCondition(requirements.condition, metadata) ? 1 : 0;
-      
-      case 'complex':
-        return this.evaluateComplexRequirements(requirements.conditions, metadata);
-      
-      default:
-        return value;
+    case 'count':
+      return Math.min(value, requirements.target);
+
+    case 'condition':
+      return this.evaluateCondition(requirements.condition, metadata) ? 1 : 0;
+
+    case 'complex':
+      return this.evaluateComplexRequirements(requirements.conditions, metadata);
+
+    default:
+      return value;
     }
   }
 
@@ -128,19 +128,19 @@ class AchievementController {
     const { requirements } = achievement;
 
     switch (requirements.type) {
-      case 'count':
-        return progress >= requirements.target;
-      
-      case 'condition':
-        return progress === 1;
-      
-      case 'complex':
-        return requirements.conditions.every(condition => 
-          this.evaluateCondition(condition, metadata)
-        );
-      
-      default:
-        return false;
+    case 'count':
+      return progress >= requirements.target;
+
+    case 'condition':
+      return progress === 1;
+
+    case 'complex':
+      return requirements.conditions.every(condition =>
+        this.evaluateCondition(condition, metadata)
+      );
+
+    default:
+      return false;
     }
   }
 
@@ -158,13 +158,13 @@ class AchievementController {
     const metricValue = metadata[metric] || 0;
 
     switch (operator) {
-      case '>=': return metricValue >= value;
-      case '<=': return metricValue <= value;
-      case '>': return metricValue > value;
-      case '<': return metricValue < value;
-      case '==': return metricValue === value;
-      case '!=': return metricValue !== value;
-      default: return false;
+    case '>=': return metricValue >= value;
+    case '<=': return metricValue <= value;
+    case '>': return metricValue > value;
+    case '<': return metricValue < value;
+    case '==': return metricValue === value;
+    case '!=': return metricValue !== value;
+    default: return false;
     }
   }
 
@@ -233,15 +233,15 @@ class AchievementController {
    */
   getMaxProgress(achievement) {
     const { requirements } = achievement;
-    
+
     switch (requirements.type) {
-      case 'count':
-        return requirements.target;
-      case 'condition':
-      case 'complex':
-        return 1;
-      default:
-        return 1;
+    case 'count':
+      return requirements.target;
+    case 'condition':
+    case 'complex':
+      return 1;
+    default:
+      return 1;
     }
   }
 
@@ -310,38 +310,38 @@ class AchievementController {
    */
   validateAchievement(achievement) {
     const rules = VALIDATION_RULES.achievement;
-    
+
     for (const [field, rule] of Object.entries(rules)) {
       const value = achievement[field];
-      
+
       if (rule.required && (value === undefined || value === null)) {
         console.error(`Missing required field: ${field}`);
         return false;
       }
-      
+
       if (value !== undefined) {
         if (rule.type && typeof value !== rule.type) {
           console.error(`Invalid type for ${field}: expected ${rule.type}`);
           return false;
         }
-        
+
         if (rule.enum && !rule.enum.includes(value)) {
           console.error(`Invalid value for ${field}: must be one of ${rule.enum.join(', ')}`);
           return false;
         }
-        
+
         if (rule.minLength && value.length < rule.minLength) {
           console.error(`${field} too short: minimum ${rule.minLength} characters`);
           return false;
         }
-        
+
         if (rule.min && value < rule.min) {
           console.error(`${field} too small: minimum ${rule.min}`);
           return false;
         }
       }
     }
-    
+
     return true;
   }
 
@@ -421,7 +421,7 @@ class AchievementController {
   getStatistics() {
     const all = Array.from(this.achievements.values());
     const earned = this.getEarnedAchievements();
-    
+
     return {
       total: all.length,
       earned: earned.length,
@@ -438,18 +438,18 @@ class AchievementController {
   getStatsByCategory() {
     const stats = {};
     const earned = this.getEarnedAchievements();
-    
+
     Object.keys(ACHIEVEMENT_CONFIG.categories).forEach(category => {
       const total = this.getAchievementsByCategory(category).length;
       const earnedCount = earned.filter(a => a.category === category).length;
-      
+
       stats[category] = {
         total,
         earned: earnedCount,
         completion: total ? Math.round((earnedCount / total) * 100) : 0
       };
     });
-    
+
     return stats;
   }
 
@@ -459,18 +459,18 @@ class AchievementController {
   getStatsByRarity() {
     const stats = {};
     const earned = this.getEarnedAchievements();
-    
+
     Object.keys(ACHIEVEMENT_CONFIG.rarities).forEach(rarity => {
       const total = this.getAchievementsByRarity(rarity).length;
       const earnedCount = earned.filter(a => a.rarity === rarity).length;
-      
+
       stats[rarity] = {
         total,
         earned: earnedCount,
         completion: total ? Math.round((earnedCount / total) * 100) : 0
       };
     });
-    
+
     return stats;
   }
 }

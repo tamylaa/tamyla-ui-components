@@ -63,7 +63,7 @@ export class StatusIndicatorFactory {
    */
   create(props = {}) {
     const finalProps = { ...this.defaultProps, ...props };
-    
+
     // Validate status type
     if (!this.statusTypes.includes(finalProps.status)) {
       console.warn(`Invalid status type: ${finalProps.status}. Using 'pending'.`);
@@ -73,18 +73,18 @@ export class StatusIndicatorFactory {
     // Create status container
     const statusElement = document.createElement('span');
     statusElement.className = this.buildStatusClasses(finalProps);
-    
+
     // Set up accessibility
     this.setupAccessibility(statusElement, finalProps);
-    
+
     // Create status structure
     statusElement.innerHTML = this.createStatusTemplate(finalProps);
-    
+
     // Attach interactions if interactive
     if (finalProps.interactive) {
       this.attachInteractions(statusElement, finalProps);
     }
-    
+
     return statusElement;
   }
 
@@ -109,10 +109,10 @@ export class StatusIndicatorFactory {
   setupAccessibility(element, props) {
     element.setAttribute('role', 'status');
     element.setAttribute('aria-live', 'polite');
-    
+
     const statusText = props.text || this.getDefaultStatusText(props.status);
     element.setAttribute('aria-label', `Status: ${statusText}`);
-    
+
     if (props.interactive) {
       element.setAttribute('tabindex', '0');
       element.setAttribute('role', 'button');
@@ -138,7 +138,7 @@ export class StatusIndicatorFactory {
       connected: 'Connected',
       disconnected: 'Disconnected'
     };
-    
+
     return statusTexts[status] || status;
   }
 
@@ -147,7 +147,7 @@ export class StatusIndicatorFactory {
    */
   createStatusTemplate(props) {
     const statusText = props.text || this.getDefaultStatusText(props.status);
-    
+
     return `
       ${props.showDot ? `
         <span class="tmyl-status__dot" aria-hidden="true"></span>
@@ -172,11 +172,11 @@ export class StatusIndicatorFactory {
       if (props.analytics) {
         this.trackStatusClick(props);
       }
-      
+
       if (props.onClick) {
         props.onClick(e);
       }
-      
+
       // Custom event
       element.dispatchEvent(new CustomEvent('tmyl-status-click', {
         detail: { status: props.status, element }
@@ -223,10 +223,10 @@ export class StatusIndicatorFactory {
     if (oldStatusClass) {
       element.classList.remove(oldStatusClass);
     }
-    
+
     // Add new status class
     element.classList.add(`tmyl-status--${newStatus}`);
-    
+
     // Update text if provided
     if (newText !== null) {
       const textElement = element.querySelector('.tmyl-status__text');
@@ -234,11 +234,11 @@ export class StatusIndicatorFactory {
         textElement.textContent = newText;
       }
     }
-    
+
     // Update accessibility
     const statusText = newText || this.getDefaultStatusText(newStatus);
     element.setAttribute('aria-label', `Status: ${statusText}`);
-    
+
     // Add update animation
     element.classList.add('tmyl-status--updating');
     setTimeout(() => {

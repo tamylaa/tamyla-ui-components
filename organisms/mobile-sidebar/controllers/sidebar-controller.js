@@ -3,12 +3,12 @@
  * Handles core sidebar functionality including animations, state management, and lifecycle
  */
 
-import { 
-  SIDEBAR_CONFIG, 
-  ANIMATION_PRESETS, 
-  RESPONSIVE_CONFIG, 
-  VALIDATION_RULES, 
-  EVENT_TYPES 
+import {
+  SIDEBAR_CONFIG,
+  ANIMATION_PRESETS,
+  RESPONSIVE_CONFIG,
+  VALIDATION_RULES,
+  EVENT_TYPES
 } from '../config/sidebar-config.js';
 
 class SidebarController {
@@ -70,7 +70,7 @@ class SidebarController {
     this.attachEventListeners();
     this.setupResponsiveHandling();
     this.setupAccessibility();
-    
+
     this.emit(EVENT_TYPES.SIDEBAR_OPENING, { controller: this });
   }
 
@@ -112,11 +112,11 @@ class SidebarController {
     try {
       const response = await fetch('/ui-components/organisms/mobile-sidebar/templates/sidebar-overlay.html');
       if (!response.ok) throw new Error('Template not found');
-      
+
       const template = await response.text();
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = template;
-      
+
       // Extract sidebar content
       const sidebarContent = tempDiv.querySelector('.tmyl-mobile-sidebar');
       if (sidebarContent) {
@@ -232,19 +232,19 @@ class SidebarController {
     // Check if this is a horizontal swipe
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
       this.touchState.isDragging = true;
-      
+
       // Prevent scrolling during drag
       e.preventDefault();
-      
+
       // Check if swipe is in closing direction
       const isClosingSwipe = (this.options.position === 'left' && deltaX < -this.options.swipeThreshold) ||
                             (this.options.position === 'right' && deltaX > this.options.swipeThreshold);
 
       if (isClosingSwipe) {
-        this.emit(EVENT_TYPES.SWIPE_DETECTED, { 
+        this.emit(EVENT_TYPES.SWIPE_DETECTED, {
           direction: this.options.position === 'left' ? 'left' : 'right',
           deltaX,
-          controller: this 
+          controller: this
         });
       }
     }
@@ -298,10 +298,10 @@ class SidebarController {
    */
   handleResize() {
     this.updateResponsiveBehavior();
-    this.emit(EVENT_TYPES.RESIZE_DETECTED, { 
+    this.emit(EVENT_TYPES.RESIZE_DETECTED, {
       width: window.innerWidth,
       height: window.innerHeight,
-      controller: this 
+      controller: this
     });
   }
 
@@ -354,7 +354,7 @@ class SidebarController {
     }
 
     this.emit(EVENT_TYPES.SIDEBAR_OPENING, { controller: this });
-    
+
     this.isAnimating = true;
     this.lastFocusedElement = document.activeElement;
 
@@ -487,11 +487,11 @@ class SidebarController {
    */
   addEventHandler(element, event, handler, options = {}) {
     element.addEventListener(event, handler, options);
-    
+
     if (!this.eventHandlers.has(element)) {
       this.eventHandlers.set(element, []);
     }
-    
+
     this.eventHandlers.get(element).push({ event, handler, options });
   }
 
@@ -500,43 +500,43 @@ class SidebarController {
    */
   validateOptions() {
     const rules = VALIDATION_RULES.sidebar;
-    
+
     for (const [key, rule] of Object.entries(rules)) {
       const value = this.options[key];
-      
+
       if (rule.required && value === undefined) {
         console.error(`Missing required option: ${key}`);
         return false;
       }
-      
+
       if (value !== undefined) {
         if (rule.type && typeof value !== rule.type) {
           console.error(`Invalid type for ${key}: expected ${rule.type}`);
           return false;
         }
-        
+
         if (rule.enum && !rule.enum.includes(value)) {
           console.error(`Invalid value for ${key}: must be one of ${rule.enum.join(', ')}`);
           return false;
         }
-        
+
         if (rule.pattern && !rule.pattern.test(value)) {
           console.error(`Invalid format for ${key}`);
           return false;
         }
-        
+
         if (rule.min && value < rule.min) {
           console.error(`${key} too small: minimum ${rule.min}`);
           return false;
         }
-        
+
         if (rule.max && value > rule.max) {
           console.error(`${key} too large: maximum ${rule.max}`);
           return false;
         }
       }
     }
-    
+
     return true;
   }
 
@@ -558,12 +558,12 @@ class SidebarController {
    */
   updateOptions(newOptions) {
     this.options = { ...this.options, ...newOptions };
-    
+
     // Update responsive behavior if width changed
     if (newOptions.width) {
       this.updateResponsiveBehavior();
     }
-    
+
     // Update animation settings
     if (newOptions.animationDuration) {
       this.sidebar.style.transitionDuration = `${newOptions.animationDuration}ms`;

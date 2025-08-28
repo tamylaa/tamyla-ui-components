@@ -44,7 +44,7 @@ export function createCard(props = {}) {
 
 // Component factory
 export function TamylaUI(type, props) {
-  switch(type) {
+  switch (type) {
   case 'button': return createButton(props);
   case 'input': return createInput(props);
   case 'card': return createCard(props);

@@ -3,7 +3,7 @@
  * Handles real-time connection monitoring and status management
  */
 
-import { 
+import {
   STATUS_TYPES,
   EVENT_TYPES,
   UPDATE_INTERVALS,
@@ -17,7 +17,7 @@ export default class ConnectionManagerController {
     if (!validation.isValid) {
       throw new Error(`Invalid configuration: ${validation.errors.join(', ')}`);
     }
-    
+
     this.options = validation.config;
     this.indicators = new Set();
     this.banners = new Set();
@@ -28,7 +28,7 @@ export default class ConnectionManagerController {
     this.retryCount = 0;
     this.lastCheckTime = null;
     this.connectionHistory = [];
-    
+
     if (this.options.autoStart) {
       this.startMonitoring();
     }
@@ -50,13 +50,13 @@ export default class ConnectionManagerController {
       console.warn('Invalid component registered with connection manager');
       return false;
     }
-    
+
     this.emit(EVENT_TYPES.LIST_ITEM_ADDED, {
       component,
       status: this.currentStatus,
       manager: this
     });
-    
+
     return this;
   }
 
@@ -66,14 +66,14 @@ export default class ConnectionManagerController {
   unregister(component) {
     const wasIndicator = this.indicators.delete(component);
     const wasBanner = this.banners.delete(component);
-    
+
     if (wasIndicator || wasBanner) {
       this.emit(EVENT_TYPES.LIST_ITEM_REMOVED, {
         component,
         manager: this
       });
     }
-    
+
     return this;
   }
 
@@ -82,23 +82,23 @@ export default class ConnectionManagerController {
    */
   startMonitoring() {
     if (this.isMonitoring) return this;
-    
+
     this.isMonitoring = true;
     this.retryCount = 0;
-    
+
     // Immediate check
     this._checkConnection();
-    
+
     // Set up periodic checks
     this.intervalId = setInterval(() => {
       this._checkConnection();
     }, this.options.checkInterval);
-    
+
     this.emit(EVENT_TYPES.CONNECTION_RETRY, {
       status: 'started',
       manager: this
     });
-    
+
     return this;
   }
 
@@ -107,17 +107,17 @@ export default class ConnectionManagerController {
    */
   stopMonitoring() {
     this.isMonitoring = false;
-    
+
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-    
+
     this.emit(EVENT_TYPES.CONNECTION_RETRY, {
       status: 'stopped',
       manager: this
     });
-    
+
     return this;
   }
 
@@ -128,19 +128,19 @@ export default class ConnectionManagerController {
     const oldStatus = this.currentStatus;
     this.currentStatus = status;
     this.lastCheckTime = new Date();
-    
+
     // Add to connection history
     this.connectionHistory.push({
       status,
       timestamp: this.lastCheckTime,
       metadata
     });
-    
+
     // Keep only last 100 entries
     if (this.connectionHistory.length > 100) {
       this.connectionHistory = this.connectionHistory.slice(-100);
     }
-    
+
     // Update all registered indicators
     this.indicators.forEach(indicator => {
       try {
@@ -149,7 +149,7 @@ export default class ConnectionManagerController {
         console.error('Error updating indicator:', error);
       }
     });
-    
+
     // Update all registered banners
     this.banners.forEach(banner => {
       try {
@@ -158,7 +158,7 @@ export default class ConnectionManagerController {
         console.error('Error updating banner:', error);
       }
     });
-    
+
     // Emit status change event
     if (oldStatus !== status) {
       const eventType = this._getStatusEventType(status);
@@ -169,7 +169,7 @@ export default class ConnectionManagerController {
         metadata,
         manager: this
       });
-      
+
       this.emit(EVENT_TYPES.STATUS_CHANGED, {
         oldStatus,
         newStatus: status,
@@ -178,7 +178,7 @@ export default class ConnectionManagerController {
         manager: this
       });
     }
-    
+
     return this;
   }
 
@@ -187,14 +187,14 @@ export default class ConnectionManagerController {
    */
   _getStatusEventType(status) {
     switch (status) {
-      case STATUS_TYPES.LIVE:
-        return EVENT_TYPES.CONNECTION_ESTABLISHED;
-      case STATUS_TYPES.OFFLINE:
-        return EVENT_TYPES.CONNECTION_LOST;
-      case STATUS_TYPES.CONNECTING:
-        return EVENT_TYPES.CONNECTION_RETRY;
-      default:
-        return EVENT_TYPES.STATUS_UPDATE;
+    case STATUS_TYPES.LIVE:
+      return EVENT_TYPES.CONNECTION_ESTABLISHED;
+    case STATUS_TYPES.OFFLINE:
+      return EVENT_TYPES.CONNECTION_LOST;
+    case STATUS_TYPES.CONNECTING:
+      return EVENT_TYPES.CONNECTION_RETRY;
+    default:
+      return EVENT_TYPES.STATUS_UPDATE;
     }
   }
 
@@ -205,16 +205,16 @@ export default class ConnectionManagerController {
     try {
       // Set connecting status if not already live
       if (this.currentStatus !== STATUS_TYPES.LIVE) {
-        this.setStatus(STATUS_TYPES.CONNECTING, { 
+        this.setStatus(STATUS_TYPES.CONNECTING, {
           attempt: this.retryCount + 1,
           maxAttempts: this.options.retryAttempts
         });
       }
-      
+
       // Create abort controller for timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.options.timeout);
-      
+
       // Make health check request
       const response = await fetch(this.options.endpoint, {
         signal: controller.signal,
@@ -225,26 +225,26 @@ export default class ConnectionManagerController {
           'Cache-Control': 'no-cache'
         }
       });
-      
+
       clearTimeout(timeoutId);
-      
+
       // Check response
       if (response.ok) {
         const responseData = await response.json().catch(() => ({}));
-        
+
         this.setStatus(STATUS_TYPES.LIVE, {
           responseTime: Date.now() - this.lastCheckTime?.getTime(),
           response: responseData,
           retryCount: this.retryCount
         });
-        
+
         // Reset retry count on successful connection
         this.retryCount = 0;
-        
+
       } else {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-      
+
     } catch (error) {
       await this._handleConnectionError(error);
     }
@@ -255,33 +255,33 @@ export default class ConnectionManagerController {
    */
   async _handleConnectionError(error) {
     this.retryCount++;
-    
+
     const metadata = {
       error: error.message,
       attempt: this.retryCount,
       maxAttempts: this.options.retryAttempts,
       nextRetry: null
     };
-    
+
     // Check if we should retry
     if (this.retryCount < this.options.retryAttempts) {
       // Calculate next retry time
       const retryDelay = this.options.retryDelay * Math.pow(2, this.retryCount - 1); // Exponential backoff
       metadata.nextRetry = new Date(Date.now() + retryDelay);
-      
+
       this.setStatus(STATUS_TYPES.CONNECTING, metadata);
-      
+
       // Schedule retry
       setTimeout(() => {
         if (this.isMonitoring) {
           this._checkConnection();
         }
       }, retryDelay);
-      
+
     } else {
       // Max retries reached
       this.setStatus(STATUS_TYPES.OFFLINE, metadata);
-      
+
       // Reset retry count for next monitoring cycle
       setTimeout(() => {
         this.retryCount = 0;
@@ -332,20 +332,20 @@ export default class ConnectionManagerController {
   getStats() {
     const history = this.connectionHistory;
     if (history.length === 0) return null;
-    
+
     const totalChecks = history.length;
     const successfulChecks = history.filter(entry => entry.status === STATUS_TYPES.LIVE).length;
     const failedChecks = history.filter(entry => entry.status === STATUS_TYPES.OFFLINE).length;
     const uptime = totalChecks > 0 ? (successfulChecks / totalChecks) * 100 : 0;
-    
+
     // Calculate average response time for successful checks
-    const successfulEntries = history.filter(entry => 
+    const successfulEntries = history.filter(entry =>
       entry.status === STATUS_TYPES.LIVE && entry.metadata?.responseTime
     );
     const avgResponseTime = successfulEntries.length > 0
       ? successfulEntries.reduce((sum, entry) => sum + entry.metadata.responseTime, 0) / successfulEntries.length
       : null;
-    
+
     return {
       totalChecks,
       successfulChecks,
@@ -366,16 +366,16 @@ export default class ConnectionManagerController {
     if (!validation.isValid) {
       throw new Error(`Invalid options: ${validation.errors.join(', ')}`);
     }
-    
+
     const oldOptions = { ...this.options };
     this.options = validation.config;
-    
+
     // Restart monitoring if interval changed
     if (this.isMonitoring && oldOptions.checkInterval !== this.options.checkInterval) {
       this.stopMonitoring();
       this.startMonitoring();
     }
-    
+
     return this;
   }
 
@@ -418,25 +418,25 @@ export default class ConnectionManagerController {
    */
   destroy() {
     this.stopMonitoring();
-    
+
     // Cleanup all registered components
     this.indicators.forEach(indicator => {
       if (typeof indicator.destroy === 'function') {
         indicator.destroy();
       }
     });
-    
+
     this.banners.forEach(banner => {
       if (typeof banner.destroy === 'function') {
         banner.destroy();
       }
     });
-    
+
     this.indicators.clear();
     this.banners.clear();
     this.listeners.clear();
     this.connectionHistory = [];
-    
+
     this.emit(EVENT_TYPES.COMPONENT_DESTROYED, { manager: this });
   }
 }

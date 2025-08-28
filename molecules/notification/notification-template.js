@@ -19,7 +19,7 @@ export function createNotificationTemplate(props = {}) {
 
   const hasActions = actions && actions.length > 0;
   const hasTitle = title && title.trim() !== '';
-  
+
   return `
     <div class="tmyl-notification tmyl-notification--${type} tmyl-notification--entering" 
          role="alert" 

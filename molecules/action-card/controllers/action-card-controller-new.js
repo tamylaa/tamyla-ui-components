@@ -15,7 +15,7 @@ export class ActionCardController {
       progress: this.options.progress || 0,
       xpEarned: 0
     };
-    
+
     this.init();
   }
 
@@ -40,7 +40,7 @@ export class ActionCardController {
   execute() {
     if (this.options.onExecute) {
       const result = this.options.onExecute(this);
-      
+
       // Handle promise or direct result
       if (result && typeof result.then === 'function') {
         this.setLoading(true);
@@ -61,9 +61,9 @@ export class ActionCardController {
 
     this.state.completed = true;
     this.state.xpEarned = this.options.xpReward || 0;
-    
+
     this.element.classList.add('completed', 'completing');
-    
+
     // Remove completing animation after it finishes
     setTimeout(() => {
       this.element.classList.remove('completing');
@@ -94,14 +94,14 @@ export class ActionCardController {
     if (this.state.completed) return;
 
     this.state.progress = Math.max(0, Math.min(100, progress));
-    
+
     const progressFill = this.element.querySelector('.progress-fill');
     const progressText = this.element.querySelector('.progress-text');
-    
+
     if (progressFill) {
       progressFill.style.width = `${this.state.progress}%`;
     }
-    
+
     if (progressText) {
       progressText.textContent = `${Math.round(this.state.progress)}% Complete`;
     }
@@ -119,7 +119,7 @@ export class ActionCardController {
 
   setDisabled(disabled) {
     this.state.disabled = disabled;
-    
+
     if (disabled) {
       this.element.classList.add('disabled');
       this.element.setAttribute('disabled', 'true');
@@ -141,7 +141,7 @@ export class ActionCardController {
 
   handleError(error) {
     console.error('Action card execution failed:', error);
-    
+
     if (this.options.onError) {
       this.options.onError(error, this);
     }
@@ -219,9 +219,9 @@ export class ActionCardController {
     this.state.completed = false;
     this.state.progress = 0;
     this.state.xpEarned = 0;
-    
+
     this.element.classList.remove('completed', 'completing');
-    
+
     const completionEl = this.element.querySelector('.action-card-completion');
     if (completionEl) {
       completionEl.style.display = 'none';
@@ -233,7 +233,7 @@ export class ActionCardController {
   destroy() {
     // Clean up event listeners
     this.element.removeEventListener('click', this.handleClick);
-    
+
     // Remove from DOM if needed
     if (this.element.parentNode && this.options.removeOnDestroy) {
       this.element.parentNode.removeChild(this.element);

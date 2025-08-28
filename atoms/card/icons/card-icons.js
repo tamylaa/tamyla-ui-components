@@ -225,7 +225,7 @@ export const cardIconUtils = {
     `;
 
     for (let i = 1; i <= maxStars; i++) {
-      const star = this.create(i <= rating ? 'star' : 'starOutline', { 
+      const star = this.create(i <= rating ? 'star' : 'starOutline', {
         size,
         color: i <= rating ? 'var(--tmyl-warning-500)' : 'var(--tmyl-neutral-300)'
       });
@@ -240,7 +240,7 @@ export const cardIconUtils = {
    */
   createStatusBadge(status, options = {}) {
     const { size = '1rem', className = '' } = options;
-    
+
     const statusConfig = {
       success: { icon: 'checkCircle', color: 'var(--tmyl-success-600)' },
       error: { icon: 'xCircle', color: 'var(--tmyl-error-600)' },
@@ -263,22 +263,22 @@ export const cardIconUtils = {
 export const cardIconCollections = {
   // Actions
   actions: ['heart', 'heartOutline', 'share', 'bookmark', 'bookmarkOutline', 'download'],
-  
+
   // Meta information
   meta: ['clock', 'calendar', 'user', 'users', 'location', 'eye'],
-  
+
   // Status indicators
   status: ['checkCircle', 'xCircle', 'exclamationCircle', 'infoCircle'],
-  
+
   // Media types
   media: ['photograph', 'film', 'musicNote', 'document'],
-  
+
   // Navigation
   navigation: ['chevronRight', 'chevronDown', 'externalLink', 'plus', 'minus', 'x'],
-  
+
   // Communication
   communication: ['chat', 'mail', 'share'],
-  
+
   // Content organization
   organization: ['tag', 'collection', 'star', 'starOutline']
 };

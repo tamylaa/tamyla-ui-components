@@ -12,22 +12,22 @@ export class NotificationController {
       message: '',
       duration: 4000,
       position: 'top-right',
-      
+
       // Behavior
       showClose: true,
       showProgress: true,
       pauseOnHover: true,
       autoDismiss: true,
-      
+
       // Actions
       actions: [],
-      
+
       // Event handlers
       onShow: null,
       onHide: null,
       onClick: null,
       onAction: null,
-      
+
       ...props
     };
 
@@ -80,7 +80,7 @@ export class NotificationController {
     this.element.addEventListener('click', (e) => {
       // Don't trigger if clicking on buttons
       if (e.target.tagName === 'BUTTON') return;
-      
+
       if (this.props.onClick) {
         this.props.onClick(e);
       }
@@ -116,18 +116,18 @@ export class NotificationController {
    */
   handleKeyDown(event) {
     switch (event.key) {
-      case 'Escape':
-        event.preventDefault();
-        this.hide();
-        break;
-      case 'Enter':
-      case ' ':
-        // Handle Enter/Space on action buttons
-        const activeElement = document.activeElement;
-        if (activeElement && activeElement.hasAttribute('data-notification-action')) {
-          activeElement.click();
-        }
-        break;
+    case 'Escape':
+      event.preventDefault();
+      this.hide();
+      break;
+    case 'Enter':
+    case ' ':
+      // Handle Enter/Space on action buttons
+      const activeElement = document.activeElement;
+      if (activeElement && activeElement.hasAttribute('data-notification-action')) {
+        activeElement.click();
+      }
+      break;
     }
   }
 
@@ -137,7 +137,7 @@ export class NotificationController {
   handleAction(action, event) {
     if (this.props.onAction) {
       const result = this.props.onAction(action, event);
-      
+
       // If onAction returns false, don't hide notification
       if (result === false) {
         return;
@@ -218,7 +218,7 @@ export class NotificationController {
 
     this.setState({ isPaused: true });
     this.pausedTime = Date.now();
-    
+
     // Clear timer
     this.clearDismissTimer();
 
@@ -254,7 +254,7 @@ export class NotificationController {
     const progressBar = this.element?.querySelector('.tmyl-notification__progress');
     if (progressBar) {
       progressBar.style.animationPlayState = 'running';
-      
+
       // Update animation duration to remaining time
       if (this.state.timeRemaining < this.props.duration) {
         progressBar.style.animationDuration = `${this.state.timeRemaining}ms`;
@@ -270,7 +270,7 @@ export class NotificationController {
   startDismissTimer(duration = this.props.duration) {
     this.clearDismissTimer();
     this.startTime = Date.now();
-    
+
     this.dismissTimer = setTimeout(() => {
       this.hide();
     }, duration);
@@ -389,12 +389,12 @@ export class NotificationController {
    */
   destroy() {
     this.clearDismissTimer();
-    
+
     // Remove from DOM immediately
     if (this.element && this.element.parentNode) {
       this.element.parentNode.removeChild(this.element);
     }
-    
+
     // Clear references
     this.element = null;
     this.container = null;

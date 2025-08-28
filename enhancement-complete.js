@@ -13,7 +13,7 @@ console.log('──────────────────────�
 // Enhanced Features Overview
 const enhancedFeatures = [
   '🎯 Trading Portal micro-interactions',
-  '♿ Enhanced accessibility (WCAG 2.1 AA)', 
+  '♿ Enhanced accessibility (WCAG 2.1 AA)',
   '🎮 Gamification components',
   '📊 Real-time status indicators',
   '💎 Premium visual polish',

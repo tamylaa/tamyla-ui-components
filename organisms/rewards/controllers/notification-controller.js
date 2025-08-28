@@ -11,7 +11,7 @@ class NotificationController {
     this.queue = [];
     this.visibleCount = 0;
     this.nextId = 1;
-    
+
     this.options = {
       maxVisible: NOTIFICATION_CONFIG.limits.maxVisible,
       queueSize: NOTIFICATION_CONFIG.limits.queueSize,
@@ -32,7 +32,7 @@ class NotificationController {
    */
   initializeContainer() {
     this.containers = {};
-    
+
     Object.values(NOTIFICATION_CONFIG.positions).forEach(position => {
       const container = document.createElement('div');
       container.id = `tmyl-notifications-${position}`;
@@ -42,10 +42,10 @@ class NotificationController {
         z-index: 10000;
         pointer-events: none;
       `;
-      
+
       // Position the container
       this.positionContainer(container, position);
-      
+
       document.body.appendChild(container);
       this.containers[position] = container;
     });
@@ -56,27 +56,27 @@ class NotificationController {
    */
   positionContainer(container, position) {
     switch (position) {
-      case NOTIFICATION_CONFIG.positions.TOP_LEFT:
-        container.style.top = '20px';
-        container.style.left = '20px';
-        break;
-      case NOTIFICATION_CONFIG.positions.TOP_RIGHT:
-        container.style.top = '20px';
-        container.style.right = '20px';
-        break;
-      case NOTIFICATION_CONFIG.positions.BOTTOM_LEFT:
-        container.style.bottom = '20px';
-        container.style.left = '20px';
-        break;
-      case NOTIFICATION_CONFIG.positions.BOTTOM_RIGHT:
-        container.style.bottom = '20px';
-        container.style.right = '20px';
-        break;
-      case NOTIFICATION_CONFIG.positions.CENTER:
-        container.style.top = '50%';
-        container.style.left = '50%';
-        container.style.transform = 'translate(-50%, -50%)';
-        break;
+    case NOTIFICATION_CONFIG.positions.TOP_LEFT:
+      container.style.top = '20px';
+      container.style.left = '20px';
+      break;
+    case NOTIFICATION_CONFIG.positions.TOP_RIGHT:
+      container.style.top = '20px';
+      container.style.right = '20px';
+      break;
+    case NOTIFICATION_CONFIG.positions.BOTTOM_LEFT:
+      container.style.bottom = '20px';
+      container.style.left = '20px';
+      break;
+    case NOTIFICATION_CONFIG.positions.BOTTOM_RIGHT:
+      container.style.bottom = '20px';
+      container.style.right = '20px';
+      break;
+    case NOTIFICATION_CONFIG.positions.CENTER:
+      container.style.top = '50%';
+      container.style.left = '50%';
+      container.style.transform = 'translate(-50%, -50%)';
+      break;
     }
   }
 
@@ -121,7 +121,7 @@ class NotificationController {
       // Remove oldest queued notification
       this.queue.shift();
     }
-    
+
     this.queue.push(notification);
   }
 
@@ -131,7 +131,7 @@ class NotificationController {
   displayNotification(notification) {
     const element = this.createNotificationElement(notification);
     const container = this.containers[notification.position];
-    
+
     if (!container) {
       console.error(`Invalid notification position: ${notification.position}`);
       return;
@@ -233,18 +233,18 @@ class NotificationController {
    */
   formatValue(notification) {
     const { type, value } = notification;
-    
+
     switch (type.toLowerCase()) {
-      case 'xp':
-        return `+${value} XP`;
-      case 'achievement':
-        return '';
-      case 'level':
-        return `Level ${value}`;
-      case 'badge':
-        return '';
-      default:
-        return value ? `+${value}` : '';
+    case 'xp':
+      return `+${value} XP`;
+    case 'achievement':
+      return '';
+    case 'level':
+      return `Level ${value}`;
+    case 'badge':
+      return '';
+    default:
+      return value ? `+${value}` : '';
     }
   }
 
@@ -255,7 +255,7 @@ class NotificationController {
     // Start hidden
     element.style.opacity = '0';
     element.style.transform = 'translateY(-20px)';
-    
+
     // Trigger animation
     requestAnimationFrame(() => {
       element.classList.add('showing');
@@ -279,7 +279,7 @@ class NotificationController {
     element.style.transition = 'all 0.3s ease';
     element.style.opacity = '0';
     element.style.transform = 'translateY(-20px)';
-    
+
     setTimeout(callback, 300);
   }
 
@@ -295,11 +295,11 @@ class NotificationController {
       if (notification.element.parentNode) {
         notification.element.parentNode.removeChild(notification.element);
       }
-      
+
       // Clean up
       this.notifications.delete(notificationId);
       this.visibleCount--;
-      
+
       // Process queue
       this.processQueue();
     });
@@ -404,7 +404,7 @@ class NotificationController {
     this.notifications.forEach((notification, id) => {
       this.hide(id);
     });
-    
+
     // Clear queue
     this.queue = [];
   }
@@ -418,7 +418,7 @@ class NotificationController {
         this.hide(id);
       }
     });
-    
+
     // Remove from queue
     this.queue = this.queue.filter(notification => notification.type !== type);
   }
@@ -428,43 +428,43 @@ class NotificationController {
    */
   validateNotification(notification) {
     const rules = VALIDATION_RULES.notification;
-    
+
     for (const [field, rule] of Object.entries(rules)) {
       const value = notification[field];
-      
+
       if (rule.required && (value === undefined || value === null)) {
         console.error(`Missing required field: ${field}`);
         return false;
       }
-      
+
       if (value !== undefined) {
         if (rule.type && typeof value !== rule.type) {
           console.error(`Invalid type for ${field}: expected ${rule.type}`);
           return false;
         }
-        
+
         if (rule.enum && !rule.enum.includes(value)) {
           console.error(`Invalid value for ${field}: must be one of ${rule.enum.join(', ')}`);
           return false;
         }
-        
+
         if (rule.minLength && value.length < rule.minLength) {
           console.error(`${field} too short: minimum ${rule.minLength} characters`);
           return false;
         }
-        
+
         if (rule.min && value < rule.min) {
           console.error(`${field} too small: minimum ${rule.min}`);
           return false;
         }
-        
+
         if (rule.max && value > rule.max) {
           console.error(`${field} too large: maximum ${rule.max}`);
           return false;
         }
       }
     }
-    
+
     return true;
   }
 
@@ -511,19 +511,19 @@ class NotificationController {
    */
   getStatsByType() {
     const stats = {};
-    
+
     // Count visible notifications
     this.notifications.forEach(notification => {
       const type = notification.type;
       stats[type] = (stats[type] || 0) + 1;
     });
-    
+
     // Count queued notifications
     this.queue.forEach(notification => {
       const type = notification.type;
       stats[type] = (stats[type] || 0) + 1;
     });
-    
+
     return stats;
   }
 
@@ -540,17 +540,17 @@ class NotificationController {
   destroy() {
     // Clear all notifications
     this.clearAll();
-    
+
     // Remove containers
     Object.values(this.containers).forEach(container => {
       if (container.parentNode) {
         container.parentNode.removeChild(container);
       }
     });
-    
+
     // Remove event listeners
     window.removeEventListener('resize', this.repositionContainers);
-    
+
     // Clear data
     this.notifications.clear();
     this.queue = [];

@@ -24,7 +24,7 @@ export function createActionCardTemplate(props) {
  */
 function createIconTemplate(props) {
   if (!props.icon) return '';
-  
+
   return `
     <div class="tmyl-action-card__icon" aria-hidden="true">
       ${props.icon}
@@ -50,7 +50,7 @@ function createInfoTemplate(props) {
  */
 function createDescriptionTemplate(props) {
   if (!props.description) return '';
-  
+
   return `
     <p class="tmyl-action-card__description">${props.description}</p>
   `;
@@ -61,7 +61,7 @@ function createDescriptionTemplate(props) {
  */
 function createProgressTemplate(props) {
   if (!props.showProgress || props.progress === null) return '';
-  
+
   return `
     <div class="tmyl-action-card__progress">
       <div class="tmyl-action-card__progress-bar">
@@ -77,7 +77,7 @@ function createProgressTemplate(props) {
  */
 function createRewardTemplate(props) {
   if (!props.showReward || !props.reward) return '';
-  
+
   return `
     <div class="tmyl-action-card__reward" aria-label="Reward: ${props.reward}">
       ${props.reward}
@@ -90,12 +90,12 @@ function createRewardTemplate(props) {
  */
 function createStatusIconTemplate(props) {
   switch (props.status) {
-    case 'completed':
-      return createCompletedIconTemplate();
-    case 'locked':
-      return createLockedIconTemplate();
-    default:
-      return '';
+  case 'completed':
+    return createCompletedIconTemplate();
+  case 'locked':
+    return createLockedIconTemplate();
+  default:
+    return '';
   }
 }
 
@@ -130,7 +130,7 @@ function createLockedIconTemplate() {
  */
 function createInteractiveElements(props) {
   if (!props.interactive) return '';
-  
+
   return `
     <div class="tmyl-action-card__ripple-container"></div>
   `;

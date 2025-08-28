@@ -41,7 +41,7 @@ export function createMobileSidebar(options = {}) {
 
   // Build sidebar content
   let sidebarContent = '';
-  
+
   // Header
   if (header) {
     sidebarContent += `
@@ -61,14 +61,14 @@ export function createMobileSidebar(options = {}) {
       </div>
     `;
   }
-  
+
   // Navigation items
   if (items.length > 0) {
     sidebarContent += '<ul class="sidebar-nav">';
     items.forEach(item => {
       const isActive = item.active ? 'active' : '';
       const isDisabled = item.disabled ? 'disabled' : '';
-      
+
       sidebarContent += `
         <li class="nav-item ${isActive} ${isDisabled}" data-id="${item.id || ''}">
           <a href="${item.href || '#'}" class="nav-link" ${item.disabled ? 'aria-disabled="true"' : ''}>
@@ -81,7 +81,7 @@ export function createMobileSidebar(options = {}) {
     });
     sidebarContent += '</ul>';
   }
-  
+
   // Footer
   if (footer) {
     sidebarContent += `
@@ -90,9 +90,9 @@ export function createMobileSidebar(options = {}) {
       </div>
     `;
   }
-  
+
   sidebar.innerHTML = sidebarContent;
-  
+
   // Add sidebar to overlay
   if (backdrop) {
     const backdropDiv = document.createElement('div');
@@ -100,30 +100,30 @@ export function createMobileSidebar(options = {}) {
     overlay.appendChild(backdropDiv);
   }
   overlay.appendChild(sidebar);
-  
+
   // Add to document
   document.body.appendChild(overlay);
-  
+
   // State management
   let isOpen = false;
   let isAnimating = false;
-  
+
   // Animation helper
   const animate = (show) => {
     if (isAnimating) return Promise.resolve();
-    
+
     isAnimating = true;
-    
+
     return new Promise(resolve => {
       if (show) {
         overlay.style.display = 'flex';
-        
+
         // Force reflow
         overlay.offsetHeight;
-        
+
         overlay.classList.add('opening');
         sidebar.classList.add('sliding-in');
-        
+
         setTimeout(() => {
           overlay.classList.remove('opening');
           sidebar.classList.remove('sliding-in');
@@ -137,7 +137,7 @@ export function createMobileSidebar(options = {}) {
         sidebar.classList.remove('open');
         overlay.classList.add('closing');
         sidebar.classList.add('sliding-out');
-        
+
         setTimeout(() => {
           overlay.style.display = 'none';
           overlay.classList.remove('closing');
@@ -148,7 +148,7 @@ export function createMobileSidebar(options = {}) {
       }
     });
   };
-  
+
   // Methods
   const methods = {
     /**
@@ -156,71 +156,71 @@ export function createMobileSidebar(options = {}) {
      */
     async open() {
       if (isOpen || isAnimating) return false;
-      
+
       isOpen = true;
       await animate(true);
-      
+
       // Focus management
       const firstFocusable = sidebar.querySelector('button, a, [tabindex]:not([tabindex="-1"])');
       if (firstFocusable) {
         firstFocusable.focus();
       }
-      
+
       if (onOpen) onOpen();
-      
+
       // Dispatch event
       sidebar.dispatchEvent(new CustomEvent('sidebar-opened', {
         detail: { sidebar: methods }
       }));
-      
+
       return true;
     },
-    
+
     /**
      * Close sidebar
      */
     async close() {
       if (!isOpen || isAnimating) return false;
-      
+
       isOpen = false;
       await animate(false);
-      
+
       if (onClose) onClose();
-      
+
       // Dispatch event
       sidebar.dispatchEvent(new CustomEvent('sidebar-closed', {
         detail: { sidebar: methods }
       }));
-      
+
       return true;
     },
-    
+
     /**
      * Toggle sidebar
      */
     async toggle() {
       return isOpen ? await this.close() : await this.open();
     },
-    
+
     /**
      * Check if sidebar is open
      */
     isOpen() {
       return isOpen;
     },
-    
+
     /**
      * Update navigation items
      */
     updateItems(newItems) {
       const navContainer = sidebar.querySelector('.sidebar-nav');
       if (!navContainer) return false;
-      
+
       let navContent = '';
       newItems.forEach(item => {
         const isActive = item.active ? 'active' : '';
         const isDisabled = item.disabled ? 'disabled' : '';
-        
+
         navContent += `
           <li class="nav-item ${isActive} ${isDisabled}" data-id="${item.id || ''}">
             <a href="${item.href || '#'}" class="nav-link" ${item.disabled ? 'aria-disabled="true"' : ''}>
@@ -231,11 +231,11 @@ export function createMobileSidebar(options = {}) {
           </li>
         `;
       });
-      
+
       navContainer.innerHTML = navContent;
       return true;
     },
-    
+
     /**
      * Set active item
      */
@@ -243,50 +243,50 @@ export function createMobileSidebar(options = {}) {
       sidebar.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
       });
-      
+
       const targetItem = sidebar.querySelector(`[data-id="${itemId}"]`);
       if (targetItem) {
         targetItem.classList.add('active');
         return true;
       }
-      
+
       return false;
     },
-    
+
     /**
      * Add badge to item
      */
     setBadge(itemId, badgeText) {
       const targetItem = sidebar.querySelector(`[data-id="${itemId}"]`);
       if (!targetItem) return false;
-      
+
       let badge = targetItem.querySelector('.nav-badge');
       if (!badge) {
         badge = document.createElement('span');
         badge.className = 'nav-badge';
         targetItem.querySelector('.nav-link').appendChild(badge);
       }
-      
+
       badge.textContent = badgeText;
       return true;
     },
-    
+
     /**
      * Remove badge from item
      */
     removeBadge(itemId) {
       const targetItem = sidebar.querySelector(`[data-id="${itemId}"]`);
       if (!targetItem) return false;
-      
+
       const badge = targetItem.querySelector('.nav-badge');
       if (badge) {
         badge.remove();
         return true;
       }
-      
+
       return false;
     },
-    
+
     /**
      * Destroy sidebar
      */
@@ -295,20 +295,20 @@ export function createMobileSidebar(options = {}) {
         overlay.parentNode.removeChild(overlay);
       }
     },
-    
+
     // Expose elements for advanced customization
     get element() { return overlay; },
     get sidebar() { return sidebar; }
   };
-  
+
   // Event handlers
-  
+
   // Close button
   const closeButton = sidebar.querySelector('.sidebar-close');
   if (closeButton) {
     closeButton.addEventListener('click', methods.close);
   }
-  
+
   // Backdrop click
   if (closeOnBackdrop && backdrop) {
     const backdropDiv = overlay.querySelector('.sidebar-backdrop');
@@ -316,7 +316,7 @@ export function createMobileSidebar(options = {}) {
       backdropDiv.addEventListener('click', methods.close);
     }
   }
-  
+
   // Escape key
   if (closeOnEscape) {
     const handleEscape = (e) => {
@@ -325,25 +325,25 @@ export function createMobileSidebar(options = {}) {
       }
     };
     document.addEventListener('keydown', handleEscape);
-    
+
     // Store handler for cleanup
     methods._escapeHandler = handleEscape;
   }
-  
+
   // Navigation item clicks
   sidebar.addEventListener('click', (e) => {
     const navLink = e.target.closest('.nav-link');
     if (!navLink) return;
-    
+
     const navItem = navLink.closest('.nav-item');
     if (!navItem || navItem.classList.contains('disabled')) {
       e.preventDefault();
       return;
     }
-    
+
     const itemId = navItem.getAttribute('data-id');
     const href = navLink.getAttribute('href');
-    
+
     // Call item click handler
     if (onItemClick) {
       const shouldContinue = onItemClick({
@@ -353,48 +353,48 @@ export function createMobileSidebar(options = {}) {
         element: navItem,
         event: e
       });
-      
+
       // If handler returns false, prevent default
       if (shouldContinue === false) {
         e.preventDefault();
       }
     }
-    
+
     // Auto-close on navigation (unless it's just a hash)
     if (href && href !== '#' && !href.startsWith('#')) {
       setTimeout(() => methods.close(), 100);
     }
   });
-  
+
   // Touch events for swipe gestures
   let touchStartX = 0;
   let touchStartY = 0;
-  
+
   sidebar.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
   });
-  
+
   sidebar.addEventListener('touchmove', (e) => {
     if (!isOpen) return;
-    
+
     const touchX = e.touches[0].clientX;
     const touchY = e.touches[0].clientY;
     const deltaX = touchX - touchStartX;
     const deltaY = touchY - touchStartY;
-    
+
     // If swipe is more horizontal than vertical and in the close direction
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      const isClosingSwipe = (position === 'left' && deltaX < -50) || 
+      const isClosingSwipe = (position === 'left' && deltaX < -50) ||
                             (position === 'right' && deltaX > 50);
-      
+
       if (isClosingSwipe) {
         e.preventDefault();
         methods.close();
       }
     }
   });
-  
+
   return methods;
 }
 
@@ -456,13 +456,13 @@ export class MobileSidebarManager {
     this.sidebars = new Map();
     this.activeSidebar = null;
   }
-  
+
   /**
    * Register a sidebar
    */
   register(id, sidebar) {
     this.sidebars.set(id, sidebar);
-    
+
     // Listen for open events
     sidebar.sidebar.addEventListener('sidebar-opened', () => {
       this.activeSidebar = id;
@@ -473,23 +473,23 @@ export class MobileSidebarManager {
         }
       });
     });
-    
+
     sidebar.sidebar.addEventListener('sidebar-closed', () => {
       if (this.activeSidebar === id) {
         this.activeSidebar = null;
       }
     });
-    
+
     return this;
   }
-  
+
   /**
    * Get sidebar by ID
    */
   get(id) {
     return this.sidebars.get(id);
   }
-  
+
   /**
    * Close all sidebars
    */
@@ -500,7 +500,7 @@ export class MobileSidebarManager {
       }
     });
   }
-  
+
   /**
    * Get active sidebar ID
    */

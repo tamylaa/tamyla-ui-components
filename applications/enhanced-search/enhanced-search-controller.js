@@ -17,25 +17,25 @@ export class EnhancedSearchController {
       // API Configuration
       meilisearchUrl: '/api/search',
       apiBase: '/api/content',
-      
+
       // Feature Configuration
       voiceEnabled: true,
       naturalLanguage: true,
       smartFilters: true,
       recentSearches: true,
       searchSuggestions: true,
-      
+
       // UI Configuration
       placeholder: 'Search content... Try "Find PDFs about coffee from last month"',
       layout: 'vertical',
       viewMode: 'grid',
       perPage: 20,
-      
+
       // Business Logic
       enableAnalytics: true,
       enableAutoComplete: true,
       enableExport: false,
-      
+
       ...options
     };
 
@@ -64,7 +64,7 @@ export class EnhancedSearchController {
     // Component instances
     this.searchInterface = null;
     this.searchAPI = null;
-    
+
     // Event handlers (bound to maintain context)
     this.boundHandlers = {
       handleSearch: this.handleSearch.bind(this),
@@ -91,10 +91,10 @@ export class EnhancedSearchController {
       this.setupEventListeners();
       this.setupKeyboardNavigation();
       this.setupOrganismComponents();
-      
+
       // Load initial state
       await this.loadInitialData();
-      
+
       this.emit('initialized', { controller: this });
     } catch (error) {
       console.error('Enhanced Search Controller initialization failed:', error);
@@ -156,7 +156,7 @@ export class EnhancedSearchController {
         });
 
         if (!response.ok) return [];
-        
+
         const data = await response.json();
         return data.suggestions || [];
       }
@@ -279,26 +279,26 @@ export class EnhancedSearchController {
     // Handle global keyboard shortcuts
     if (event.ctrlKey || event.metaKey) {
       switch (event.key) {
-        case 'f':
+      case 'f':
+        event.preventDefault();
+        this.focusSearchInput();
+        break;
+      case 'k':
+        event.preventDefault();
+        this.focusSearchInput();
+        break;
+      case 'a':
+        if (event.shiftKey) {
           event.preventDefault();
-          this.focusSearchInput();
-          break;
-        case 'k':
+          this.selectAllResults();
+        }
+        break;
+      case 'e':
+        if (this.options.enableExport) {
           event.preventDefault();
-          this.focusSearchInput();
-          break;
-        case 'a':
-          if (event.shiftKey) {
-            event.preventDefault();
-            this.selectAllResults();
-          }
-          break;
-        case 'e':
-          if (this.options.enableExport) {
-            event.preventDefault();
-            this.handleExport({ target: { dataset: { exportType: 'csv' } } });
-          }
-          break;
+          this.handleExport({ target: { dataset: { exportType: 'csv' } } });
+        }
+        break;
       }
     }
 
@@ -323,18 +323,18 @@ export class EnhancedSearchController {
     const itemsPerRow = isGridView ? this.calculateItemsPerRow() : 1;
 
     switch (event.key) {
-      case 'ArrowUp':
-        newIndex = isGridView ? currentIndex - itemsPerRow : currentIndex - 1;
-        break;
-      case 'ArrowDown':
-        newIndex = isGridView ? currentIndex + itemsPerRow : currentIndex + 1;
-        break;
-      case 'ArrowLeft':
-        if (isGridView) newIndex = currentIndex - 1;
-        break;
-      case 'ArrowRight':
-        if (isGridView) newIndex = currentIndex + 1;
-        break;
+    case 'ArrowUp':
+      newIndex = isGridView ? currentIndex - itemsPerRow : currentIndex - 1;
+      break;
+    case 'ArrowDown':
+      newIndex = isGridView ? currentIndex + itemsPerRow : currentIndex + 1;
+      break;
+    case 'ArrowLeft':
+      if (isGridView) newIndex = currentIndex - 1;
+      break;
+    case 'ArrowRight':
+      if (isGridView) newIndex = currentIndex + 1;
+      break;
     }
 
     if (newIndex >= 0 && newIndex < results.length) {
@@ -353,7 +353,7 @@ export class EnhancedSearchController {
     const containerWidth = gridContainer.offsetWidth;
     const itemWidth = 350; // Approximate item width
     const gap = 24; // Gap between items
-    
+
     return Math.floor((containerWidth + gap) / (itemWidth + gap));
   }
 
@@ -362,11 +362,11 @@ export class EnhancedSearchController {
    */
   async handleSearch(searchData) {
     const { query, filters = {}, engine = 'auto' } = searchData;
-    
+
     this.state.query = query;
     this.state.filters = { ...this.state.filters, ...filters };
     this.state.currentPage = 1;
-    
+
     await this.performSearch(query);
   }
 
@@ -391,7 +391,7 @@ export class EnhancedSearchController {
       };
 
       let results;
-      
+
       // Determine search method based on query complexity
       if (this.isAdvancedQuery(query)) {
         results = await this.searchAPI.advancedSearch({
@@ -454,8 +454,8 @@ export class EnhancedSearchController {
     if (this.state.results.length === 0) {
       this.resultsContainer.innerHTML = EnhancedSearchTemplates.emptyState({
         title: this.state.query ? 'No results found' : 'Start searching',
-        message: this.state.query ? 
-          'Try adjusting your search terms or filters' : 
+        message: this.state.query ?
+          'Try adjusting your search terms or filters' :
           'Enter a search query to find content'
       });
       return;
@@ -525,7 +525,7 @@ export class EnhancedSearchController {
 
     // Update UI state
     this.element.querySelectorAll('[data-view-mode]').forEach(btn => {
-      btn.classList.toggle('tmyl-enhanced-search__view-toggle--active', 
+      btn.classList.toggle('tmyl-enhanced-search__view-toggle--active',
         btn.dataset.viewMode === newViewMode);
     });
 
@@ -575,9 +575,9 @@ export class EnhancedSearchController {
    */
   handleContentSelection(selectionData) {
     const { item, selected, selectedItems } = selectionData;
-    
+
     this.state.selectedItems = selectedItems;
-    
+
     this.updateBulkActionControls();
     this.emit('contentSelected', { item, selected, totalSelected: selectedItems.size });
   }
@@ -587,22 +587,22 @@ export class EnhancedSearchController {
    */
   handleContentAction(actionData) {
     const { action, item } = actionData;
-    
+
     switch (action) {
-      case 'view':
-        this.viewContent(item);
-        break;
-      case 'download':
-        this.downloadContent(item);
-        break;
-      case 'share':
-        this.shareContent(item);
-        break;
-      case 'edit':
-        this.editContent(item);
-        break;
-      default:
-        console.warn('Unknown content action:', action);
+    case 'view':
+      this.viewContent(item);
+      break;
+    case 'download':
+      this.downloadContent(item);
+      break;
+    case 'share':
+      this.shareContent(item);
+      break;
+    case 'edit':
+      this.editContent(item);
+      break;
+    default:
+      console.warn('Unknown content action:', action);
     }
 
     this.emit('contentAction', actionData);
@@ -621,17 +621,17 @@ export class EnhancedSearchController {
     }
 
     switch (action) {
-      case 'download':
-        this.downloadMultipleItems(selectedItems);
-        break;
-      case 'share':
-        this.shareMultipleItems(selectedItems);
-        break;
-      case 'delete':
-        this.deleteMultipleItems(selectedItems);
-        break;
-      default:
-        console.warn('Unknown bulk action:', action);
+    case 'download':
+      this.downloadMultipleItems(selectedItems);
+      break;
+    case 'share':
+      this.shareMultipleItems(selectedItems);
+      break;
+    case 'delete':
+      this.deleteMultipleItems(selectedItems);
+      break;
+    default:
+      console.warn('Unknown bulk action:', action);
     }
 
     this.emit('bulkAction', { action, items: selectedItems });
@@ -682,16 +682,16 @@ export class EnhancedSearchController {
 
     try {
       this.setLoadingState(true, 'Preparing export...');
-      
+
       switch (exportType) {
-        case 'csv':
-          await this.exportAsCSV(itemsToExport);
-          break;
-        case 'json':
-          await this.exportAsJSON(itemsToExport);
-          break;
-        default:
-          throw new Error(`Unknown export type: ${exportType}`);
+      case 'csv':
+        await this.exportAsCSV(itemsToExport);
+        break;
+      case 'json':
+        await this.exportAsJSON(itemsToExport);
+        break;
+      default:
+        throw new Error(`Unknown export type: ${exportType}`);
       }
 
       this.showMessage(`Exported ${itemsToExport.length} items as ${exportType.toUpperCase()}`, 'success');
@@ -744,14 +744,14 @@ export class EnhancedSearchController {
   downloadFile(content, filename, mimeType) {
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
-    
+
     const link = document.createElement('a');
     link.href = url;
     link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     URL.revokeObjectURL(url);
   }
 
@@ -795,7 +795,7 @@ export class EnhancedSearchController {
    * Create filter group
    */
   createFilterGroup(key, values) {
-    const options = Object.entries(values).map(([value, count]) => 
+    const options = Object.entries(values).map(([value, count]) =>
       `<label class="tmyl-enhanced-search__filter-option">
          <input type="checkbox" value="${value}" data-filter-key="${key}">
          <span>${value} (${count})</span>
@@ -817,8 +817,8 @@ export class EnhancedSearchController {
    */
   formatFilterKey(key) {
     return key.replace(/([A-Z])/g, ' $1')
-              .replace(/^./, str => str.toUpperCase())
-              .replace(/_/g, ' ');
+      .replace(/^./, str => str.toUpperCase())
+      .replace(/_/g, ' ');
   }
 
   /**
@@ -857,7 +857,7 @@ export class EnhancedSearchController {
     if (!bulkControls) return;
 
     const selectedCount = this.state.selectedItems.size;
-    
+
     if (selectedCount === 0) {
       bulkControls.style.display = 'none';
     } else {
@@ -927,13 +927,13 @@ export class EnhancedSearchController {
 
     // Remove duplicate
     this.state.recentSearches = this.state.recentSearches.filter(s => s.query !== query);
-    
+
     // Add to beginning
     this.state.recentSearches.unshift(search);
-    
+
     // Limit to 10 recent searches
     this.state.recentSearches = this.state.recentSearches.slice(0, 10);
-    
+
     // Save to localStorage
     try {
       localStorage.setItem('tmyl-recent-searches', JSON.stringify(this.state.recentSearches));
@@ -977,7 +977,7 @@ export class EnhancedSearchController {
     // Load any initial search or filters from URL params
     const urlParams = new URLSearchParams(window.location.search);
     const initialQuery = urlParams.get('q');
-    
+
     if (initialQuery) {
       if (this.searchInterface && this.searchInterface.setQuery) {
         this.searchInterface.setQuery(initialQuery);
@@ -989,10 +989,10 @@ export class EnhancedSearchController {
   /**
    * Utility methods
    */
-  
+
   setLoadingState(loading, message = 'Searching...') {
     this.state.isLoading = loading;
-    
+
     if (loading) {
       this.resultsContainer.innerHTML = EnhancedSearchTemplates.loadingState({ message });
     }
@@ -1009,7 +1009,7 @@ export class EnhancedSearchController {
 
   handleError(error) {
     this.state.error = error;
-    
+
     if (this.resultsContainer) {
       this.resultsContainer.innerHTML = EnhancedSearchTemplates.errorState({
         title: 'Search Error',
@@ -1054,7 +1054,7 @@ export class EnhancedSearchController {
   /**
    * Content action methods
    */
-  
+
   viewContent(item) {
     window.open(`/content/${item.id}`, '_blank');
   }
@@ -1091,7 +1091,7 @@ export class EnhancedSearchController {
   shareMultipleItems(items) {
     const urls = items.map(item => `${window.location.origin}/content/${item.id}`);
     const text = `Multiple files:\n${urls.join('\n')}`;
-    
+
     if (navigator.share) {
       navigator.share({
         title: `${items.length} files`,
@@ -1109,19 +1109,19 @@ export class EnhancedSearchController {
     }
 
     try {
-      const deletePromises = items.map(item => 
-        fetch(`/api/content/${item.id}`, { 
+      const deletePromises = items.map(item =>
+        fetch(`/api/content/${item.id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${this.getAuthToken()}` }
         })
       );
 
       await Promise.all(deletePromises);
-      
+
       // Refresh search results
       this.performSearch(this.state.query);
       this.showMessage(`Deleted ${items.length} items`, 'success');
-      
+
     } catch (error) {
       console.error('Delete failed:', error);
       this.showMessage('Delete failed', 'error');
@@ -1131,7 +1131,7 @@ export class EnhancedSearchController {
   /**
    * Event system
    */
-  
+
   emit(eventName, data) {
     const event = new CustomEvent(`tmyl-enhanced-search:${eventName}`, {
       detail: data,
@@ -1151,7 +1151,7 @@ export class EnhancedSearchController {
   /**
    * Public API methods
    */
-  
+
   search(query, options = {}) {
     return this.handleSearch({ query, ...options });
   }
@@ -1228,15 +1228,15 @@ export const EnhancedSearchControllerUtils = {
    */
   validateOptions(options) {
     const errors = [];
-    
+
     if (options.meilisearchUrl && typeof options.meilisearchUrl !== 'string') {
       errors.push('meilisearchUrl must be a string');
     }
-    
+
     if (options.perPage && (!Number.isInteger(options.perPage) || options.perPage < 1)) {
       errors.push('perPage must be a positive integer');
     }
-    
+
     return errors;
   },
 

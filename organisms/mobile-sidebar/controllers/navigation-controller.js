@@ -3,11 +3,11 @@
  * Handles navigation items, groups, badges, and interactions
  */
 
-import { 
-  NAV_ITEM_TYPES, 
-  TRADING_PORTAL_PRESETS, 
-  VALIDATION_RULES, 
-  EVENT_TYPES 
+import {
+  NAV_ITEM_TYPES,
+  TRADING_PORTAL_PRESETS,
+  VALIDATION_RULES,
+  EVENT_TYPES
 } from '../config/sidebar-config.js';
 
 class NavigationController {
@@ -16,7 +16,7 @@ class NavigationController {
     this.navContainer = null;
     this.items = new Map();
     this.groups = new Map();
-    
+
     this.options = {
       validateItems: true,
       enableGroups: true,
@@ -85,7 +85,7 @@ class NavigationController {
 
     const itemId = navItem.getAttribute('data-id');
     const itemData = this.items.get(itemId);
-    
+
     if (!itemData) return;
 
     // Emit navigation event
@@ -102,14 +102,14 @@ class NavigationController {
 
     // Handle different item types
     switch (itemData.type) {
-      case NAV_ITEM_TYPES.BUTTON:
-        e.preventDefault();
-        this.handleButtonClick(itemData, eventData);
-        break;
-        
-      case NAV_ITEM_TYPES.LINK:
-        this.handleLinkClick(itemData, eventData);
-        break;
+    case NAV_ITEM_TYPES.BUTTON:
+      e.preventDefault();
+      this.handleButtonClick(itemData, eventData);
+      break;
+
+    case NAV_ITEM_TYPES.LINK:
+      this.handleLinkClick(itemData, eventData);
+      break;
     }
 
     // Set as active if it's a navigation item
@@ -154,7 +154,7 @@ class NavigationController {
     const group = toggle.closest('.nav-group');
     const groupId = group.getAttribute('data-id');
     const groupItems = group.querySelector('.nav-group-items');
-    
+
     if (!groupItems) return;
 
     const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
@@ -187,28 +187,28 @@ class NavigationController {
     let targetItem = null;
 
     switch (e.key) {
-      case 'ArrowDown':
-        targetItem = this.getNextNavigableItem(focusedItem);
-        break;
-      case 'ArrowUp':
-        targetItem = this.getPreviousNavigableItem(focusedItem);
-        break;
-      case 'Enter':
-      case ' ':
-        if (focusedItem.classList.contains('nav-group')) {
-          const toggle = focusedItem.querySelector('.nav-group-toggle');
-          if (toggle) {
-            e.preventDefault();
-            toggle.click();
-          }
-        } else {
-          const link = focusedItem.querySelector('.nav-link');
-          if (link) {
-            e.preventDefault();
-            link.click();
-          }
+    case 'ArrowDown':
+      targetItem = this.getNextNavigableItem(focusedItem);
+      break;
+    case 'ArrowUp':
+      targetItem = this.getPreviousNavigableItem(focusedItem);
+      break;
+    case 'Enter':
+    case ' ':
+      if (focusedItem.classList.contains('nav-group')) {
+        const toggle = focusedItem.querySelector('.nav-group-toggle');
+        if (toggle) {
+          e.preventDefault();
+          toggle.click();
         }
-        return;
+      } else {
+        const link = focusedItem.querySelector('.nav-link');
+        if (link) {
+          e.preventDefault();
+          link.click();
+        }
+      }
+      return;
     }
 
     if (targetItem) {
@@ -226,16 +226,16 @@ class NavigationController {
   getNextNavigableItem(currentItem) {
     const allItems = Array.from(this.navContainer.querySelectorAll('.nav-item, .nav-group'));
     const currentIndex = allItems.indexOf(currentItem);
-    
+
     if (currentIndex === -1) return null;
-    
+
     for (let i = currentIndex + 1; i < allItems.length; i++) {
       const item = allItems[i];
       if (!item.classList.contains('disabled') && this.isItemVisible(item)) {
         return item;
       }
     }
-    
+
     return null;
   }
 
@@ -245,16 +245,16 @@ class NavigationController {
   getPreviousNavigableItem(currentItem) {
     const allItems = Array.from(this.navContainer.querySelectorAll('.nav-item, .nav-group'));
     const currentIndex = allItems.indexOf(currentItem);
-    
+
     if (currentIndex === -1) return null;
-    
+
     for (let i = currentIndex - 1; i >= 0; i--) {
       const item = allItems[i];
       if (!item.classList.contains('disabled') && this.isItemVisible(item)) {
         return item;
       }
     }
-    
+
     return null;
   }
 
@@ -264,7 +264,7 @@ class NavigationController {
   isItemVisible(item) {
     const parentGroup = item.closest('.nav-group-items');
     if (!parentGroup) return true;
-    
+
     const toggle = parentGroup.parentElement.querySelector('.nav-group-toggle');
     return toggle && toggle.getAttribute('aria-expanded') === 'true';
   }
@@ -305,16 +305,16 @@ class NavigationController {
    */
   setItems(items) {
     this.clearItems();
-    
+
     items.forEach(item => {
       if (this.options.validateItems && !this.validateItem(item)) {
-        console.warn(`Invalid navigation item:`, item);
+        console.warn('Invalid navigation item:', item);
         return;
       }
-      
+
       this.addItem(item);
     });
-    
+
     this.renderNavigation();
     return this;
   }
@@ -324,14 +324,14 @@ class NavigationController {
    */
   addItem(item) {
     this.items.set(item.id, { ...item });
-    
+
     if (item.type === NAV_ITEM_TYPES.GROUP) {
       this.groups.set(item.id, {
         ...item,
         expanded: item.expanded !== false
       });
     }
-    
+
     return this;
   }
 
@@ -341,12 +341,12 @@ class NavigationController {
   removeItem(itemId) {
     this.items.delete(itemId);
     this.groups.delete(itemId);
-    
+
     const itemElement = this.navContainer.querySelector(`[data-id="${itemId}"]`);
     if (itemElement) {
       itemElement.remove();
     }
-    
+
     return this;
   }
 
@@ -383,7 +383,7 @@ class NavigationController {
    */
   renderNavigation() {
     this.navContainer.innerHTML = '';
-    
+
     this.items.forEach(item => {
       const element = this.createItemElement(item);
       if (element) {
@@ -397,15 +397,15 @@ class NavigationController {
    */
   createItemElement(item) {
     switch (item.type) {
-      case NAV_ITEM_TYPES.LINK:
-      case NAV_ITEM_TYPES.BUTTON:
-        return this.createNavItem(item);
-      case NAV_ITEM_TYPES.GROUP:
-        return this.createNavGroup(item);
-      case NAV_ITEM_TYPES.SEPARATOR:
-        return this.createSeparator(item);
-      default:
-        return null;
+    case NAV_ITEM_TYPES.LINK:
+    case NAV_ITEM_TYPES.BUTTON:
+      return this.createNavItem(item);
+    case NAV_ITEM_TYPES.GROUP:
+      return this.createNavGroup(item);
+    case NAV_ITEM_TYPES.SEPARATOR:
+      return this.createSeparator(item);
+    default:
+      return null;
     }
   }
 
@@ -554,7 +554,7 @@ class NavigationController {
     const targetItem = this.navContainer.querySelector(`[data-id="${itemId}"]`);
     if (targetItem && targetItem.classList.contains('nav-item')) {
       targetItem.classList.add('active');
-      
+
       // Update item data
       const itemData = this.items.get(itemId);
       if (itemData) {
@@ -586,7 +586,7 @@ class NavigationController {
       badge = document.createElement('span');
       badge.className = 'nav-badge';
       badge.setAttribute('aria-hidden', 'true');
-      
+
       const link = itemElement.querySelector('.nav-link');
       const indicator = link.querySelector('.nav-indicator');
       if (indicator) {
@@ -617,13 +617,13 @@ class NavigationController {
     const badge = itemElement.querySelector('.nav-badge');
     if (badge) {
       badge.remove();
-      
+
       // Update item data
       const itemData = this.items.get(itemId);
       if (itemData) {
         delete itemData.badge;
       }
-      
+
       return true;
     }
 
@@ -638,7 +638,7 @@ class NavigationController {
     if (!itemElement) return false;
 
     const link = itemElement.querySelector('.nav-link');
-    
+
     if (disabled) {
       itemElement.classList.add('disabled');
       link.setAttribute('aria-disabled', 'true');
@@ -661,33 +661,33 @@ class NavigationController {
    */
   validateItem(item) {
     const rules = VALIDATION_RULES.navItem;
-    
+
     for (const [field, rule] of Object.entries(rules)) {
       const value = item[field];
-      
+
       if (rule.required && (value === undefined || value === null)) {
         console.error(`Missing required field: ${field}`);
         return false;
       }
-      
+
       if (value !== undefined) {
         if (rule.type && typeof value !== rule.type) {
           console.error(`Invalid type for ${field}: expected ${rule.type}`);
           return false;
         }
-        
+
         if (rule.enum && !rule.enum.includes(value)) {
           console.error(`Invalid value for ${field}: must be one of ${rule.enum.join(', ')}`);
           return false;
         }
-        
+
         if (rule.minLength && value.length < rule.minLength) {
           console.error(`${field} too short: minimum ${rule.minLength} characters`);
           return false;
         }
       }
     }
-    
+
     return true;
   }
 

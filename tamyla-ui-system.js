@@ -33,7 +33,7 @@ class TamylaUISystemRegistry {
       organisms: organismRegistry,
       applications: new Map()
     };
-    
+
     this.instances = new Map();
     this.registerApplications();
   }
@@ -116,7 +116,7 @@ class TamylaUISystemRegistry {
   getTypes(layer) {
     const registry = this.layers[layer];
     if (!registry) return [];
-    
+
     if (layer === 'applications') {
       return Array.from(registry.keys());
     } else {
@@ -174,7 +174,7 @@ export const TamylaTemplates = {
    */
   searchPage: (props = {}) => {
     const { container, ...rest } = props;
-    
+
     const searchApp = Tamyla.EnhancedSearch({
       title: 'Search',
       description: 'Find content across your knowledge base',
@@ -197,7 +197,7 @@ export const TamylaTemplates = {
    */
   contentDashboard: (props = {}) => {
     const { container, ...rest } = props;
-    
+
     const contentManager = Tamyla.ContentManager({
       title: 'Content Manager',
       description: 'Manage and search your content library',
@@ -221,7 +221,7 @@ export const TamylaTemplates = {
    */
   searchWidget: (props = {}) => {
     const { container, ...rest } = props;
-    
+
     const searchInterface = Tamyla.SearchInterface({
       showHeader: false,
       showFilters: false,
@@ -242,7 +242,7 @@ export const TamylaTemplates = {
    */
   mediaGallery: (props = {}) => {
     const { container, mediaItems = [], ...rest } = props;
-    
+
     const searchInterface = Tamyla.SearchInterface({
       title: 'Media Gallery',
       description: 'Browse and search your media files',
@@ -279,7 +279,7 @@ export const TamylaTemplates = {
    */
   knowledgeBase: (props = {}) => {
     const { container, ...rest } = props;
-    
+
     const searchApp = Tamyla.EnhancedSearch({
       title: 'Knowledge Base',
       description: 'Explore your personal knowledge network',
@@ -544,21 +544,21 @@ export {
   ButtonFactory,
   InputFactory,
   CardFactory,
-  
+
   // Molecular factories
   MoleculeFactory,
   SearchBarFactory,
   ContentCardFactory,
   ContentCardGridFactory,
-  
+
   // Organism factories
   OrganismFactory,
   SearchInterfaceFactory,
-  
+
   // Application factories
   EnhancedSearchApplicationFactory,
   ContentManagerApplicationFactory,
-  
+
   // Registries
   atomicRegistry,
   molecularRegistry,

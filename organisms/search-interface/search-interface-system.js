@@ -24,7 +24,7 @@ export function SearchInterfaceFactory(props = {}) {
     onResults = null,
     onError = null,
     onSelection = null,
-    
+
     // Interface options
     showHeader = true,
     showFilters = false,
@@ -32,7 +32,7 @@ export function SearchInterfaceFactory(props = {}) {
     layout = 'vertical',
     size = 'default',
     className = '',
-    
+
     // Behavior options
     debounceMs = 300,
     pageSize = 20,
@@ -40,7 +40,7 @@ export function SearchInterfaceFactory(props = {}) {
     enableFiltering = true,
     enableSorting = true,
     trackAnalytics = true,
-    
+
     // Container
     container = null
   } = props;
@@ -97,7 +97,7 @@ export function SearchInterfaceFactory(props = {}) {
         container: searchBarContainer,
         ...searchProps
       });
-      
+
       molecularComponents.set('searchBar', searchBar);
     }
 
@@ -148,7 +148,7 @@ export function SearchInterfaceFactory(props = {}) {
 
     // Initialize molecular components after DOM insertion
     initializeMolecularComponents();
-    
+
     if (!controller) {
       initializeController();
     }
@@ -180,14 +180,14 @@ export function SearchInterfaceFactory(props = {}) {
         ...newProps,
         container: null
       }).getElement();
-      
+
       if (parent) {
         parent.replaceChild(newElement, element);
       }
-      
+
       // Cleanup old components
       cleanup();
-      
+
       element = newElement;
       controller = element._searchInterfaceController;
     }
@@ -299,20 +299,20 @@ export function SearchInterfaceFactory(props = {}) {
     render,
     update,
     destroy,
-    
+
     // Actions
     search,
     clear,
-    
+
     // Data access
     getResults,
     getSelection,
     getState,
-    
+
     // Element access
     getElement,
     getController,
-    
+
     // Properties
     get props() {
       return {
@@ -493,17 +493,17 @@ export const SearchInterfaceComposition = {
    */
   createTabbedSearch(tabs, options = {}) {
     const { container, activeTab = 0 } = options;
-    
+
     const tabbedContainer = document.createElement('div');
     tabbedContainer.className = 'tmyl-tabbed-search-interface';
-    
+
     // Create tab navigation
     const tabNav = document.createElement('div');
     tabNav.className = 'tmyl-tabbed-search__nav';
-    
+
     const tabContent = document.createElement('div');
     tabContent.className = 'tmyl-tabbed-search__content';
-    
+
     const searchInterfaces = tabs.map((tab, index) => {
       // Create tab button
       const tabButton = document.createElement('button');
@@ -511,21 +511,21 @@ export const SearchInterfaceComposition = {
       tabButton.textContent = tab.label;
       tabButton.addEventListener('click', () => switchTab(index));
       tabNav.appendChild(tabButton);
-      
+
       // Create search interface
       const searchInterface = SearchInterfaceFactory({
         ...tab.props,
         container: null
       });
-      
+
       const tabPanel = document.createElement('div');
       tabPanel.className = `tmyl-tabbed-search__panel ${index === activeTab ? 'tmyl-tabbed-search__panel--active' : ''}`;
       searchInterface.render(tabPanel);
       tabContent.appendChild(tabPanel);
-      
+
       return { searchInterface, button: tabButton, panel: tabPanel };
     });
-    
+
     function switchTab(index) {
       searchInterfaces.forEach((item, i) => {
         const isActive = i === index;
@@ -533,14 +533,14 @@ export const SearchInterfaceComposition = {
         item.panel.classList.toggle('tmyl-tabbed-search__panel--active', isActive);
       });
     }
-    
+
     tabbedContainer.appendChild(tabNav);
     tabbedContainer.appendChild(tabContent);
-    
+
     if (container) {
       container.appendChild(tabbedContainer);
     }
-    
+
     return {
       element: tabbedContainer,
       interfaces: searchInterfaces.map(item => item.searchInterface),
@@ -559,7 +559,7 @@ export const SearchInterfaceComposition = {
    */
   createSideFilterSearch(props = {}) {
     const { filterProps = {}, searchProps = {}, ...rest } = props;
-    
+
     return SearchInterfaceFactory({
       ...rest,
       layout: 'horizontal',
@@ -582,7 +582,7 @@ export const SearchInterfaceComposition = {
       onResults = () => {},
       ...rest
     } = options;
-    
+
     const unifiedSearch = SearchInterfaceFactory({
       ...rest,
       searchProps: {
@@ -610,16 +610,16 @@ export const SearchInterfaceComposition = {
               };
             }
           });
-          
+
           const sourceResults = await Promise.all(searchPromises);
-          
+
           // Combine and deduplicate results
           const allResults = [];
           const seenIds = new Set();
-          
+
           sourceResults.forEach(({ source, results, error }) => {
             if (error) return;
-            
+
             results.forEach(result => {
               const id = result.id || `${source}-${result.title}`;
               if (!seenIds.has(id)) {
@@ -632,11 +632,11 @@ export const SearchInterfaceComposition = {
               }
             });
           });
-          
+
           const totalCount = allResults.length;
-          
+
           onResults(allResults, totalCount);
-          
+
           return {
             results: allResults,
             totalCount,
@@ -649,7 +649,7 @@ export const SearchInterfaceComposition = {
       },
       container
     });
-    
+
     return unifiedSearch;
   }
 };

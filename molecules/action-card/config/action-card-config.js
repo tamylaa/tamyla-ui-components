@@ -113,7 +113,7 @@ export const actionCardConfig = {
   statuses: ['available', 'completed', 'locked', 'disabled'],
   colors: ['primary', 'secondary', 'success', 'warning', 'info'],
   sizes: ['sm', 'md', 'lg'],
-  
+
   // Animation durations (in ms)
   animations: {
     ripple: 800,
@@ -121,7 +121,7 @@ export const actionCardConfig = {
     hover: 200,
     focus: 150
   },
-  
+
   // Accessibility settings
   accessibility: {
     tabIndex: {
@@ -133,7 +133,7 @@ export const actionCardConfig = {
       static: 'article'
     }
   },
-  
+
   // CSS class prefixes
   classNames: {
     base: 'tmyl-action-card',
@@ -185,27 +185,27 @@ export const actionCardValidation = {
    */
   validateProps(props) {
     const errors = [];
-    
+
     if (!props.title || typeof props.title !== 'string') {
       errors.push('Title must be a non-empty string');
     }
-    
+
     if (props.status && !this.validateStatus(props.status)) {
       errors.push(`Invalid status. Must be one of: ${actionCardConfig.statuses.join(', ')}`);
     }
-    
+
     if (props.color && !this.validateColor(props.color)) {
       errors.push(`Invalid color. Must be one of: ${actionCardConfig.colors.join(', ')}`);
     }
-    
+
     if (props.size && !this.validateSize(props.size)) {
       errors.push(`Invalid size. Must be one of: ${actionCardConfig.sizes.join(', ')}`);
     }
-    
+
     if (props.progress !== undefined && !this.validateProgress(props.progress)) {
       errors.push('Progress must be null or a number between 0 and 100');
     }
-    
+
     return errors;
   }
 };
@@ -218,14 +218,14 @@ export const actionCardThemes = {
     colors: actionCardConfig.colors,
     sizes: actionCardConfig.sizes
   },
-  
+
   minimal: {
     colors: ['primary', 'secondary'],
     sizes: ['sm', 'md'],
     showReward: false,
     showProgress: false
   },
-  
+
   gamified: {
     colors: ['success', 'warning', 'info'],
     sizes: ['md', 'lg'],

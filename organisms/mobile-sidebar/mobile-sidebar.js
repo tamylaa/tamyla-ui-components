@@ -6,12 +6,12 @@
 import SidebarController from './controllers/sidebar-controller.js';
 import NavigationController from './controllers/navigation-controller.js';
 import TemplateController from './controllers/template-controller.js';
-import { 
-  SIDEBAR_CONFIG, 
-  TRADING_PORTAL_PRESETS, 
-  HEADER_PRESETS, 
+import {
+  SIDEBAR_CONFIG,
+  TRADING_PORTAL_PRESETS,
+  HEADER_PRESETS,
   FOOTER_PRESETS,
-  EVENT_TYPES 
+  EVENT_TYPES
 } from './config/sidebar-config.js';
 
 class MobileSidebar {
@@ -71,7 +71,7 @@ class MobileSidebar {
         this.controllers.navigation = new NavigationController(this.controllers.sidebar, {
           closeOnNavigation: this.options.closeOnNavigation
         });
-        
+
         this.bindNavigationEvents();
       }
 
@@ -104,13 +104,13 @@ class MobileSidebar {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = '/ui-components/organisms/mobile-sidebar/styles/mobile-sidebar.css';
-      
+
       link.onload = resolve;
       link.onerror = () => {
         console.warn('Failed to load mobile sidebar styles, using fallback');
         resolve(); // Don't fail initialization
       };
-      
+
       document.head.appendChild(link);
     });
   }
@@ -140,7 +140,7 @@ class MobileSidebar {
    */
   bindCoreEvents() {
     const sidebar = this.controllers.sidebar;
-    
+
     sidebar.on(EVENT_TYPES.SIDEBAR_OPENED, (data) => {
       this.emit(EVENT_TYPES.SIDEBAR_OPENED, data);
     });
@@ -171,7 +171,7 @@ class MobileSidebar {
    */
   bindNavigationEvents() {
     const sidebar = this.controllers.sidebar;
-    
+
     sidebar.on(EVENT_TYPES.NAV_ITEM_CLICKED, (data) => {
       this.emit(EVENT_TYPES.NAV_ITEM_CLICKED, data);
       this.handleNavItemClick(data);
@@ -192,7 +192,7 @@ class MobileSidebar {
    */
   bindTemplateEvents() {
     const sidebar = this.controllers.sidebar;
-    
+
     sidebar.on(EVENT_TYPES.HEADER_ACTION, (data) => {
       this.emit(EVENT_TYPES.HEADER_ACTION, data);
     });
@@ -219,12 +219,12 @@ class MobileSidebar {
   handleFooterAction(data) {
     // Default handling for common actions
     switch (data.action) {
-      case 'toggle-dark-mode':
-        this.toggleDarkMode();
-        break;
-      case 'show-feedback':
-        this.emit('action:show-feedback', data);
-        break;
+    case 'toggle-dark-mode':
+      this.toggleDarkMode();
+      break;
+    case 'show-feedback':
+      this.emit('action:show-feedback', data);
+      break;
     }
   }
 
@@ -234,12 +234,12 @@ class MobileSidebar {
   handleAction(data) {
     // Default handling for common actions
     switch (data.action) {
-      case 'logout':
-        this.emit('action:logout', data);
-        break;
-      case 'quick-trade':
-        this.emit('action:quick-trade', data);
-        break;
+    case 'logout':
+      this.emit('action:logout', data);
+      break;
+    case 'quick-trade':
+      this.emit('action:quick-trade', data);
+      break;
     }
   }
 
@@ -481,7 +481,7 @@ class MobileSidebar {
    */
   updateOptions(newOptions) {
     this.options = { ...this.options, ...newOptions };
-    
+
     if (this.controllers.sidebar) {
       this.controllers.sidebar.updateOptions(newOptions);
     }
@@ -615,7 +615,7 @@ class MobileSidebarManager {
    */
   register(id, sidebar) {
     this.sidebars.set(id, sidebar);
-    
+
     // Listen for open events
     sidebar.on(EVENT_TYPES.SIDEBAR_OPENED, () => {
       this.activeSidebar = id;
@@ -626,13 +626,13 @@ class MobileSidebarManager {
         }
       });
     });
-    
+
     sidebar.on(EVENT_TYPES.SIDEBAR_CLOSED, () => {
       if (this.activeSidebar === id) {
         this.activeSidebar = null;
       }
     });
-    
+
     return this;
   }
 
@@ -669,7 +669,7 @@ class MobileSidebarManager {
     if (sidebar) {
       sidebar.destroy();
       this.sidebars.delete(id);
-      
+
       if (this.activeSidebar === id) {
         this.activeSidebar = null;
       }

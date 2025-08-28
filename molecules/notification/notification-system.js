@@ -3,7 +3,7 @@
  * Complete notification factory with stacking and management
  */
 
-import { 
+import {
   createNotificationTemplate,
   createNotificationContainer,
   createSuccessNotification,
@@ -27,22 +27,22 @@ export function NotificationFactory(props = {}) {
     message = '',
     duration = 4000,
     position = 'top-right',
-    
+
     // Behavior
     showClose = true,
     showProgress = true,
     pauseOnHover = true,
     autoDismiss = true,
-    
+
     // Actions
     actions = [],
-    
+
     // Event handlers
     onShow,
     onHide,
     onClick,
     onAction,
-    
+
     // Container
     container = null
   } = props;
@@ -60,19 +60,19 @@ export function NotificationFactory(props = {}) {
     show,
     hide,
     destroy,
-    
+
     // Content management
     updateContent,
     setTitle,
     setMessage,
     setType,
-    
+
     // Timing control
     pause,
     resume,
     extend,
     persist,
-    
+
     // State management
     getController: () => controller,
     getElement: () => element,
@@ -86,10 +86,10 @@ export function NotificationFactory(props = {}) {
   function render(targetContainer = container) {
     // Get or create notification container
     notificationContainer = getNotificationContainer(position, targetContainer);
-    
+
     // Create notification element
     element = createElement();
-    
+
     // Initialize controller
     controller = new NotificationController({
       type,
@@ -107,7 +107,7 @@ export function NotificationFactory(props = {}) {
       onClick,
       onAction
     });
-    
+
     controller.initialize(element);
 
     // Load CSS
@@ -133,7 +133,7 @@ export function NotificationFactory(props = {}) {
       duration,
       actions
     });
-    
+
     // Return the actual notification (unwrap from container div)
     return notificationElement.firstElementChild;
   }
@@ -144,19 +144,19 @@ export function NotificationFactory(props = {}) {
   function getNotificationContainer(position, targetContainer = document.body) {
     const containerId = `tmyl-notifications-${position}`;
     let existingContainer = document.getElementById(containerId);
-    
+
     if (!existingContainer) {
       const containerElement = document.createElement('div');
       containerElement.innerHTML = createNotificationContainer(position);
       existingContainer = containerElement.firstElementChild;
-      
+
       if (typeof targetContainer === 'string') {
         targetContainer = document.querySelector(targetContainer);
       }
-      
+
       (targetContainer || document.body).appendChild(existingContainer);
     }
-    
+
     return existingContainer;
   }
 
@@ -165,7 +165,7 @@ export function NotificationFactory(props = {}) {
    */
   function loadStyles() {
     const styleId = 'tmyl-notification-styles';
-    
+
     if (!document.getElementById(styleId)) {
       const link = document.createElement('link');
       link.id = styleId;
@@ -274,7 +274,7 @@ export function NotificationFactory(props = {}) {
       controller.destroy();
       controller = null;
     }
-    
+
     element = null;
     notificationContainer = null;
   }
@@ -409,7 +409,7 @@ export class NotificationManager {
       stackOldest: 'remove', // 'remove' or 'hide'
       ...options
     };
-    
+
     this.notifications = new Map();
     this.containers = new Map();
     this.idCounter = 0;
@@ -421,10 +421,10 @@ export class NotificationManager {
   show(type, message, options = {}) {
     const id = this.generateId();
     const position = options.position || this.options.defaultPosition;
-    
+
     // Check notification limit
     this.enforceLimit(position);
-    
+
     const notification = NotificationFactory({
       type,
       message,
@@ -437,7 +437,7 @@ export class NotificationManager {
     });
 
     notification.render().show();
-    
+
     this.notifications.set(id, {
       notification,
       position,
@@ -525,7 +525,7 @@ export class NotificationManager {
 
     while (positionNotifications.length >= this.options.maxNotifications) {
       const [oldestId] = positionNotifications.shift();
-      
+
       if (this.options.stackOldest === 'remove') {
         this.remove(oldestId);
       } else {

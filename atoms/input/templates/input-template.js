@@ -246,7 +246,7 @@ export function createFileInputHTML(options = {}) {
   const fileInputId = id || `file-input-${Math.random().toString(36).substr(2, 9)}`;
 
   const attributes = [
-    `type="file"`,
+    'type="file"',
     `id="${fileInputId}"`,
     name && `name="${name}"`,
     accept && `accept="${accept}"`,

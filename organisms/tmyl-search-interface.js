@@ -6,7 +6,7 @@
 
 import { LitElement, html } from 'lit';
 import { SearchInterfaceController, searchInterfaceUtils } from './controllers/search-interface-controller.js';
-import { 
+import {
   renderSearchHeader,
   renderFilters,
   renderResultsSection,
@@ -17,7 +17,7 @@ import {
   renderPagination,
   renderBulkActions
 } from './templates/search-interface-templates.js';
-import { 
+import {
   defaultSearchInterfaceProps,
   searchInterfaceConfig,
   searchInterfaceValidation
@@ -55,13 +55,13 @@ export class TmylSearchInterface extends LitElement {
 
   constructor() {
     super();
-    
+
     // Initialize with defaults
     Object.assign(this, defaultSearchInterfaceProps);
-    
+
     // Initialize controller
     this.controller = new SearchInterfaceController(this);
-    
+
     // Validate initial props
     this.validateProps();
   }
@@ -270,7 +270,7 @@ export class TmylSearchInterface extends LitElement {
   /**
    * Public API methods
    */
-  
+
   /**
    * Programmatically trigger a search
    */

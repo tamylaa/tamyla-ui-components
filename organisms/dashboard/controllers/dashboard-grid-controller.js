@@ -16,7 +16,7 @@ export class DashboardGridController {
       draggable: options.draggable || false,
       ...options
     };
-    
+
     this.widgets = new Map();
     this.init();
   }
@@ -33,7 +33,7 @@ export class DashboardGridController {
       gap: ${this.options.gap};
       width: 100%;
     `;
-    
+
     this.element.className = `tmyl-dashboard-grid ${this.options.responsive ? 'responsive' : ''}`;
   }
 
@@ -48,15 +48,15 @@ export class DashboardGridController {
 
     const width = this.element.offsetWidth;
     const breakpoints = DASHBOARD_WIDGET_CONFIG.grid.breakpoints;
-    
+
     let newColumns = this.options.columns;
-    
+
     if (width <= parseInt(breakpoints.mobile)) {
       newColumns = 1;
     } else if (width <= parseInt(breakpoints.tablet)) {
       newColumns = Math.min(this.options.columns, 6);
     }
-    
+
     if (newColumns !== this.getCurrentColumns()) {
       this.setColumns(newColumns);
     }
@@ -91,7 +91,7 @@ export class DashboardGridController {
     } = position;
 
     // Generate unique ID
-    const widgetId = widgetElement.getAttribute('data-widget-id') || 
+    const widgetId = widgetElement.getAttribute('data-widget-id') ||
                     `widget-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     widgetElement.setAttribute('data-widget-id', widgetId);
 
@@ -159,7 +159,7 @@ export class DashboardGridController {
     this.widgets.forEach((widget, id) => {
       this.removeWidget(id);
     });
-    
+
     this.dispatchEvent('grid:cleared');
     return this;
   }
@@ -180,7 +180,7 @@ export class DashboardGridController {
     layout.forEach(item => {
       this.moveWidget(item.id, item.position);
     });
-    
+
     this.dispatchEvent('grid:layout-applied', { layout });
     return this;
   }
@@ -188,21 +188,21 @@ export class DashboardGridController {
   // Validation
   validatePosition(position) {
     const { row, column, rowSpan = 1, columnSpan = 1 } = position;
-    
+
     if (column !== 'auto' && (column < 1 || column + columnSpan - 1 > this.options.columns)) {
       return {
         valid: false,
         error: `Column position ${column} with span ${columnSpan} exceeds grid columns (${this.options.columns})`
       };
     }
-    
+
     if (rowSpan < 1 || columnSpan < 1) {
       return {
         valid: false,
         error: 'Row span and column span must be at least 1'
       };
     }
-    
+
     return { valid: true };
   }
 
@@ -211,7 +211,7 @@ export class DashboardGridController {
     // Simple algorithm to find next available space
     // In a real implementation, this would be more sophisticated
     const occupiedSpaces = new Set();
-    
+
     this.widgets.forEach(widget => {
       const { row, column, rowSpan, columnSpan } = widget.position;
       if (row !== 'auto' && column !== 'auto') {
@@ -227,7 +227,7 @@ export class DashboardGridController {
     for (let row = 1; row <= 20; row++) { // Limit search to 20 rows
       for (let column = 1; column <= this.options.columns - requiredColumns + 1; column++) {
         let spaceAvailable = true;
-        
+
         for (let r = row; r < row + requiredRows; r++) {
           for (let c = column; c < column + requiredColumns; c++) {
             if (occupiedSpaces.has(`${r}-${c}`)) {
@@ -237,13 +237,13 @@ export class DashboardGridController {
           }
           if (!spaceAvailable) break;
         }
-        
+
         if (spaceAvailable) {
           return { row, column };
         }
       }
     }
-    
+
     return { row: 'auto', column: 'auto' };
   }
 
@@ -269,7 +269,7 @@ export class DashboardGridController {
     if (this.options.responsive) {
       window.removeEventListener('resize', this.handleResize);
     }
-    
+
     this.clear();
   }
 }

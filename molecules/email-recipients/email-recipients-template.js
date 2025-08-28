@@ -136,10 +136,10 @@ export function createEmailRecipientsGroup(options = {}) {
       ` : ''}
       
       ${createEmailRecipientsTemplate({
-        ...recipientsOptions,
-        id: groupId,
-        error: !!error
-      })}
+    ...recipientsOptions,
+    id: groupId,
+    error: !!error
+  })}
       
       ${error ? `
         <div 
@@ -203,7 +203,7 @@ export function createValidationMessage(type, count = 0) {
   const messages = {
     invalid: `${count} invalid email${count !== 1 ? 's' : ''} detected`,
     duplicate: `${count} duplicate email${count !== 1 ? 's' : ''} found`,
-    maxReached: `Maximum number of emails reached`,
+    maxReached: 'Maximum number of emails reached',
     empty: 'At least one email is required',
     success: `${count} email${count !== 1 ? 's' : ''} added successfully`
   };
@@ -237,7 +237,7 @@ export function createEmailSuggestionsTemplate(suggestions = [], options = {}) {
   } = options;
 
   const filteredSuggestions = suggestions
-    .filter(suggestion => 
+    .filter(suggestion =>
       suggestion.toLowerCase().includes(query.toLowerCase())
     )
     .slice(0, maxSuggestions);
@@ -247,7 +247,7 @@ export function createEmailSuggestionsTemplate(suggestions = [], options = {}) {
   if (showDomainSuggestions && query.includes('@') && !query.includes('.')) {
     const [localPart, domain] = query.split('@');
     const commonDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'];
-    
+
     commonDomains.forEach(commonDomain => {
       if (commonDomain.startsWith(domain)) {
         domainSuggestions.push(`${localPart}@${commonDomain}`);
@@ -284,7 +284,7 @@ export function createEmailSuggestionsTemplate(suggestions = [], options = {}) {
  */
 function highlightQuery(text, query) {
   if (!query) return text;
-  
+
   const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
   return text.replace(regex, '<mark>$1</mark>');
 }

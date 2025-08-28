@@ -5,21 +5,21 @@ export function TamylaButton({ children, onClick, variant, size, disabled, ...pr
     variant?: string | undefined;
     size?: string | undefined;
     disabled?: boolean | undefined;
-}): import("react").JSX.Element;
+}): import('react').JSX.Element;
 export function TamylaCampaignSelector({ onSelectionChanged, maxSelections, enableRecommendations, ...props }: {
     [x: string]: any;
     onSelectionChanged: any;
     maxSelections?: number | undefined;
     enableRecommendations?: boolean | undefined;
-}): import("react").JSX.Element;
-export const Button: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
-export const Input: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
-export const Card: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
-export const ContentCard: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
-export const SearchBar: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
-export const EnhancedSearch: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
-export const CampaignSelector: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
-export const ContentManager: import("react").ForwardRefExoticComponent<import("react").RefAttributes<any>>;
+}): import('react').JSX.Element;
+export const Button: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
+export const Input: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
+export const Card: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
+export const ContentCard: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
+export const SearchBar: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
+export const EnhancedSearch: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
+export const CampaignSelector: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
+export const ContentManager: import('react').ForwardRefExoticComponent<import('react').RefAttributes<any>>;
 declare namespace _default {
     export { Button };
     export { Input };
@@ -38,5 +38,5 @@ declare namespace _default {
 }
 export default _default;
 import { createReactWrapper } from './wrapper.js';
-export { createReactWrapper, useTamylaComponent, TamylaUIProvider, useTamylaUI } from "./wrapper.js";
+export { createReactWrapper, useTamylaComponent, TamylaUIProvider, useTamylaUI } from './wrapper.js';
 //# sourceMappingURL=index.d.ts.map

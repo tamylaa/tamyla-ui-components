@@ -9,7 +9,7 @@ export class SearchBarController {
     this.form = element.querySelector('.tmyl-search-bar__container');
     this.input = element.querySelector('.tmyl-search-bar__input input');
     this.suggestions = element.querySelector('.tmyl-search-bar__suggestions');
-    
+
     this.state = {
       value: this.input?.value || '',
       isListening: false,
@@ -51,13 +51,13 @@ export class SearchBarController {
 
   handleSubmit(event) {
     event.preventDefault();
-    
+
     const value = this.input.value.trim();
     if (!value) return;
 
     this.saveToRecentSearches(value);
     this.hideSuggestions();
-    
+
     this.dispatchCustomEvent('tmyl-search-submit', {
       query: value,
       suggestions: this.getCurrentSuggestions()
@@ -87,33 +87,33 @@ export class SearchBarController {
 
   handleKeydown(event) {
     const suggestions = this.getCurrentSuggestions();
-    
+
     switch (event.key) {
-      case 'ArrowDown':
+    case 'ArrowDown':
+      event.preventDefault();
+      this.highlightNextSuggestion(suggestions.length);
+      break;
+
+    case 'ArrowUp':
+      event.preventDefault();
+      this.highlightPreviousSuggestion(suggestions.length);
+      break;
+
+    case 'Enter':
+      if (this.state.highlightedIndex >= 0 && suggestions.length > 0) {
         event.preventDefault();
-        this.highlightNextSuggestion(suggestions.length);
-        break;
-        
-      case 'ArrowUp':
-        event.preventDefault();
-        this.highlightPreviousSuggestion(suggestions.length);
-        break;
-        
-      case 'Enter':
-        if (this.state.highlightedIndex >= 0 && suggestions.length > 0) {
-          event.preventDefault();
-          this.selectSuggestion(suggestions[this.state.highlightedIndex]);
-        }
-        break;
-        
-      case 'Escape':
-        this.hideSuggestions();
-        this.input.blur();
-        break;
-        
-      case 'Tab':
-        this.hideSuggestions();
-        break;
+        this.selectSuggestion(suggestions[this.state.highlightedIndex]);
+      }
+      break;
+
+    case 'Escape':
+      this.hideSuggestions();
+      this.input.blur();
+      break;
+
+    case 'Tab':
+      this.hideSuggestions();
+      break;
     }
   }
 
@@ -121,7 +121,7 @@ export class SearchBarController {
     if (this.state.value.length >= 2) {
       this.showSuggestions();
     }
-    
+
     this.dispatchCustomEvent('tmyl-search-focus', {
       query: this.state.value
     });
@@ -136,19 +136,19 @@ export class SearchBarController {
 
   handleClick(event) {
     const action = event.target.closest('[data-action]')?.getAttribute('data-action');
-    
+
     switch (action) {
-      case 'clear':
-        this.clearSearch();
-        break;
-        
-      case 'voice':
-        this.toggleVoiceSearch();
-        break;
-        
-      case 'submit':
-        this.form.dispatchEvent(new Event('submit'));
-        break;
+    case 'clear':
+      this.clearSearch();
+      break;
+
+    case 'voice':
+      this.toggleVoiceSearch();
+      break;
+
+    case 'submit':
+      this.form.dispatchEvent(new Event('submit'));
+      break;
     }
   }
 
@@ -158,7 +158,7 @@ export class SearchBarController {
 
     const index = parseInt(suggestionElement.getAttribute('data-suggestion-index'));
     const suggestions = this.getCurrentSuggestions();
-    
+
     if (suggestions[index]) {
       this.selectSuggestion(suggestions[index]);
     }
@@ -197,7 +197,7 @@ export class SearchBarController {
         this.input.value = transcript;
         this.state.value = transcript;
         this.updateClearButtonVisibility(transcript);
-        
+
         this.dispatchCustomEvent('tmyl-search-voice-result', {
           transcript,
           confidence: event.results[0][0].confidence
@@ -262,7 +262,7 @@ export class SearchBarController {
 
   updateHighlightedSuggestion() {
     const suggestionElements = this.suggestions?.querySelectorAll('.tmyl-search-bar__suggestion') || [];
-    
+
     suggestionElements.forEach((element, index) => {
       if (index === this.state.highlightedIndex) {
         element.classList.add('tmyl-search-bar__suggestion--highlighted');
@@ -277,7 +277,7 @@ export class SearchBarController {
     this.state.value = suggestion.text;
     this.hideSuggestions();
     this.updateClearButtonVisibility(suggestion.text);
-    
+
     this.dispatchCustomEvent('tmyl-search-suggestion-select', {
       suggestion,
       query: suggestion.text
@@ -304,7 +304,7 @@ export class SearchBarController {
     this.hideSuggestions();
     this.updateClearButtonVisibility('');
     this.input.focus();
-    
+
     this.dispatchCustomEvent('tmyl-search-clear');
   }
 
@@ -339,7 +339,7 @@ export class SearchBarController {
     const recent = this.getRecentSearches();
     const filtered = recent.filter(item => item !== query);
     const updated = [query, ...filtered].slice(0, 10);
-    
+
     try {
       localStorage.setItem('tmyl-recent-searches', JSON.stringify(updated));
     } catch {

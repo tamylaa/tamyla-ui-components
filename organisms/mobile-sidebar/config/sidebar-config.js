@@ -387,17 +387,17 @@ const ANIMATION_PRESETS = {
     duration: 200,
     easing: 'cubic-bezier(0.4, 0, 1, 1)'
   },
-  
+
   normal: {
     duration: 300,
     easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
   },
-  
+
   slow: {
     duration: 500,
     easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
   },
-  
+
   bounce: {
     duration: 400,
     easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
@@ -426,7 +426,7 @@ const RESPONSIVE_CONFIG = {
       tablet: true,
       desktop: false
     },
-    
+
     swipeGestures: {
       mobile: true,
       tablet: true,

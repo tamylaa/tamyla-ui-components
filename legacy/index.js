@@ -1,9 +1,9 @@
 /**
  * Legacy Components Index
- * 
+ *
  * ⚠️ DEPRECATED: These components are legacy React patterns.
  * ⚠️ Use modern modular adapters from core/adapters/ instead.
- * 
+ *
  * This index is maintained for backward compatibility only.
  * New projects should use the modern component system.
  */

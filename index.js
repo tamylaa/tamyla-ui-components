@@ -30,19 +30,19 @@ console.log('✨ Ready to build consistent, modular interfaces');
 
 /**
  * Usage Examples:
- * 
+ *
  * // Import everything
  * import './ui-components/index.js';
- * 
+ *
  * // Or import specific components
  * import { TmylButton, TmylSearchBar } from './ui-components/index.js';
- * 
+ *
  * // Use in HTML
  * <tmyl-search-bar voice-enabled></tmyl-search-bar>
  * <tmyl-button variant="primary">Click me</tmyl-button>
- * 
+ *
  * // Component composition
- * <tmyl-search-interface 
+ * <tmyl-search-interface
  *   enable-voice-search
  *   enable-selection
  *   show-filters

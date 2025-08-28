@@ -53,7 +53,7 @@ export class CardFactory {
    */
   create(props = {}) {
     const finalProps = { ...this.defaultProps, ...props };
-    
+
     // Create container
     const container = document.createElement('div');
     container.innerHTML = createCardTemplate(finalProps);
@@ -123,11 +123,11 @@ export class CardFactory {
     const container = document.createElement('div');
     container.innerHTML = cardTemplates.product(props);
     const card = container.firstElementChild;
-    
+
     // Make interactive by default for product cards
     const controller = new CardController(card);
     card._controller = controller;
-    
+
     return card;
   }
 
@@ -175,7 +175,7 @@ export class CardFactory {
   createGrid(cards, gridProps = {}) {
     const grid = document.createElement('div');
     grid.className = 'tmyl-card-grid';
-    
+
     const {
       columns = 'auto',
       gap = 'md',
@@ -193,12 +193,12 @@ export class CardFactory {
     }
     grid.style.setProperty('--tmyl-grid-gap', `var(--tmyl-space-${gap})`);
 
-    const cardElements = cards.map(cardConfig => 
+    const cardElements = cards.map(cardConfig =>
       typeof cardConfig === 'object' ? this.create(cardConfig) : cardConfig
     );
 
     cardElements.forEach(card => grid.appendChild(card));
-    
+
     return grid;
   }
 
@@ -208,7 +208,7 @@ export class CardFactory {
   createGroup(cards, groupProps = {}) {
     const group = document.createElement('div');
     group.className = 'tmyl-card-group';
-    
+
     const {
       multiSelect = false,
       selectable = true,
@@ -232,7 +232,7 @@ export class CardFactory {
     // Attach group controller
     const groupController = new CardGroupController(group, { multiSelect, selectable });
     group._groupController = groupController;
-    
+
     return group;
   }
 
@@ -287,7 +287,7 @@ export class CardFactory {
 export const cardFactory = new CardFactory();
 
 // Convenience exports
-export const { 
+export const {
   create: createCard,
   createDefault,
   createOutlined,

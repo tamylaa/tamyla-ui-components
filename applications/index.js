@@ -11,7 +11,7 @@ export { ContentManagerApplicationFactory } from './content-manager/content-mana
 // Application metadata
 export const AVAILABLE_APPLICATIONS = [
   'enhanced-search',
-  'campaign-selector', 
+  'campaign-selector',
   'content-manager'
 ];
 
@@ -22,12 +22,12 @@ export async function loadApplication(appName) {
     'campaign-selector': () => import('./campaign-selector/campaign-selector-system.js'),
     'content-manager': () => import('./content-manager/content-manager-system.js')
   };
-  
+
   const loader = appMap[appName];
   if (!loader) {
     throw new Error(`Application '${appName}' not found. Available applications: ${AVAILABLE_APPLICATIONS.join(', ')}`);
   }
-  
+
   try {
     const module = await loader();
     return module.default || module[Object.keys(module)[0]];
@@ -45,14 +45,14 @@ export const APPLICATION_CONFIGS = {
     version: '1.0.0',
     dependencies: ['atoms/button', 'atoms/input', 'molecules/search-bar']
   },
-  
+
   'campaign-selector': {
     name: 'Campaign Selector',
     description: 'Intelligent campaign content selection system',
     version: '1.0.0',
     dependencies: ['atoms/button', 'atoms/card', 'molecules/content-card']
   },
-  
+
   'content-manager': {
     name: 'Content Manager',
     description: 'Comprehensive content management application',
@@ -75,7 +75,7 @@ export function getApplicationDependencies(appName) {
 // Batch application loader
 export async function loadApplications(appNames) {
   const results = {};
-  
+
   for (const appName of appNames) {
     try {
       results[appName] = await loadApplication(appName);
@@ -84,7 +84,7 @@ export async function loadApplications(appNames) {
       results[appName] = null;
     }
   }
-  
+
   return results;
 }
 
@@ -92,7 +92,7 @@ export async function loadApplications(appNames) {
 export async function createApplication(appName, container, options = {}) {
   try {
     const ApplicationClass = await loadApplication(appName);
-    
+
     if (appName === 'enhanced-search') {
       return ApplicationClass(options);
     } else if (appName === 'campaign-selector') {
@@ -102,9 +102,9 @@ export async function createApplication(appName, container, options = {}) {
     } else if (appName === 'content-manager') {
       return ApplicationClass(options);
     }
-    
+
     throw new Error(`Unknown application instantiation pattern for '${appName}'`);
-    
+
   } catch (error) {
     console.error(`Failed to create application '${appName}':`, error);
     throw error;

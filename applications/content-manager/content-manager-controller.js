@@ -3,11 +3,11 @@
  * Business logic and interaction handling for content management
  */
 
-import { 
-  createUploadProgressTemplate, 
-  createContentStatsTemplate, 
-  createEmptyStateTemplate, 
-  createLoadingTemplate 
+import {
+  createUploadProgressTemplate,
+  createContentStatsTemplate,
+  createEmptyStateTemplate,
+  createLoadingTemplate
 } from './content-manager-template.js';
 
 /**
@@ -21,19 +21,19 @@ export class ContentManagerController {
       apiBase: '/api/content',
       uploadEndpoint: '/api/upload',
       meilisearchUrl: '/api/search',
-      
+
       // Feature Configuration
       maxFileSize: 25 * 1024 * 1024, // 25MB
       allowedFileTypes: ['pdf', 'doc', 'docx', 'txt', 'md', 'jpg', 'png', 'mp4', 'mp3'],
       selectionMode: true,
-      
+
       // Event Handlers
       onContentLoad: null,
       onContentSelect: null,
       onContentUpload: null,
       onContentDelete: null,
       onAnalytics: null,
-      
+
       ...props
     };
 
@@ -113,13 +113,13 @@ export class ContentManagerController {
       }
 
       const content = await response.json();
-      this.setState({ 
-        content: content.items || [], 
-        isLoading: false 
+      this.setState({
+        content: content.items || [],
+        isLoading: false
       });
 
       this.updateContentDisplay();
-      
+
       if (this.props.onContentLoad) {
         this.props.onContentLoad(content);
       }
@@ -151,7 +151,7 @@ export class ContentManagerController {
 
     // Upload files
     const uploadPromises = validFiles.map(file => this.uploadFile(file));
-    
+
     try {
       const results = await Promise.allSettled(uploadPromises);
       const successfulUploads = results
@@ -160,10 +160,10 @@ export class ContentManagerController {
 
       if (successfulUploads.length > 0) {
         this.showSuccess(`Successfully uploaded ${successfulUploads.length} file(s).`);
-        
+
         // Refresh content
         await this.loadContent();
-        
+
         if (this.props.onContentUpload) {
           this.props.onContentUpload(successfulUploads);
         }
@@ -224,7 +224,7 @@ export class ContentManagerController {
       }
 
       const result = await response.json();
-      
+
       this.state.uploadProgress.delete(uploadId);
       this.updateUploadProgress();
 
@@ -233,7 +233,7 @@ export class ContentManagerController {
       console.error('Upload error:', error);
       this.state.uploadProgress.delete(uploadId);
       this.updateUploadProgress();
-      
+
       return { success: false, file, error: error.message };
     }
   }
@@ -246,7 +246,7 @@ export class ContentManagerController {
     if (!progressContainer) return;
 
     const uploads = Array.from(this.state.uploadProgress.values());
-    
+
     if (uploads.length === 0) {
       progressContainer.style.display = 'none';
       return;
@@ -261,7 +261,7 @@ export class ContentManagerController {
    */
   changeView(view) {
     this.setState({ currentView: view });
-    
+
     // Update button states
     const viewButtons = this.element?.querySelectorAll('.view-button');
     viewButtons?.forEach(button => {
@@ -285,7 +285,7 @@ export class ContentManagerController {
    */
   changeSortBy(sortBy) {
     this.setState({ sortBy });
-    
+
     // Apply sorting to search interface if available
     if (this.state.searchApplication) {
       const controller = this.state.searchApplication.getSearchInterface()?.getController();
@@ -295,7 +295,7 @@ export class ContentManagerController {
         controller.search(currentState.query);
       }
     }
-    
+
     this.updateContentDisplay();
   }
 
@@ -329,17 +329,17 @@ export class ContentManagerController {
 
     try {
       switch (action) {
-        case 'download':
-          await this.downloadSelectedItems(selectedItems);
-          break;
-        case 'share':
-          await this.shareSelectedItems(selectedItems);
-          break;
-        case 'delete':
-          await this.deleteSelectedItems(selectedItems);
-          break;
-        default:
-          console.warn(`Unknown bulk action: ${action}`);
+      case 'download':
+        await this.downloadSelectedItems(selectedItems);
+        break;
+      case 'share':
+        await this.shareSelectedItems(selectedItems);
+        break;
+      case 'delete':
+        await this.deleteSelectedItems(selectedItems);
+        break;
+      default:
+        console.warn(`Unknown bulk action: ${action}`);
       }
     } catch (error) {
       console.error(`Error performing ${action}:`, error);
@@ -431,11 +431,11 @@ export class ContentManagerController {
   updateSelectionDisplay() {
     const selectionActions = this.element?.querySelector('.content-manager__selection-actions');
     const selectionCount = this.element?.querySelector('.selection-count');
-    
+
     if (!selectionActions || !selectionCount) return;
 
     const count = this.state.selectedContent.size;
-    
+
     if (count > 0) {
       selectionActions.style.display = 'flex';
       selectionCount.textContent = `${count} selected`;

@@ -42,7 +42,7 @@ export function createSearchBarTemplate(props) {
 
   // Create action buttons
   const actionButtons = [];
-  
+
   if (clearable && value) {
     actionButtons.push(createButtonTemplate({
       variant: 'ghost',
@@ -91,7 +91,7 @@ export function createSearchBarTemplate(props) {
         </div>
       `).join('')}
     </div>
-  ` : `<div class="tmyl-search-bar__suggestions"></div>`;
+  ` : '<div class="tmyl-search-bar__suggestions"></div>';
 
   return `
     <div class="${classes}">
@@ -118,7 +118,7 @@ export function updateSearchBarState(element, props) {
   const container = element.querySelector('.tmyl-search-bar__container');
   const input = element.querySelector('.tmyl-search-bar__input input');
   const suggestions = element.querySelector('.tmyl-search-bar__suggestions');
-  
+
   if (!container || !input) return;
 
   // Update input value
@@ -144,7 +144,7 @@ export function updateSearchBarState(element, props) {
   if (props.suggestions && suggestions) {
     const showSuggestions = props.showSuggestions && props.suggestions.length > 0;
     suggestions.className = `tmyl-search-bar__suggestions${showSuggestions ? ' tmyl-search-bar__suggestions--visible' : ''}`;
-    
+
     if (showSuggestions) {
       suggestions.innerHTML = props.suggestions.slice(0, props.maxSuggestions || 5).map((suggestion, index) => `
         <div class="tmyl-search-bar__suggestion" data-suggestion-index="${index}" data-action="select-suggestion">
@@ -176,25 +176,25 @@ export function updateSearchBarState(element, props) {
  */
 export const searchBarTemplates = {
   basic: (props) => createSearchBarTemplate({ ...props, voiceEnabled: false, showSubmitButton: false }),
-  
+
   withVoice: (props) => createSearchBarTemplate({ ...props, voiceEnabled: true }),
-  
-  withSuggestions: (props) => createSearchBarTemplate({ 
-    ...props, 
+
+  withSuggestions: (props) => createSearchBarTemplate({
+    ...props,
     showSuggestions: true,
     suggestions: props.suggestions || []
   }),
-  
-  complete: (props) => createSearchBarTemplate({ 
-    ...props, 
-    voiceEnabled: true, 
+
+  complete: (props) => createSearchBarTemplate({
+    ...props,
+    voiceEnabled: true,
     showSuggestions: true,
     clearable: true,
     showSubmitButton: true
   }),
 
-  compact: (props) => createSearchBarTemplate({ 
-    ...props, 
+  compact: (props) => createSearchBarTemplate({
+    ...props,
     size: 'sm',
     showSubmitButton: false
   })
@@ -205,11 +205,11 @@ export const searchBarTemplates = {
  */
 function getSuggestionIcon(type) {
   const icons = {
-    recent: `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path></svg>`,
-    suggestion: `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>`,
-    content: `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path></svg>`,
-    user: `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>`
+    recent: '<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path></svg>',
+    suggestion: '<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>',
+    content: '<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path></svg>',
+    user: '<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>'
   };
-  
+
   return icons[type] || icons.suggestion;
 }

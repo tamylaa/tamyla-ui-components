@@ -15,14 +15,14 @@ console.log('🔍 Checking ui-components exports...\n');
 if (fs.existsSync(esmFile)) {
   const esmContent = fs.readFileSync(esmFile, 'utf8');
   console.log('📦 ESM exports found:');
-  
+
   // Look for export statements
   const exportMatches = esmContent.match(/export\s+\{[^}]+\}/g) || [];
   exportMatches.forEach(match => console.log('  ', match));
-  
+
   const namedExports = esmContent.match(/export\s+\w+\s+\w+/g) || [];
   namedExports.forEach(match => console.log('  ', match));
-  
+
   console.log('\n📋 Total file size:', (esmContent.length / 1024).toFixed(2), 'KB');
 }
 

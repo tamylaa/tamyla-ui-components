@@ -16,31 +16,31 @@ export function ContentManagerApplicationFactory(props = {}) {
     apiBase = '/api/content',
     meilisearchUrl = '/api/search',
     uploadEndpoint = '/api/upload',
-    
+
     // Feature Configuration
     selectionMode = true,
     showUpload = true,
     maxFileSize = 25 * 1024 * 1024, // 25MB
     allowedFileTypes = ['pdf', 'doc', 'docx', 'txt', 'md', 'jpg', 'png', 'mp4', 'mp3'],
-    
+
     // Enhanced search features
     voiceSearch = true,
     naturalLanguage = true,
     smartFilters = true,
-    
+
     // UI Configuration
     title = 'Content Manager',
     description = 'Manage and search your content library',
     currentView = 'grid', // 'grid', 'list', 'timeline'
     sortBy = 'relevance', // 'relevance', 'date', 'title', 'size'
-    
+
     // Business Logic Handlers
     onContentLoad,
     onContentSelect,
     onContentUpload,
     onContentDelete,
     onAnalytics,
-    
+
     // Container
     container = null
   } = props;
@@ -56,22 +56,22 @@ export function ContentManagerApplicationFactory(props = {}) {
     // Core methods
     render,
     destroy,
-    
+
     // State management
     getController: () => controller,
     getSearchInterface: () => searchApplication,
     getElement: () => element,
-    
+
     // Content management
     loadContent: () => controller?.loadContent(),
     refreshContent: () => controller?.loadContent(),
     getSelectedContent: () => controller?.getState().selectedContent,
     clearSelection: () => controller?.setState({ selectedContent: new Set() }),
-    
+
     // View management
     changeView: (view) => controller?.changeView(view),
     changeSortBy: (sortBy) => controller?.changeSortBy(sortBy),
-    
+
     // Upload management
     triggerUpload: () => element?.querySelector('#file-upload')?.click(),
     getUploadProgress: () => controller?.getState().uploadProgress
@@ -88,7 +88,7 @@ export function ContentManagerApplicationFactory(props = {}) {
 
     // Create main element
     element = createElement();
-    
+
     // Initialize controller
     controller = new ContentManagerController({
       apiBase,
@@ -103,7 +103,7 @@ export function ContentManagerApplicationFactory(props = {}) {
       onContentDelete,
       onAnalytics
     });
-    
+
     controller.initialize(element);
 
     // Load CSS
@@ -116,7 +116,7 @@ export function ContentManagerApplicationFactory(props = {}) {
     if (typeof targetContainer === 'string') {
       targetContainer = document.querySelector(targetContainer);
     }
-    
+
     if (targetContainer) {
       targetContainer.appendChild(element);
     }
@@ -132,7 +132,7 @@ export function ContentManagerApplicationFactory(props = {}) {
     mainElement.className = 'tmyl-content-manager-application';
     mainElement.setAttribute('role', 'application');
     mainElement.setAttribute('aria-label', title);
-    
+
     mainElement.innerHTML = createContentManagerTemplate({
       title,
       description,
@@ -151,7 +151,7 @@ export function ContentManagerApplicationFactory(props = {}) {
    */
   function loadStyles() {
     const styleId = 'tmyl-content-manager-styles';
-    
+
     if (!document.getElementById(styleId)) {
       const link = document.createElement('link');
       link.id = styleId;
@@ -168,7 +168,7 @@ export function ContentManagerApplicationFactory(props = {}) {
     try {
       // Dynamic import to avoid circular dependencies
       const { EnhancedSearchApplicationFactory } = await import('../enhanced-search/enhanced-search-system.js');
-      
+
       const searchContainer = element?.querySelector('.content-manager__search-section');
       if (!searchContainer) return;
 
@@ -188,7 +188,7 @@ export function ContentManagerApplicationFactory(props = {}) {
       });
 
       searchApplication.render();
-      
+
       // Connect controller to search application
       if (controller) {
         controller.setSearchApplication(searchApplication);
@@ -242,11 +242,11 @@ export function ContentManagerApplicationFactory(props = {}) {
           <button class="basic-search-button">Search</button>
         </div>
       `;
-      
+
       // Basic search functionality
       const searchInput = searchSection.querySelector('.basic-search-input');
       const searchButton = searchSection.querySelector('.basic-search-button');
-      
+
       const performSearch = () => {
         const query = searchInput?.value?.trim();
         if (query && controller) {
@@ -279,7 +279,7 @@ export function ContentManagerApplicationFactory(props = {}) {
     if (element && element.parentNode) {
       element.parentNode.removeChild(element);
     }
-    
+
     element = null;
   }
 

@@ -1,4 +1,4 @@
-export { default as TamylaUISystem } from "../tamyla-ui-system.js";
+export { default as TamylaUISystem } from '../tamyla-ui-system.js';
 declare namespace _default {
     let name: string;
     let version: string;

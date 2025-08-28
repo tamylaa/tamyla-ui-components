@@ -6,7 +6,7 @@
 import StatusIndicatorController from './controllers/status-indicator-controller.js';
 import ConnectionManagerController from './controllers/connection-manager-controller.js';
 import OrderStatusController from './controllers/order-status-controller.js';
-import { 
+import {
   STATUS_TYPES,
   STATUS_CONFIGS,
   TRADING_PORTAL_PRESETS,
@@ -58,28 +58,28 @@ class RealTimeStatus {
 
       // Create appropriate controller based on type
       switch (this.options.type) {
-        case 'status-indicator':
-          this.controller = new StatusIndicatorController(this.options);
-          break;
-        
-        case 'connection-banner':
-          this.controller = await this.createConnectionBanner();
-          break;
-        
-        case 'order-status':
-          this.controller = new OrderStatusController(this.options.orderData || {}, this.options);
-          break;
-        
-        case 'trading-session':
-          this.controller = await this.createTradingSession();
-          break;
-        
-        case 'status-list':
-          this.controller = await this.createStatusList();
-          break;
-        
-        default:
-          throw new Error(`Unknown component type: ${this.options.type}`);
+      case 'status-indicator':
+        this.controller = new StatusIndicatorController(this.options);
+        break;
+
+      case 'connection-banner':
+        this.controller = await this.createConnectionBanner();
+        break;
+
+      case 'order-status':
+        this.controller = new OrderStatusController(this.options.orderData || {}, this.options);
+        break;
+
+      case 'trading-session':
+        this.controller = await this.createTradingSession();
+        break;
+
+      case 'status-list':
+        this.controller = await this.createStatusList();
+        break;
+
+      default:
+        throw new Error(`Unknown component type: ${this.options.type}`);
       }
 
       // Bind controller events
@@ -113,13 +113,13 @@ class RealTimeStatus {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = '/ui-components/molecules/real-time-status/styles/real-time-status.css';
-      
+
       link.onload = resolve;
       link.onerror = () => {
         console.warn('Failed to load real-time status styles, using fallback');
         resolve(); // Don't fail initialization
       };
-      
+
       document.head.appendChild(link);
     });
   }
@@ -221,10 +221,10 @@ class RealTimeStatus {
         try {
           const response = await fetch('/ui-components/molecules/real-time-status/templates/status-list.html');
           const templateHtml = await response.text();
-          
+
           const template = document.createElement('template');
           template.innerHTML = templateHtml;
-          
+
           return template.content.firstElementChild.cloneNode(true);
         } catch (error) {
           // Fallback element
@@ -326,7 +326,7 @@ class RealTimeStatus {
           endpoint: this.options.endpoint || '/api/health',
           autoStart: true
         });
-        
+
         this.connectionManager.register(this.controller);
       }
     }
@@ -424,11 +424,11 @@ class RealTimeStatus {
    */
   updateOptions(newOptions) {
     this.options = { ...this.options, ...newOptions };
-    
+
     if (this.controller && typeof this.controller.updateOptions === 'function') {
       this.controller.updateOptions(newOptions);
     }
-    
+
     return this;
   }
 
@@ -481,14 +481,14 @@ class RealTimeStatus {
    */
   destroy() {
     this.disconnect();
-    
+
     if (this.controller && typeof this.controller.destroy === 'function') {
       this.controller.destroy();
     }
-    
+
     this.listeners.clear();
     this.initialized = false;
-    
+
     this.emit(EVENT_TYPES.COMPONENT_DESTROYED, { status: this });
   }
 }
@@ -513,7 +513,7 @@ class RealTimeStatusManager {
   register(statusComponent) {
     const id = this.generateId();
     this.components.set(id, statusComponent);
-    
+
     // Auto-register with global connection manager for connection-related components
     if (statusComponent.options.type === 'status-indicator' && statusComponent.options.autoConnect) {
       this.ensureGlobalConnectionManager();
@@ -521,7 +521,7 @@ class RealTimeStatusManager {
         this.globalConnectionManager.register(statusComponent.controller);
       }
     }
-    
+
     return id;
   }
 
@@ -594,7 +594,7 @@ class RealTimeStatusManager {
       component.destroy();
     });
     this.components.clear();
-    
+
     if (this.globalConnectionManager) {
       this.globalConnectionManager.destroy();
       this.globalConnectionManager = null;
@@ -673,7 +673,7 @@ export {
 if (typeof window !== 'undefined') {
   window.TamylaRealTimeStatus = RealTimeStatus;
   window.TamylaStatusManager = new RealTimeStatusManager();
-  
+
   // Export factory functions globally
   window.createStatusIndicator = createStatusIndicator;
   window.createConnectionBanner = createConnectionBanner;

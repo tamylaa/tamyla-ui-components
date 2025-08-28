@@ -22,7 +22,7 @@ export class FileListController {
     this.filteredFiles = [];
     this.selectedFiles = new Set();
     this.draggedFiles = [];
-    
+
     this.state = {
       loading: false,
       sortBy: this.options.defaultSortBy,
@@ -71,7 +71,7 @@ export class FileListController {
    */
   addEventListener(element, type, handler) {
     element.addEventListener(type, handler);
-    
+
     if (!this.eventListeners.has(element)) {
       this.eventListeners.set(element, []);
     }
@@ -85,7 +85,7 @@ export class FileListController {
     if (this.element) {
       this.element.setAttribute('role', 'listbox');
       this.element.setAttribute('aria-label', 'File list');
-      
+
       if (this.options.multiSelect) {
         this.element.setAttribute('aria-multiselectable', 'true');
       }
@@ -122,7 +122,7 @@ export class FileListController {
 
     const fileId = item.dataset.fileId;
     const file = this.getFileById(fileId);
-    
+
     if (!file) return;
 
     if (this.options.selectable) {
@@ -146,40 +146,40 @@ export class FileListController {
     if (!item) return;
 
     const fileId = item.dataset.fileId;
-    
+
     switch (event.key) {
-      case 'Enter':
-      case ' ':
-        event.preventDefault();
-        if (this.options.selectable) {
-          this.toggleSelection(fileId);
-        }
-        this.emit('fileActivate', { fileId, file: this.getFileById(fileId) });
-        break;
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      if (this.options.selectable) {
+        this.toggleSelection(fileId);
+      }
+      this.emit('fileActivate', { fileId, file: this.getFileById(fileId) });
+      break;
 
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusNextItem(item);
-        break;
+    case 'ArrowDown':
+      event.preventDefault();
+      this.focusNextItem(item);
+      break;
 
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusPreviousItem(item);
-        break;
+    case 'ArrowUp':
+      event.preventDefault();
+      this.focusPreviousItem(item);
+      break;
 
-      case 'Home':
-        event.preventDefault();
-        this.focusFirstItem();
-        break;
+    case 'Home':
+      event.preventDefault();
+      this.focusFirstItem();
+      break;
 
-      case 'End':
-        event.preventDefault();
-        this.focusLastItem();
-        break;
+    case 'End':
+      event.preventDefault();
+      this.focusLastItem();
+      break;
 
-      case 'Escape':
-        this.clearSelection();
-        break;
+    case 'Escape':
+      this.clearSelection();
+      break;
     }
   }
 
@@ -191,7 +191,7 @@ export class FileListController {
 
     const item = event.target.closest('.tmyl-file-list__item');
     const fileId = item?.dataset.fileId;
-    
+
     if (fileId) {
       if (event.target.checked) {
         this.selectFile(fileId, false);
@@ -208,7 +208,7 @@ export class FileListController {
     if (!event.target.classList.contains('tmyl-file-list__action')) return;
 
     event.stopPropagation();
-    
+
     const item = event.target.closest('.tmyl-file-list__item');
     const action = event.target.dataset.action;
     const fileId = item?.dataset.fileId;
@@ -269,7 +269,7 @@ export class FileListController {
     if (!item) return;
 
     const fileId = item.dataset.fileId;
-    this.draggedFiles = this.selectedFiles.has(fileId) 
+    this.draggedFiles = this.selectedFiles.has(fileId)
       ? Array.from(this.selectedFiles)
       : [fileId];
 
@@ -291,7 +291,7 @@ export class FileListController {
     const items = this.getFileItems();
     const currentIndex = items.indexOf(currentItem);
     const nextItem = items[currentIndex + 1];
-    
+
     if (nextItem) {
       nextItem.focus();
     }
@@ -301,7 +301,7 @@ export class FileListController {
     const items = this.getFileItems();
     const currentIndex = items.indexOf(currentItem);
     const prevItem = items[currentIndex - 1];
-    
+
     if (prevItem) {
       prevItem.focus();
     }
@@ -335,10 +335,10 @@ export class FileListController {
     if (clearOthers) {
       this.clearSelection();
     }
-    
+
     this.selectedFiles.add(fileId);
     this.updateItemSelection(fileId, true);
-    this.emit('selectionChange', { 
+    this.emit('selectionChange', {
       selected: Array.from(this.selectedFiles),
       file: this.getFileById(fileId)
     });
@@ -347,7 +347,7 @@ export class FileListController {
   deselectFile(fileId) {
     this.selectedFiles.delete(fileId);
     this.updateItemSelection(fileId, false);
-    this.emit('selectionChange', { 
+    this.emit('selectionChange', {
       selected: Array.from(this.selectedFiles)
     });
   }
@@ -364,7 +364,7 @@ export class FileListController {
     const items = this.getFileItems();
     const selectedArray = Array.from(this.selectedFiles);
     const lastSelectedId = selectedArray[selectedArray.length - 1];
-    
+
     if (!lastSelectedId) {
       this.selectFile(endFileId);
       return;
@@ -372,17 +372,17 @@ export class FileListController {
 
     const startIndex = items.findIndex(item => item.dataset.fileId === lastSelectedId);
     const endIndex = items.findIndex(item => item.dataset.fileId === endFileId);
-    
+
     if (startIndex !== -1 && endIndex !== -1) {
       const min = Math.min(startIndex, endIndex);
       const max = Math.max(startIndex, endIndex);
-      
+
       for (let i = min; i <= max; i++) {
         const fileId = items[i].dataset.fileId;
         this.selectedFiles.add(fileId);
         this.updateItemSelection(fileId, true);
       }
-      
+
       this.emit('selectionChange', { selected: Array.from(this.selectedFiles) });
     }
   }
@@ -391,7 +391,7 @@ export class FileListController {
     if (!this.options.multiSelect) return;
 
     this.clearSelection();
-    
+
     this.filteredFiles.forEach(file => {
       const fileId = file.id || file.name;
       this.selectedFiles.add(fileId);
@@ -405,7 +405,7 @@ export class FileListController {
     this.selectedFiles.forEach(fileId => {
       this.updateItemSelection(fileId, false);
     });
-    
+
     this.selectedFiles.clear();
     this.emit('selectionChange', { selected: [] });
   }
@@ -444,10 +444,10 @@ export class FileListController {
   }
 
   removeFile(fileId) {
-    this.files = this.files.filter(file => 
+    this.files = this.files.filter(file =>
       (file.id || file.name) !== fileId
     );
-    
+
     this.selectedFiles.delete(fileId);
     this.applyFilter();
     this.render();
@@ -529,7 +529,7 @@ export class FileListController {
     this.element.className = this.element.className
       .replace(/tmyl-file-list--\w+/g, '')
       .trim();
-    
+
     if (view !== 'list') {
       this.element.classList.add(`tmyl-file-list--${view}`);
     }
@@ -559,7 +559,7 @@ export class FileListController {
    * Get selected files data
    */
   getSelectedFiles() {
-    return Array.from(this.selectedFiles).map(fileId => 
+    return Array.from(this.selectedFiles).map(fileId =>
       this.getFileById(fileId)
     ).filter(Boolean);
   }
@@ -569,7 +569,7 @@ export class FileListController {
    */
   render() {
     // This would trigger a re-render with the current filtered files
-    this.emit('render', { 
+    this.emit('render', {
       files: this.filteredFiles,
       state: this.getState()
     });

@@ -10,7 +10,7 @@ class ProgressController {
     this.progressBars = new Map();
     this.animationQueue = [];
     this.isAnimating = false;
-    
+
     this.options = {
       enableAnimations: true,
       batchUpdates: true,
@@ -49,7 +49,7 @@ class ProgressController {
 
     this.progressBars.set(containerId, progressData);
     this.renderProgress(containerId);
-    
+
     return containerId;
   }
 
@@ -115,7 +115,7 @@ class ProgressController {
 
     this.isAnimating = true;
     const animation = this.animationQueue.shift();
-    
+
     if (animation.startTime === null) {
       animation.startTime = performance.now();
     }
@@ -123,11 +123,11 @@ class ProgressController {
     const animateFrame = (currentTime) => {
       const elapsed = currentTime - animation.startTime;
       const progress = Math.min(elapsed / animation.duration, 1);
-      
+
       // Easing function (ease-out)
       const easedProgress = 1 - Math.pow(1 - progress, 3);
-      
-      const currentValue = animation.fromValue + 
+
+      const currentValue = animation.fromValue +
         (animation.toValue - animation.fromValue) * easedProgress;
 
       // Update display
@@ -155,10 +155,10 @@ class ProgressController {
     if (!progress) return;
 
     const { container, type } = progress;
-    
+
     // Clear existing content
     container.innerHTML = '';
-    
+
     // Add CSS classes
     container.className = `tmyl-progress-indicator type-${type} size-${progress.size} color-${progress.color}`;
 
@@ -172,15 +172,15 @@ class ProgressController {
 
     // Render based on type
     switch (type) {
-      case PROGRESS_CONFIG.types.LINEAR:
-        this.renderLinearProgress(container, progress);
-        break;
-      case PROGRESS_CONFIG.types.CIRCULAR:
-        this.renderCircularProgress(container, progress);
-        break;
-      case PROGRESS_CONFIG.types.STEPS:
-        this.renderStepsProgress(container, progress);
-        break;
+    case PROGRESS_CONFIG.types.LINEAR:
+      this.renderLinearProgress(container, progress);
+      break;
+    case PROGRESS_CONFIG.types.CIRCULAR:
+      this.renderCircularProgress(container, progress);
+      break;
+    case PROGRESS_CONFIG.types.STEPS:
+      this.renderStepsProgress(container, progress);
+      break;
     }
   }
 
@@ -196,7 +196,7 @@ class ProgressController {
 
     const fill = document.createElement('div');
     fill.className = 'progress-fill';
-    
+
     const percentage = (progress.current / progress.total) * 100;
     fill.style.width = `${percentage}%`;
 
@@ -322,26 +322,26 @@ class ProgressController {
     const { container, type } = progress;
 
     switch (type) {
-      case PROGRESS_CONFIG.types.LINEAR:
-        const fill = container.querySelector('.progress-fill');
-        if (fill) {
-          fill.style.width = `${percentage}%`;
-        }
-        break;
+    case PROGRESS_CONFIG.types.LINEAR:
+      const fill = container.querySelector('.progress-fill');
+      if (fill) {
+        fill.style.width = `${percentage}%`;
+      }
+      break;
 
-      case PROGRESS_CONFIG.types.CIRCULAR:
-        const circle = container.querySelector('.circle');
-        if (circle) {
-          const radius = parseFloat(circle.getAttribute('r'));
-          const circumference = radius * 2 * Math.PI;
-          const offset = circumference - (percentage / 100) * circumference;
-          circle.setAttribute('stroke-dashoffset', offset);
-        }
-        break;
+    case PROGRESS_CONFIG.types.CIRCULAR:
+      const circle = container.querySelector('.circle');
+      if (circle) {
+        const radius = parseFloat(circle.getAttribute('r'));
+        const circumference = radius * 2 * Math.PI;
+        const offset = circumference - (percentage / 100) * circumference;
+        circle.setAttribute('stroke-dashoffset', offset);
+      }
+      break;
 
-      case PROGRESS_CONFIG.types.STEPS:
-        this.updateStepsDisplay(container, currentValue, progress.total, progress.steps);
-        break;
+    case PROGRESS_CONFIG.types.STEPS:
+      this.updateStepsDisplay(container, currentValue, progress.total, progress.steps);
+      break;
     }
 
     // Update value display
@@ -366,7 +366,7 @@ class ProgressController {
 
     stepElements.forEach((element, index) => {
       element.classList.remove('completed', 'current');
-      
+
       if (index < currentStep) {
         element.classList.add('completed');
       } else if (index === currentStep) {
@@ -384,27 +384,27 @@ class ProgressController {
    */
   formatValue(progress) {
     const { current, total, formatter } = progress;
-    
+
     if (typeof formatter === 'function') {
       return formatter(current, total);
     }
 
     const formatters = PROGRESS_CONFIG.formatters;
-    
+
     switch (formatter) {
-      case 'percentage':
-        return formatters.percentage(current, total);
-      case 'count':
-        return formatters.count(current, total);
-      case 'xp':
-        return formatters.xp(current, total);
-      case 'level':
-        return formatters.level(current, total);
-      default:
-        if (typeof formatter === 'string') {
-          return formatters.custom(current, total, formatter);
-        }
-        return formatters.percentage(current, total);
+    case 'percentage':
+      return formatters.percentage(current, total);
+    case 'count':
+      return formatters.count(current, total);
+    case 'xp':
+      return formatters.xp(current, total);
+    case 'level':
+      return formatters.level(current, total);
+    default:
+      if (typeof formatter === 'string') {
+        return formatters.custom(current, total, formatter);
+      }
+      return formatters.percentage(current, total);
     }
   }
 
@@ -414,14 +414,14 @@ class ProgressController {
   generateDefaultSteps(total) {
     const stepCount = Math.min(total, 5); // Max 5 steps by default
     const steps = [];
-    
+
     for (let i = 0; i < stepCount; i++) {
       steps.push({
         label: `Step ${i + 1}`,
         icon: i + 1
       });
     }
-    
+
     return steps;
   }
 
@@ -434,7 +434,7 @@ class ProgressController {
       medium: 120,
       large: 160
     };
-    
+
     return sizes[size] || sizes.medium;
   }
 
@@ -443,33 +443,33 @@ class ProgressController {
    */
   validateProgressConfig(config) {
     const rules = VALIDATION_RULES.progress;
-    
+
     for (const [field, rule] of Object.entries(rules)) {
       const value = config[field];
-      
+
       if (rule.required && (value === undefined || value === null)) {
         console.error(`Missing required field: ${field}`);
         return false;
       }
-      
+
       if (value !== undefined) {
         if (rule.type && typeof value !== rule.type) {
           console.error(`Invalid type for ${field}: expected ${rule.type}`);
           return false;
         }
-        
+
         if (rule.enum && !rule.enum.includes(value)) {
           console.error(`Invalid value for ${field}: must be one of ${rule.enum.join(', ')}`);
           return false;
         }
-        
+
         if (rule.min && value < rule.min) {
           console.error(`${field} too small: minimum ${rule.min}`);
           return false;
         }
       }
     }
-    
+
     return true;
   }
 
@@ -482,9 +482,9 @@ class ProgressController {
       progress.container.innerHTML = '';
       progress.container.className = '';
     }
-    
+
     this.progressBars.delete(progressId);
-    
+
     // Remove from animation queue
     this.animationQueue = this.animationQueue.filter(
       animation => animation.progressId !== progressId
@@ -526,7 +526,7 @@ class ProgressController {
       progress.size = size;
       progress.container.className = progress.container.className
         .replace(/size-\w+/, `size-${size}`);
-      
+
       // Re-render if circular (size affects SVG)
       if (progress.type === PROGRESS_CONFIG.types.CIRCULAR) {
         this.renderProgress(progressId);

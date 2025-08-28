@@ -35,10 +35,10 @@ export function createDashboardWidget(options = {}) {
   widget.className = `tmyl-dashboard-widget widget-${type} size-${size} ${className}`;
   widget.setAttribute('role', 'region');
   widget.setAttribute('aria-label', `Dashboard widget: ${title}`);
-  
+
   if (resizable) widget.classList.add('resizable');
   if (movable) widget.classList.add('movable');
-  
+
   // Widget structure
   let widgetContent = `
     <div class="widget-header">
@@ -59,15 +59,15 @@ export function createDashboardWidget(options = {}) {
       <div class="widget-body"></div>
     </div>
   `;
-  
+
   widget.innerHTML = widgetContent;
-  
+
   // State management
   let isCollapsed = false;
   let isLoading = loading;
   let currentData = data;
   let refreshTimer = null;
-  
+
   // Methods
   const methods = {
     /**
@@ -78,59 +78,59 @@ export function createDashboardWidget(options = {}) {
       this.render();
       return this;
     },
-    
+
     /**
      * Render widget content based on type and data
      */
     render() {
       const body = widget.querySelector('.widget-body');
       if (!body) return this;
-      
+
       // Clear existing content
       body.innerHTML = '';
-      
+
       if (isLoading) {
         body.innerHTML = '<div class="widget-loading">Loading...</div>';
         return this;
       }
-      
+
       if (error) {
         body.innerHTML = `<div class="widget-error">${error}</div>`;
         return this;
       }
-      
+
       if (!currentData) {
         body.innerHTML = '<div class="widget-empty">No data available</div>';
         return this;
       }
-      
+
       // Render based on widget type
       switch (type) {
-        case 'metric':
-          this.renderMetric(body);
-          break;
-        case 'chart':
-          this.renderChart(body);
-          break;
-        case 'list':
-          this.renderList(body);
-          break;
-        case 'table':
-          this.renderTable(body);
-          break;
-        default:
-          this.renderCard(body);
+      case 'metric':
+        this.renderMetric(body);
+        break;
+      case 'chart':
+        this.renderChart(body);
+        break;
+      case 'list':
+        this.renderList(body);
+        break;
+      case 'table':
+        this.renderTable(body);
+        break;
+      default:
+        this.renderCard(body);
       }
-      
+
       return this;
     },
-    
+
     /**
      * Render metric widget
      */
     renderMetric(container) {
       const { value, label, change, trend, format = 'number' } = currentData;
-      
+
       let formattedValue = value;
       if (format === 'currency') {
         formattedValue = new Intl.NumberFormat('en-US', {
@@ -140,7 +140,7 @@ export function createDashboardWidget(options = {}) {
       } else if (format === 'percentage') {
         formattedValue = `${value}%`;
       }
-      
+
       container.innerHTML = `
         <div class="metric-display">
           <div class="metric-value">${formattedValue}</div>
@@ -154,13 +154,13 @@ export function createDashboardWidget(options = {}) {
         </div>
       `;
     },
-    
+
     /**
      * Render chart widget (placeholder for chart library integration)
      */
     renderChart(container) {
       const { chartType = 'line', datasets = [], labels = [] } = currentData;
-      
+
       container.innerHTML = `
         <div class="chart-container">
           <div class="chart-placeholder">
@@ -171,13 +171,13 @@ export function createDashboardWidget(options = {}) {
         </div>
       `;
     },
-    
+
     /**
      * Render list widget
      */
     renderList(container) {
       const { items = [], showIcons = true, showActions = false } = currentData;
-      
+
       const listHTML = items.map(item => `
         <div class="list-item" data-id="${item.id || ''}">
           ${showIcons && item.icon ? `<span class="item-icon">${item.icon}</span>` : ''}
@@ -197,23 +197,23 @@ export function createDashboardWidget(options = {}) {
           ` : ''}
         </div>
       `).join('');
-      
+
       container.innerHTML = `<div class="widget-list">${listHTML}</div>`;
     },
-    
+
     /**
      * Render table widget
      */
     renderTable(container) {
       const { columns = [], rows = [], sortable = true } = currentData;
-      
+
       const headerHTML = columns.map(col => `
         <th class="${sortable ? 'sortable' : ''}" data-column="${col.key}">
           ${col.label}
           ${sortable ? '<span class="sort-indicator"></span>' : ''}
         </th>
       `).join('');
-      
+
       const rowsHTML = rows.map(row => `
         <tr data-id="${row.id || ''}">
           ${columns.map(col => `
@@ -223,7 +223,7 @@ export function createDashboardWidget(options = {}) {
           `).join('')}
         </tr>
       `).join('');
-      
+
       container.innerHTML = `
         <div class="widget-table-container">
           <table class="widget-table">
@@ -235,7 +235,7 @@ export function createDashboardWidget(options = {}) {
         </div>
       `;
     },
-    
+
     /**
      * Render card widget (default)
      */
@@ -243,7 +243,7 @@ export function createDashboardWidget(options = {}) {
       const { content = '', html = '' } = currentData;
       container.innerHTML = html || `<div class="card-content">${content}</div>`;
     },
-    
+
     /**
      * Set loading state
      */
@@ -257,7 +257,7 @@ export function createDashboardWidget(options = {}) {
       this.render();
       return this;
     },
-    
+
     /**
      * Set error state
      */
@@ -271,22 +271,22 @@ export function createDashboardWidget(options = {}) {
       this.render();
       return this;
     },
-    
+
     /**
      * Clear error
      */
     clearError() {
       return this.setError(null);
     },
-    
+
     /**
      * Refresh widget data
      */
     async refresh() {
       if (!onRefresh) return false;
-      
+
       this.setLoading(true);
-      
+
       try {
         const newData = await onRefresh();
         this.updateData(newData);
@@ -299,13 +299,13 @@ export function createDashboardWidget(options = {}) {
         this.setLoading(false);
       }
     },
-    
+
     /**
      * Collapse/expand widget
      */
     toggleCollapse() {
       isCollapsed = !isCollapsed;
-      
+
       if (isCollapsed) {
         widget.classList.add('collapsed');
         widget.querySelector('.widget-collapse').textContent = '+';
@@ -313,17 +313,17 @@ export function createDashboardWidget(options = {}) {
         widget.classList.remove('collapsed');
         widget.querySelector('.widget-collapse').textContent = '−';
       }
-      
+
       if (onCollapse) onCollapse(isCollapsed);
-      
+
       // Dispatch event
       widget.dispatchEvent(new CustomEvent('widget-collapse', {
         detail: { collapsed: isCollapsed, widget: methods }
       }));
-      
+
       return this;
     },
-    
+
     /**
      * Start auto-refresh
      */
@@ -335,7 +335,7 @@ export function createDashboardWidget(options = {}) {
       }
       return this;
     },
-    
+
     /**
      * Stop auto-refresh
      */
@@ -346,7 +346,7 @@ export function createDashboardWidget(options = {}) {
       }
       return this;
     },
-    
+
     /**
      * Update widget title
      */
@@ -358,48 +358,48 @@ export function createDashboardWidget(options = {}) {
       }
       return this;
     },
-    
+
     /**
      * Resize widget
      */
     setSize(newSize) {
       widget.classList.remove(`size-${size}`);
       widget.classList.add(`size-${newSize}`);
-      
+
       if (onResize) onResize(newSize);
-      
+
       return this;
     },
-    
+
     /**
      * Destroy widget
      */
     destroy() {
       this.stopAutoRefresh();
-      
+
       if (widget.parentNode) {
         widget.parentNode.removeChild(widget);
       }
     },
-    
+
     /**
      * Get widget element
      */
     get element() { return widget; },
-    
+
     /**
      * Get widget data
      */
     get data() { return currentData; },
-    
+
     /**
      * Check if collapsed
      */
     get collapsed() { return isCollapsed; }
   };
-  
+
   // Event handlers
-  
+
   // Action buttons
   widget.addEventListener('click', (e) => {
     const actionBtn = e.target.closest('.widget-action');
@@ -411,19 +411,19 @@ export function createDashboardWidget(options = {}) {
       }
       return;
     }
-    
+
     // Collapse button
     if (e.target.closest('.widget-collapse')) {
       methods.toggleCollapse();
       return;
     }
-    
+
     // Refresh button
     if (e.target.closest('.widget-refresh')) {
       methods.refresh();
       return;
     }
-    
+
     // Table sorting
     const sortHeader = e.target.closest('.sortable');
     if (sortHeader && type === 'table') {
@@ -433,25 +433,25 @@ export function createDashboardWidget(options = {}) {
         detail: { column, widget: methods }
       }));
     }
-    
+
     // List item actions
     const itemAction = e.target.closest('.item-action');
     if (itemAction) {
       const actionId = itemAction.getAttribute('data-action');
       const itemId = itemAction.getAttribute('data-item');
-      
+
       widget.dispatchEvent(new CustomEvent('widget-item-action', {
         detail: { action: actionId, item: itemId, widget: methods }
       }));
     }
   });
-  
+
   // Initialize
   methods.render();
   if (refreshInterval > 0) {
     methods.startAutoRefresh();
   }
-  
+
   return methods;
 }
 
@@ -478,13 +478,13 @@ export function createDashboardGrid(options = {}) {
     gap: ${gap};
     width: 100%;
   `;
-  
+
   if (responsive) {
     grid.classList.add('responsive');
   }
-  
+
   const widgets = new Map();
-  
+
   // Methods
   const methods = {
     /**
@@ -497,27 +497,27 @@ export function createDashboardGrid(options = {}) {
         rowSpan = 1,
         columnSpan = 1
       } = position;
-      
+
       const widgetElement = widget.element || widget;
-      
+
       widgetElement.style.gridRow = row === 'auto' ? 'auto' : `${row} / span ${rowSpan}`;
       widgetElement.style.gridColumn = column === 'auto' ? 'auto' : `${column} / span ${columnSpan}`;
-      
+
       grid.appendChild(widgetElement);
-      
+
       // Generate ID if widget doesn't have one
       const widgetId = widgetElement.getAttribute('data-widget-id') || `widget-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       widgetElement.setAttribute('data-widget-id', widgetId);
-      
+
       widgets.set(widgetId, {
         element: widgetElement,
         controller: widget,
         position: { row, column, rowSpan, columnSpan }
       });
-      
+
       return widgetId;
     },
-    
+
     /**
      * Remove widget from grid
      */
@@ -532,43 +532,43 @@ export function createDashboardGrid(options = {}) {
       }
       return false;
     },
-    
+
     /**
      * Move widget to new position
      */
     moveWidget(widgetId, newPosition) {
       const widget = widgets.get(widgetId);
       if (!widget) return false;
-      
+
       const {
         row = widget.position.row,
         column = widget.position.column,
         rowSpan = widget.position.rowSpan,
         columnSpan = widget.position.columnSpan
       } = newPosition;
-      
+
       widget.element.style.gridRow = row === 'auto' ? 'auto' : `${row} / span ${rowSpan}`;
       widget.element.style.gridColumn = column === 'auto' ? 'auto' : `${column} / span ${columnSpan}`;
-      
+
       widget.position = { row, column, rowSpan, columnSpan };
-      
+
       return true;
     },
-    
+
     /**
      * Get widget by ID
      */
     getWidget(widgetId) {
       return widgets.get(widgetId);
     },
-    
+
     /**
      * Get all widgets
      */
     getAllWidgets() {
       return Array.from(widgets.values());
     },
-    
+
     /**
      * Update grid columns
      */
@@ -576,7 +576,7 @@ export function createDashboardGrid(options = {}) {
       grid.style.gridTemplateColumns = `repeat(${newColumns}, 1fr)`;
       return this;
     },
-    
+
     /**
      * Update grid gap
      */
@@ -584,7 +584,7 @@ export function createDashboardGrid(options = {}) {
       grid.style.gap = newGap;
       return this;
     },
-    
+
     /**
      * Clear all widgets
      */
@@ -594,7 +594,7 @@ export function createDashboardGrid(options = {}) {
       });
       return this;
     },
-    
+
     /**
      * Get grid layout configuration
      */
@@ -608,7 +608,7 @@ export function createDashboardGrid(options = {}) {
       });
       return layout;
     },
-    
+
     /**
      * Apply layout configuration
      */
@@ -618,13 +618,13 @@ export function createDashboardGrid(options = {}) {
       });
       return this;
     },
-    
+
     /**
      * Get grid element
      */
     get element() { return grid; }
   };
-  
+
   return methods;
 }
 
@@ -643,7 +643,7 @@ export const TRADING_PORTAL_WIDGETS = {
       format: 'currency'
     }
   },
-  
+
   recentTrades: {
     type: 'list',
     title: 'Recent Trades',
@@ -657,7 +657,7 @@ export const TRADING_PORTAL_WIDGETS = {
       showIcons: true
     }
   },
-  
+
   marketChart: {
     type: 'chart',
     title: 'Market Overview',
@@ -670,7 +670,7 @@ export const TRADING_PORTAL_WIDGETS = {
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     }
   },
-  
+
   watchlist: {
     type: 'table',
     title: 'Watchlist',
@@ -703,11 +703,11 @@ export class DashboardManager {
       responsive: true,
       draggable: true
     });
-    
+
     this.container.appendChild(this.grid.element);
     this.widgets = new Map();
   }
-  
+
   /**
    * Create and add widget to dashboard
    */
@@ -715,10 +715,10 @@ export class DashboardManager {
     const widget = createDashboardWidget(config);
     const widgetId = this.grid.addWidget(widget, position);
     this.widgets.set(widgetId, widget);
-    
+
     return { id: widgetId, widget };
   }
-  
+
   /**
    * Remove widget from dashboard
    */
@@ -731,23 +731,23 @@ export class DashboardManager {
     }
     return false;
   }
-  
+
   /**
    * Load Trading Portal preset dashboard
    */
   loadTradingPortalDashboard() {
     this.grid.clear();
     this.widgets.clear();
-    
+
     // Add preset widgets
     this.addWidget(TRADING_PORTAL_WIDGETS.portfolio, { row: 1, column: 1, columnSpan: 3 });
     this.addWidget(TRADING_PORTAL_WIDGETS.marketChart, { row: 1, column: 4, columnSpan: 9 });
     this.addWidget(TRADING_PORTAL_WIDGETS.recentTrades, { row: 2, column: 1, columnSpan: 6 });
     this.addWidget(TRADING_PORTAL_WIDGETS.watchlist, { row: 2, column: 7, columnSpan: 6 });
-    
+
     return this;
   }
-  
+
   /**
    * Save dashboard layout
    */
@@ -756,36 +756,36 @@ export class DashboardManager {
       grid: this.grid.getLayout(),
       widgets: {}
     };
-    
+
     this.widgets.forEach((widget, id) => {
       layout.widgets[id] = {
         type: widget.element.classList.contains('widget-metric') ? 'metric' :
-              widget.element.classList.contains('widget-chart') ? 'chart' :
-              widget.element.classList.contains('widget-list') ? 'list' :
+          widget.element.classList.contains('widget-chart') ? 'chart' :
+            widget.element.classList.contains('widget-list') ? 'list' :
               widget.element.classList.contains('widget-table') ? 'table' : 'card',
         title: widget.element.querySelector('.widget-title')?.textContent || '',
         data: widget.data
       };
     });
-    
+
     localStorage.setItem(`dashboard-layout-${name}`, JSON.stringify(layout));
     return true;
   }
-  
+
   /**
    * Load dashboard layout
    */
   loadLayout(name = 'default') {
     const saved = localStorage.getItem(`dashboard-layout-${name}`);
     if (!saved) return false;
-    
+
     try {
       const layout = JSON.parse(saved);
-      
+
       // Clear current dashboard
       this.grid.clear();
       this.widgets.clear();
-      
+
       // Recreate widgets
       layout.grid.forEach(item => {
         const widgetConfig = layout.widgets[item.id];
@@ -795,14 +795,14 @@ export class DashboardManager {
           this.widgets.set(item.id, widget);
         }
       });
-      
+
       return true;
     } catch (err) {
       console.error('Failed to load dashboard layout:', err);
       return false;
     }
   }
-  
+
   /**
    * Refresh all widgets
    */

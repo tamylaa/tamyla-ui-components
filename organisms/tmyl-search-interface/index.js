@@ -39,7 +39,7 @@ export {
  */
 export function createSearchInterface(props = {}) {
   const element = document.createElement('tmyl-search-interface');
-  
+
   // Set properties
   Object.keys(props).forEach(key => {
     if (key in element) {
@@ -50,6 +50,6 @@ export function createSearchInterface(props = {}) {
       element.setAttribute(attrName, props[key]);
     }
   });
-  
+
   return element;
 }

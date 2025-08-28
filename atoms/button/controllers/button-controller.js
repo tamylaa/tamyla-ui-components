@@ -34,12 +34,12 @@ export class ButtonController {
   }
 
   isDisabled() {
-    return this.element.hasAttribute('disabled') || 
+    return this.element.hasAttribute('disabled') ||
            this.element.disabled === true;
   }
 
   isLoading() {
-    return this.element.hasAttribute('loading') || 
+    return this.element.hasAttribute('loading') ||
            this.element.loading === true;
   }
 

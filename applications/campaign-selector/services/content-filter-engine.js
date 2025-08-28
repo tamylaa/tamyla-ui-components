@@ -38,7 +38,7 @@ export class ContentFilterEngine {
     if (filters.recency !== 'all') {
       const cutoffDays = this.getRecencyCutoff(filters.recency);
       const cutoffDate = new Date(Date.now() - cutoffDays * 24 * 60 * 60 * 1000);
-      
+
       filtered = filtered.filter(item => {
         const itemDate = new Date(item.created_at || item.uploadedAt);
         return itemDate >= cutoffDate;

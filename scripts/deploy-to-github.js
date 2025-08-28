@@ -29,7 +29,7 @@ class GitHubDeployment {
       await this.createGitHubRepo();
       await this.pushToGitHub();
       await this.displaySuccess();
-      
+
     } catch (error) {
       console.log(chalk.red.bold('\n❌ Deployment FAILED!'));
       console.log(chalk.red(`Error: ${error.message}`));
@@ -43,7 +43,7 @@ class GitHubDeployment {
 
   async validateLocalRepo() {
     console.log(chalk.cyan('\n🔍 Validating local repository...'));
-    
+
     // Check if we're in a git repo
     try {
       this.exec('git status');
@@ -79,7 +79,7 @@ class GitHubDeployment {
       const createCommand = `gh repo create ${this.repoName} --public --description "${this.repoDescription}" --source .`;
       this.exec(createCommand);
       console.log(chalk.green('  ✓ GitHub repository created using GitHub CLI'));
-      
+
     } catch (error) {
       console.log(chalk.yellow('  ⚠ GitHub CLI not available, providing manual setup instructions'));
       this.showManualSetup();
@@ -94,7 +94,7 @@ class GitHubDeployment {
       // Push to GitHub
       this.exec('git push -u origin master');
       console.log(chalk.green('  ✓ Code pushed to GitHub'));
-      
+
     } catch (error) {
       // Try alternative branch name
       try {
@@ -124,16 +124,16 @@ class GitHubDeployment {
 
   async displaySuccess() {
     console.log(chalk.green.bold('\n✅ GitHub Repository Deployment SUCCESS!'));
-    
+
     const repoUrl = `https://github.com/YOUR_USERNAME/${this.repoName}`;
-    
+
     console.log(chalk.blue.bold('\n📊 DEPLOYMENT SUMMARY'));
     console.log(chalk.blue('=' .repeat(40)));
     console.log(`Repository: ${chalk.cyan(this.repoName)}`);
     console.log(`URL: ${chalk.cyan(repoUrl)}`);
     console.log(`Components: ${chalk.green('15 components across atomic design levels')}`);
     console.log(`Status: ${chalk.green('READY FOR CROSS-PROJECT REUSE')}`);
-    
+
     console.log(chalk.blue.bold('\n🎯 NEXT STEPS'));
     console.log('1. Visit your repository on GitHub');
     console.log('2. Add team members as collaborators');
@@ -142,7 +142,7 @@ class GitHubDeployment {
     console.log(chalk.cyan('   npm publish'));
     console.log('5. Use in other projects:');
     console.log(chalk.cyan('   npm install @tamyla/ui-components'));
-    
+
     console.log(chalk.green.bold('\n🎉 Your UI components are now available on GitHub!'));
   }
 
@@ -153,7 +153,7 @@ class GitHubDeployment {
       encoding: 'utf8',
       ...options
     };
-    
+
     return execSync(command, defaultOptions);
   }
 }

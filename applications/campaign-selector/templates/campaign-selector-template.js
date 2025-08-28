@@ -4,7 +4,7 @@
  */
 
 export const campaignSelectorTemplates = {
-  
+
   /**
    * Create main header template
    */
@@ -96,7 +96,7 @@ export const campaignSelectorTemplates = {
    * Create filter group template
    */
   createFilterGroup(filter) {
-    const optionsHTML = filter.options.map(option => 
+    const optionsHTML = filter.options.map(option =>
       `<option value="${option.value}">${option.label}</option>`
     ).join('');
 
@@ -159,11 +159,11 @@ export const campaignSelectorTemplates = {
     if (summary.count === 0) {
       return '<p class="no-insights">Select content to see insights</p>';
     }
-    
+
     const contentTypes = Object.entries(summary.contentTypes)
       .map(([type, count]) => `${count} ${type}${count > 1 ? 's' : ''}`)
       .join(', ');
-    
+
     return `
       <div class="insights-grid">
         <div class="insight-item">

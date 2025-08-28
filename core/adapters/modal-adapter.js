@@ -37,48 +37,48 @@ export class ModalAdapter {
       element = document.createElement('div');
       element.className = `advanced-modal-backdrop ${className}`;
       element.style.display = isOpen ? 'flex' : 'none';
-      
+
       // Create modal container
       const modalContainer = document.createElement('div');
       modalContainer.className = `advanced-modal advanced-modal-${size}`;
-      
+
       // Create header
       if (title || closable) {
         const header = createHeader();
         modalContainer.appendChild(header);
       }
-      
+
       // Create body
       const body = document.createElement('div');
       body.className = 'advanced-modal-body';
-      
+
       if (typeof children === 'string') {
         body.innerHTML = children;
       } else if (children instanceof Element) {
         body.appendChild(children);
       }
-      
+
       modalContainer.appendChild(body);
-      
+
       // Create actions footer
       if (actions.length > 0) {
         const footer = createFooter();
         modalContainer.appendChild(footer);
       }
-      
+
       element.appendChild(modalContainer);
-      
+
       // Add event listeners
       setupEventListeners();
-      
+
       // Add to document
       document.body.appendChild(element);
-      
+
       // Focus management
       if (isOpen) {
         handleOpen();
       }
-      
+
       return {
         element,
         open: () => openModal(),
@@ -102,12 +102,12 @@ export class ModalAdapter {
         destroy: () => {
           // Clean up event listeners
           document.removeEventListener('keydown', handleKeyDown);
-          
+
           // Remove from DOM
           if (element?.parentNode) {
             element.parentNode.removeChild(element);
           }
-          
+
           // Restore body scroll
           document.body.style.overflow = '';
         }
@@ -117,14 +117,14 @@ export class ModalAdapter {
     function createHeader() {
       const header = document.createElement('div');
       header.className = 'advanced-modal-header';
-      
+
       if (title) {
         const titleElement = document.createElement('h2');
         titleElement.className = 'advanced-modal-title';
         titleElement.textContent = title;
         header.appendChild(titleElement);
       }
-      
+
       if (closable) {
         const closeButton = document.createElement('button');
         closeButton.className = 'advanced-modal-close';
@@ -133,17 +133,17 @@ export class ModalAdapter {
         closeButton.addEventListener('click', closeModal);
         header.appendChild(closeButton);
       }
-      
+
       return header;
     }
 
     function createFooter() {
       const footer = document.createElement('div');
       footer.className = 'advanced-modal-footer';
-      
+
       actions.forEach(action => {
         const buttonContainer = document.createElement('div');
-        
+
         const button = this.buttonFactory.create({
           variant: action.variant || 'secondary',
           size: action.size || 'md',
@@ -151,7 +151,7 @@ export class ModalAdapter {
           onClick: () => {
             if (action.onClick) {
               const result = action.onClick();
-              
+
               // If onClick returns a promise, handle it
               if (result && typeof result.then === 'function') {
                 result.then(() => {
@@ -172,10 +172,10 @@ export class ModalAdapter {
           },
           container: buttonContainer
         });
-        
+
         footer.appendChild(buttonContainer);
       });
-      
+
       return footer;
     }
 
@@ -188,10 +188,10 @@ export class ModalAdapter {
           }
         });
       }
-      
+
       // Escape key handling
       document.addEventListener('keydown', handleKeyDown);
-      
+
       // Prevent modal container clicks from closing
       const modalContainer = element.querySelector('.advanced-modal');
       modalContainer.addEventListener('click', (e) => {
@@ -207,18 +207,18 @@ export class ModalAdapter {
 
     function openModal() {
       if (isOpen) return;
-      
+
       isOpen = true;
       element.style.display = 'flex';
-      
+
       // Focus management
       handleOpen();
-      
+
       // Dispatch event
       element.dispatchEvent(new CustomEvent('modal-open', {
         detail: { modal: element }
       }));
-      
+
       if (onOpen) {
         onOpen();
       }
@@ -226,18 +226,18 @@ export class ModalAdapter {
 
     function closeModal() {
       if (!isOpen || persistent) return;
-      
+
       isOpen = false;
       element.style.display = 'none';
-      
+
       // Focus management
       handleClose();
-      
+
       // Dispatch event
       element.dispatchEvent(new CustomEvent('modal-close', {
         detail: { modal: element }
       }));
-      
+
       if (onClose) {
         onClose();
       }
@@ -246,7 +246,7 @@ export class ModalAdapter {
     function handleOpen() {
       // Store previously focused element
       element._previousFocus = document.activeElement;
-      
+
       // Focus first focusable element in modal
       setTimeout(() => {
         const focusable = element.querySelector('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -254,7 +254,7 @@ export class ModalAdapter {
           focusable.focus();
         }
       }, 100);
-      
+
       // Prevent background scrolling
       document.body.style.overflow = 'hidden';
     }
@@ -264,7 +264,7 @@ export class ModalAdapter {
       if (element._previousFocus && element._previousFocus.focus) {
         element._previousFocus.focus();
       }
-      
+
       // Restore scrolling
       document.body.style.overflow = '';
     }

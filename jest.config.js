@@ -1,12 +1,13 @@
 export default {
   testEnvironment: 'jsdom',
-  moduleNameMapper: {
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+  moduleNameMapping: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   transform: {
     '^.+\\.(js|jsx)$': ['babel-jest', {
       presets: [
-        ['@babel/preset-env', { 
+        ['@babel/preset-env', {
           targets: { node: 'current' },
           modules: 'auto'
         }]
@@ -18,6 +19,5 @@ export default {
   ],
   testTimeout: 15000,
   maxWorkers: 1,
-  verbose: true,
-  passWithNoTests: true
+  verbose: true
 };

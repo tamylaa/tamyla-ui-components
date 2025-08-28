@@ -18,7 +18,7 @@ export class SearchInterfaceController {
    */
   handleSearchInput(event) {
     const query = event.detail.value;
-    
+
     // Clear existing timer
     if (this.searchDebounceTimer) {
       clearTimeout(this.searchDebounceTimer);
@@ -35,7 +35,7 @@ export class SearchInterfaceController {
    */
   handleSearch(event) {
     const query = event.detail.value;
-    
+
     // Clear debounce timer
     if (this.searchDebounceTimer) {
       clearTimeout(this.searchDebounceTimer);
@@ -96,8 +96,8 @@ export class SearchInterfaceController {
     this.component.totalResults = results.total || results.count || 0;
 
     this.component.dispatchEvent(new CustomEvent('tmyl-search-complete', {
-      detail: { 
-        results: this.component.results, 
+      detail: {
+        results: this.component.results,
         total: this.component.totalResults,
         query: this.component.currentQuery
       }
@@ -109,7 +109,7 @@ export class SearchInterfaceController {
    */
   updateFilter(filterKey, value) {
     const filters = { ...this.component.filters };
-    
+
     if (value === '' || value === null || value === undefined) {
       delete filters[filterKey];
     } else {
@@ -125,7 +125,7 @@ export class SearchInterfaceController {
    */
   toggleFilters() {
     this.component.showFilters = !this.component.showFilters;
-    
+
     this.component.dispatchEvent(new CustomEvent('tmyl-filters-toggle', {
       detail: { visible: this.component.showFilters }
     }));
@@ -136,7 +136,7 @@ export class SearchInterfaceController {
    */
   setViewMode(mode) {
     this.component.viewMode = mode;
-    
+
     this.component.dispatchEvent(new CustomEvent('tmyl-view-mode-change', {
       detail: { viewMode: mode }
     }));
@@ -210,7 +210,7 @@ export class SearchInterfaceController {
    */
   clearSelection() {
     this.component.selectedItems = [];
-    
+
     this.component.dispatchEvent(new CustomEvent('tmyl-selection-clear', {
       detail: {}
     }));
@@ -249,7 +249,7 @@ export class SearchInterfaceController {
    */
   getHighlightTerms() {
     if (!this.component.currentQuery) return [];
-    
+
     return this.component.currentQuery
       .split(/\s+/)
       .filter(term => term.length > 2)
@@ -275,7 +275,7 @@ export class SearchInterfaceController {
    */
   destroy() {
     this.isDestroyed = true;
-    
+
     if (this.searchDebounceTimer) {
       clearTimeout(this.searchDebounceTimer);
       this.searchDebounceTimer = null;
@@ -313,10 +313,10 @@ export const searchInterfaceUtils = {
    */
   formatResultCount(total, current, pageSize) {
     if (total === 0) return '0 results';
-    
+
     const start = ((current - 1) * pageSize) + 1;
     const end = Math.min(current * pageSize, total);
-    
+
     return `${start}-${end} of ${total} results`;
   },
 

@@ -43,7 +43,7 @@ export class CampaignAnalytics {
     try {
       const response = await fetch(`${apiBase}/recommendations?type=${campaignType}&algorithm=v2`);
       const data = await response.json();
-      
+
       return this.enhanceRecommendations(data.recommendations || []);
     } catch (error) {
       console.error('Recommendation engine failed:', error);
@@ -68,7 +68,7 @@ export class CampaignAnalytics {
     if (recommendation.engagement_score > 0.7) reasons.push('High engagement');
     if (recommendation.recent_performance) reasons.push('Trending content');
     if (recommendation.topic_match > 0.8) reasons.push('Perfect topic match');
-    
+
     return reasons.join(' • ') || 'AI recommendation';
   }
 }
@@ -113,7 +113,7 @@ export class ContentFilterEngine {
     if (filters.recency !== 'all') {
       const cutoffDays = this.getRecencyCutoff(filters.recency);
       const cutoffDate = new Date(Date.now() - cutoffDays * 24 * 60 * 60 * 1000);
-      
+
       filtered = filtered.filter(item => {
         const itemDate = new Date(item.created_at || item.uploadedAt);
         return itemDate >= cutoffDate;
@@ -164,7 +164,7 @@ export class SelectionManager {
       }
       this.selectedContent.set(item.id, item);
     }
-    
+
     this.notifyChange();
     return true;
   }
@@ -176,7 +176,7 @@ export class SelectionManager {
   getSelectionSummary() {
     const selected = this.getSelectedItems();
     const analytics = new CampaignAnalytics();
-    
+
     return {
       count: selected.length,
       maxCount: this.maxSelections,
@@ -188,10 +188,10 @@ export class SelectionManager {
 
   calculateAveragePerformance(items, analytics) {
     if (items.length === 0) return null;
-    
-    const totalScore = items.reduce((sum, item) => 
+
+    const totalScore = items.reduce((sum, item) =>
       sum + (item.engagement_score || 0), 0);
-    
+
     const avgScore = totalScore / items.length;
     return analytics.getPerformanceLevel(avgScore);
   }
@@ -206,9 +206,9 @@ export class SelectionManager {
 
   estimateReach(items) {
     // Simplified reach estimation algorithm
-    const baseReach = items.reduce((sum, item) => 
+    const baseReach = items.reduce((sum, item) =>
       sum + (item.historical_reach || 1000), 0);
-    
+
     return Math.floor(baseReach * 0.8); // Conservative estimate
   }
 
@@ -250,12 +250,12 @@ export function CampaignSelectorApplicationFactory(props = {}) {
     apiBase = '/api/content',
     meilisearchUrl = '/api/search',
     maxSelections = 10,
-    
+
     // Feature toggles
     enableRecommendations = true,
     enablePerformanceAnalytics = true,
     enableTemplates = true,
-    
+
     // Event handlers
     onContentSelected,
     onPreviewCampaign,
@@ -267,7 +267,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
   const analytics = new CampaignAnalytics();
   const filterEngine = new ContentFilterEngine();
   const selectionManager = new SelectionManager(maxSelections);
-  
+
   let application = null;
 
   // Build the application using atomic composition
@@ -280,35 +280,35 @@ export function CampaignSelectorApplicationFactory(props = {}) {
     // Create main container
     application = document.createElement('div');
     application.className = 'campaign-selector-app';
-    
+
     // Apply styles (extracted and modernized)
     applyCampaignSelectorStyles(application);
-    
+
     // Build header section
     const header = createHeader(campaignType);
     application.appendChild(header);
-    
+
     // Build tabs system
     const tabsContainer = createTabsSystem();
     application.appendChild(tabsContainer);
-    
+
     // Build content sections
     const contentArea = createContentArea();
     application.appendChild(contentArea);
-    
+
     // Build selection summary (React-inspired from legacy patterns)
     const selectionSummary = createSelectionSummary();
     application.appendChild(selectionSummary);
-    
+
     // Mount to container
     container.appendChild(application);
-    
+
     // Initialize event system
     setupEventHandlers();
-    
+
     // Load initial data
     loadInitialData();
-    
+
     return {
       element: application,
       analytics,
@@ -334,16 +334,16 @@ export function CampaignSelectorApplicationFactory(props = {}) {
   function createTabsSystem() {
     // Use atomic button components for tabs
     const buttonFactory = new ButtonFactory();
-    
+
     const tabsContainer = document.createElement('div');
     tabsContainer.className = 'campaign-tabs';
-    
+
     const tabs = [
       { id: 'search', label: '🔍 Search Content', active: true },
       { id: 'recommendations', label: '⭐ AI Recommendations', badge: 'Smart' },
       { id: 'templates', label: '📋 Templates' }
     ];
-    
+
     tabs.forEach(tab => {
       const tabButton = buttonFactory.create({
         variant: tab.active ? 'primary' : 'secondary',
@@ -353,7 +353,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
         className: `campaign-tab ${tab.active ? 'active' : ''}`,
         container: tabsContainer
       });
-      
+
       if (tab.badge) {
         const badge = document.createElement('span');
         badge.className = 'tab-badge';
@@ -361,26 +361,26 @@ export function CampaignSelectorApplicationFactory(props = {}) {
         tabButton.element.appendChild(badge);
       }
     });
-    
+
     return tabsContainer;
   }
 
   function createContentArea() {
     const contentArea = document.createElement('div');
     contentArea.className = 'campaign-content-area';
-    
+
     // Search tab content
     const searchTab = createSearchTab();
     contentArea.appendChild(searchTab);
-    
-    // Recommendations tab content  
+
+    // Recommendations tab content
     const recommendationsTab = createRecommendationsTab();
     contentArea.appendChild(recommendationsTab);
-    
+
     // Templates tab content
     const templatesTab = createTemplatesTab();
     contentArea.appendChild(templatesTab);
-    
+
     return contentArea;
   }
 
@@ -388,11 +388,11 @@ export function CampaignSelectorApplicationFactory(props = {}) {
     const searchTab = document.createElement('div');
     searchTab.className = 'tab-content active';
     searchTab.dataset.tab = 'search';
-    
+
     // Enhanced search integration
     const searchContainer = document.createElement('div');
     searchContainer.className = 'search-container';
-    
+
     const enhancedSearch = EnhancedSearchApplicationFactory({
       container: searchContainer,
       meilisearchUrl,
@@ -401,26 +401,26 @@ export function CampaignSelectorApplicationFactory(props = {}) {
       voiceEnabled: true,
       naturalLanguage: true
     });
-    
+
     searchTab.appendChild(searchContainer);
-    
+
     // Filters section
     const filtersSection = createFiltersSection();
     searchTab.appendChild(filtersSection);
-    
+
     // Results grid
     const resultsGrid = document.createElement('div');
     resultsGrid.className = 'content-grid';
     resultsGrid.id = 'search-results';
     searchTab.appendChild(resultsGrid);
-    
+
     return searchTab;
   }
 
   function createFiltersSection() {
     const filtersSection = document.createElement('div');
     filtersSection.className = 'filters-section';
-    
+
     const filters = [
       {
         name: 'contentType',
@@ -454,39 +454,39 @@ export function CampaignSelectorApplicationFactory(props = {}) {
         ]
       }
     ];
-    
+
     filters.forEach(filter => {
       const filterGroup = createFilterGroup(filter);
       filtersSection.appendChild(filterGroup);
     });
-    
+
     return filtersSection;
   }
 
   function createFilterGroup(filter) {
     const group = document.createElement('div');
     group.className = 'filter-group';
-    
+
     const label = document.createElement('label');
     label.className = 'filter-label';
     label.textContent = filter.label;
-    
+
     const select = document.createElement('select');
     select.className = 'filter-select';
     select.name = filter.name;
-    
+
     filter.options.forEach(option => {
       const optionElement = document.createElement('option');
       optionElement.value = option.value;
       optionElement.textContent = option.label;
       select.appendChild(optionElement);
     });
-    
+
     select.addEventListener('change', handleFilterChange);
-    
+
     group.appendChild(label);
     group.appendChild(select);
-    
+
     return group;
   }
 
@@ -508,7 +508,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
         <div class="selection-insights" id="selection-insights"></div>
       </div>
     `;
-    
+
     return summary;
   }
 
@@ -516,12 +516,12 @@ export function CampaignSelectorApplicationFactory(props = {}) {
   function setupEventHandlers() {
     // Selection manager events (React-inspired)
     selectionManager.addListener(handleSelectionChange);
-    
+
     // Action buttons
     const clearButton = application.querySelector('#clear-selection');
     const previewButton = application.querySelector('#preview-campaign');
     const useButton = application.querySelector('#use-content');
-    
+
     clearButton?.addEventListener('click', () => selectionManager.clearSelection());
     previewButton?.addEventListener('click', handlePreviewCampaign);
     useButton?.addEventListener('click', handleUseSelectedContent);
@@ -535,9 +535,9 @@ export function CampaignSelectorApplicationFactory(props = {}) {
   function handleFilterChange(event) {
     const filterName = event.target.name;
     const filterValue = event.target.value;
-    
+
     filterEngine.updateFilter(filterName, filterValue);
-    
+
     // Re-apply filters to current results
     // This would trigger a re-render of the current tab's content
     applyCurrentFilters();
@@ -546,7 +546,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
   function handleSelectionChange(event) {
     if (event.type === 'selection-changed') {
       updateSelectionDisplay(event.summary, event.selectedItems);
-      
+
       // Notify parent application
       if (onSelectionChanged) {
         onSelectionChanged(event);
@@ -560,7 +560,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
     // Update count
     const countElement = application.querySelector('.selection-count');
     countElement.textContent = `${summary.count} / ${summary.maxCount}`;
-    
+
     // Update selected items list (React-inspired rendering)
     const selectedItemsContainer = application.querySelector('#selected-items');
     selectedItemsContainer.innerHTML = selectedItems.map(item => `
@@ -573,7 +573,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
         <button class="remove-item" data-id="${item.id}">×</button>
       </div>
     `).join('');
-    
+
     // Add remove listeners
     selectedItemsContainer.querySelectorAll('.remove-item').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -582,15 +582,15 @@ export function CampaignSelectorApplicationFactory(props = {}) {
         if (item) selectionManager.toggleSelection(item);
       });
     });
-    
+
     // Update insights
     const insightsContainer = application.querySelector('#selection-insights');
     insightsContainer.innerHTML = renderSelectionInsights(summary);
-    
+
     // Update action buttons
     const previewButton = application.querySelector('#preview-campaign');
     const useButton = application.querySelector('#use-content');
-    
+
     previewButton.disabled = summary.count === 0;
     useButton.disabled = summary.count === 0;
   }
@@ -598,7 +598,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
   function renderContentGrid(content, containerId) {
     const container = application.querySelector(`#${containerId}`);
     if (!container) return;
-    
+
     if (content.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
@@ -609,14 +609,14 @@ export function CampaignSelectorApplicationFactory(props = {}) {
       `;
       return;
     }
-    
+
     // Use ContentCard molecules for consistent rendering
     container.innerHTML = '';
-    
+
     content.forEach(item => {
       const cardContainer = document.createElement('div');
       cardContainer.className = 'content-card-container';
-      
+
       const card = ContentCardFactory({
         content: item,
         selectable: true,
@@ -625,7 +625,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
         highlightTerms: [], // Could be populated from search query
         container: cardContainer
       });
-      
+
       container.appendChild(cardContainer);
     });
   }
@@ -646,11 +646,11 @@ export function CampaignSelectorApplicationFactory(props = {}) {
     if (summary.count === 0) {
       return '<p class="no-insights">Select content to see insights</p>';
     }
-    
+
     const contentTypes = Object.entries(summary.contentTypes)
       .map(([type, count]) => `${count} ${type}${count > 1 ? 's' : ''}`)
       .join(', ');
-    
+
     return `
       <div class="insights-grid">
         <div class="insight-item">
@@ -681,7 +681,7 @@ export function CampaignSelectorApplicationFactory(props = {}) {
     try {
       const recommendations = await analytics.generateRecommendations(campaignType, apiBase);
       renderContentGrid(recommendations, 'recommendations-results');
-      
+
       // Update tab badge
       const tab = application.querySelector('[data-tab="recommendations"]');
       if (tab) {
@@ -710,11 +710,11 @@ export function CampaignSelectorApplicationFactory(props = {}) {
  */
 function applyCampaignSelectorStyles(container) {
   const styleId = 'campaign-selector-styles';
-  
+
   if (document.getElementById(styleId)) {
     return; // Styles already loaded
   }
-  
+
   const styles = document.createElement('style');
   styles.id = styleId;
   styles.textContent = `
@@ -966,6 +966,6 @@ function applyCampaignSelectorStyles(container) {
       }
     }
   `;
-  
+
   document.head.appendChild(styles);
 }

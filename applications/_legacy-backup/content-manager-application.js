@@ -16,31 +16,31 @@ export function ContentManagerApplicationFactory(props = {}) {
     apiBase = '/api/content',
     meilisearchUrl = '/api/search',
     uploadEndpoint = '/api/upload',
-    
+
     // Feature Configuration
     selectionMode = true,
     showUpload = true,
     maxFileSize = 25 * 1024 * 1024, // 25MB
     allowedFileTypes = ['pdf', 'doc', 'docx', 'txt', 'md', 'jpg', 'png', 'mp4', 'mp3'],
-    
+
     // Enhanced search features
     voiceSearch = true,
     naturalLanguage = true,
     smartFilters = true,
-    
+
     // UI Configuration
     title = 'Content Manager',
     description = 'Manage and search your content library',
     currentView = 'grid', // 'grid', 'list', 'timeline'
     sortBy = 'relevance', // 'relevance', 'date', 'title', 'size'
-    
+
     // Business Logic Handlers
     onContentLoad,
     onContentSelect,
     onContentUpload,
     onContentDelete,
     onAnalytics,
-    
+
     // Container
     container = null
   } = props;
@@ -65,7 +65,7 @@ export function ContentManagerApplicationFactory(props = {}) {
   function createElement() {
     element = document.createElement('div');
     element.className = 'tmyl-content-manager-application';
-    
+
     element.innerHTML = `
       <div class="content-manager__header">
         <div class="content-manager__title-section">
@@ -155,7 +155,7 @@ export function ContentManagerApplicationFactory(props = {}) {
    */
   function initializeSearchApplication() {
     const searchContainer = element.querySelector('.content-manager__search-section');
-    
+
     searchApplication = EnhancedSearchApplicationFactory({
       meilisearchUrl,
       apiBase,
@@ -292,17 +292,17 @@ export function ContentManagerApplicationFactory(props = {}) {
 
     // Upload files
     const uploadPromises = validFiles.map(file => uploadFile(file));
-    
+
     try {
       const results = await Promise.all(uploadPromises);
       const successfulUploads = results.filter(result => result.success);
-      
+
       if (successfulUploads.length > 0) {
         showSuccess(`Successfully uploaded ${successfulUploads.length} file(s).`);
-        
+
         // Refresh content
         await loadContent();
-        
+
         if (onContentUpload) {
           onContentUpload(successfulUploads);
         }
@@ -343,7 +343,7 @@ export function ContentManagerApplicationFactory(props = {}) {
       }
 
       const result = await response.json();
-      
+
       state.uploadProgress.delete(uploadId);
       updateUploadProgress();
 
@@ -352,7 +352,7 @@ export function ContentManagerApplicationFactory(props = {}) {
       console.error('Upload error:', error);
       state.uploadProgress.delete(uploadId);
       updateUploadProgress();
-      
+
       return { success: false, file, error: error.message };
     }
   }
@@ -362,7 +362,7 @@ export function ContentManagerApplicationFactory(props = {}) {
    */
   function changeView(view) {
     state.currentView = view;
-    
+
     // Update button states
     const viewButtons = element.querySelectorAll('.view-button');
     viewButtons.forEach(button => {
@@ -386,7 +386,7 @@ export function ContentManagerApplicationFactory(props = {}) {
    */
   function changeSortBy(sortBy) {
     state.sortBy = sortBy;
-    
+
     // Apply sorting to search interface if available
     if (searchApplication) {
       const controller = searchApplication.getSearchInterface()?.getController();
@@ -396,7 +396,7 @@ export function ContentManagerApplicationFactory(props = {}) {
         controller.search(currentState.query);
       }
     }
-    
+
     updateContentDisplay();
   }
 
@@ -410,15 +410,15 @@ export function ContentManagerApplicationFactory(props = {}) {
     const selectedContent = state.content.filter(item => selectedItems.includes(item.id));
 
     switch (action) {
-      case 'download':
-        await downloadSelectedContent(selectedContent);
-        break;
-      case 'share':
-        await shareSelectedContent(selectedContent);
-        break;
-      case 'delete':
-        await deleteSelectedContent(selectedContent);
-        break;
+    case 'download':
+      await downloadSelectedContent(selectedContent);
+      break;
+    case 'share':
+      await shareSelectedContent(selectedContent);
+      break;
+    case 'delete':
+      await deleteSelectedContent(selectedContent);
+      break;
     }
 
     if (onAnalytics) {
@@ -508,14 +508,14 @@ export function ContentManagerApplicationFactory(props = {}) {
 
       if (response.ok) {
         showSuccess(`Successfully deleted ${content.length} item(s).`);
-        
+
         // Clear selection
         state.selectedContent.clear();
         updateSelectionDisplay();
-        
+
         // Refresh content
         await loadContent();
-        
+
         if (onContentDelete) {
           onContentDelete(content);
         }
@@ -533,7 +533,7 @@ export function ContentManagerApplicationFactory(props = {}) {
   function updateContentDisplay() {
     // The content display is now handled by the search application
     // This method can be used for view-specific adjustments
-    
+
     const contentSection = element.querySelector('.content-manager__content-section');
     if (contentSection) {
       contentSection.className = `content-manager__content-section content-manager__content-section--${state.currentView}`;
@@ -548,13 +548,13 @@ export function ContentManagerApplicationFactory(props = {}) {
 
     const selectionActions = element.querySelector('.content-manager__selection-actions');
     const selectionCount = element.querySelector('.selection-count');
-    
+
     const count = state.selectedContent.size;
-    
+
     if (selectionActions) {
       selectionActions.style.display = count > 0 ? 'flex' : 'none';
     }
-    
+
     if (selectionCount) {
       selectionCount.textContent = `${count} selected`;
     }
@@ -566,11 +566,11 @@ export function ContentManagerApplicationFactory(props = {}) {
   function updateStatusBar() {
     const contentCount = element.querySelector('.content-count');
     const storageUsage = element.querySelector('.storage-usage');
-    
+
     if (contentCount) {
       contentCount.textContent = `${state.content.length} items`;
     }
-    
+
     if (storageUsage) {
       const totalSize = state.content.reduce((sum, item) => sum + (item.size || 0), 0);
       storageUsage.textContent = `Storage: ${formatFileSize(totalSize)} used`;
@@ -592,7 +592,7 @@ export function ContentManagerApplicationFactory(props = {}) {
     if (!progressContainer) return;
 
     const uploads = Array.from(state.uploadProgress.values());
-    
+
     if (uploads.length === 0) {
       progressContainer.style.display = 'none';
       return;
@@ -895,14 +895,14 @@ export function ContentManagerApplicationFactory(props = {}) {
     }
 
     targetContainer.appendChild(element);
-    
+
     // Initialize components after DOM insertion
     initializeSearchApplication();
     setupEventListeners();
-    
+
     // Load initial content
     loadContent();
-    
+
     return element;
   }
 
@@ -931,7 +931,7 @@ export function ContentManagerApplicationFactory(props = {}) {
     // Lifecycle
     render,
     destroy,
-    
+
     // Actions
     refresh: loadContent,
     search: (query, filters = {}) => {
@@ -939,11 +939,11 @@ export function ContentManagerApplicationFactory(props = {}) {
         searchApplication.search(query, filters);
       }
     },
-    
+
     // Data access
     getContent: () => state.content,
     getSelectedContent: () => Array.from(state.selectedContent),
-    
+
     // Element access
     getElement: () => element,
     getSearchApplication: () => searchApplication

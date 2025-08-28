@@ -123,14 +123,14 @@ export const iconUtils = {
    */
   getStatusIcon(status) {
     switch (status) {
-      case 'completed':
-        return actionCardIcons.completed;
-      case 'locked':
-        return actionCardIcons.locked;
-      case 'warning':
-        return actionCardIcons.warning;
-      default:
-        return '';
+    case 'completed':
+      return actionCardIcons.completed;
+    case 'locked':
+      return actionCardIcons.locked;
+    case 'warning':
+      return actionCardIcons.warning;
+    default:
+      return '';
     }
   },
 
@@ -143,7 +143,7 @@ export const iconUtils = {
       coin: actionCardIcons.coin,
       trophy: actionCardIcons.trophy
     };
-    
+
     return rewardIcons[type] || actionCardIcons.star;
   },
 
@@ -153,12 +153,12 @@ export const iconUtils = {
   createIconElement(iconName, className = '') {
     const icon = this.getIcon(iconName);
     if (!icon) return null;
-    
+
     const div = document.createElement('div');
     div.className = className;
     div.innerHTML = icon;
     div.setAttribute('aria-hidden', 'true');
-    
+
     return div;
   }
 };

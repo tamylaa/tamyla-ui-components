@@ -39,26 +39,26 @@ export class ActionCardFactory {
    */
   create(props = {}) {
     const finalProps = { ...this.defaultProps, ...props };
-    
+
     // Validate props
     const validationErrors = this.validation.validateProps(finalProps);
     if (validationErrors.length > 0) {
       console.warn('Action Card validation errors:', validationErrors);
     }
-    
+
     // Create card container
     const card = document.createElement('div');
     card.className = actionCardUtils.buildCardClasses(finalProps);
-    
+
     // Create card structure
     card.innerHTML = createActionCardTemplate(finalProps);
-    
+
     // Attach controller for interactions and state management
     const controller = new ActionCardController(card, finalProps);
-    
+
     // Store controller reference for later access
     card._actionCardController = controller;
-    
+
     return card;
   }
 

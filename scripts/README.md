@@ -4,6 +4,22 @@ This directory contains streamlined scripts for automating the setup, testing, a
 
 ## Scripts
 
+### `eslint-compatibility-check.js`
+**ESLint configuration compatibility test for GitHub deployment:**
+
+- 🧪 **Node.js Compatibility**: Tests across GitHub Actions matrix (16.x, 18.x, 20.x, 22.x)
+- 📦 **ESM Module Resolution**: Validates ESLint 9 flat config loading
+- 🔍 **Dependency Validation**: Checks ESLint 9.x and TypeScript ESLint compatibility
+- 🎯 **Lint Execution**: Tests actual linting and reports error/warning counts
+- 🏗️ **Build Integration**: Validates build process compatibility
+- 🔧 **UI Components Config**: Verifies Jest and DOM globals configuration
+
+**Usage:**
+```bash
+# Test ESLint configuration for GitHub deployment
+node scripts/eslint-compatibility-check.js
+```
+
 ### `working-certify.js`
 **Complete certification and setup script that works reliably:**
 

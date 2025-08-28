@@ -22,16 +22,16 @@ class WorkingCertification {
   async run() {
     console.log(chalk.blue.bold('\n🚀 UI Components Certification & Setup'));
     console.log(chalk.gray('=' .repeat(60)));
-    
+
     try {
       await this.setupGitRepository();
       await this.testBuildSystem();
       await this.validateStructure();
       await this.generateCertification();
-      
+
       console.log(chalk.green.bold('\n✅ UI Components Certification COMPLETED!'));
       console.log(chalk.green('Your components are ready for cross-project reuse.'));
-      
+
     } catch (error) {
       console.log(chalk.red.bold('\n❌ Certification FAILED!'));
       console.log(chalk.red(`Error: ${error.message}`));
@@ -41,7 +41,7 @@ class WorkingCertification {
 
   async setupGitRepository() {
     console.log(chalk.cyan('\n📁 Setting up Git repository...'));
-    
+
     try {
       // Check if git is already initialized
       const gitDir = path.join(this.projectRoot, '.git');
@@ -57,7 +57,7 @@ class WorkingCertification {
 
       // Add and commit files
       this.safeExec('git add .');
-      
+
       try {
         this.safeExec('git commit -m "UI Components: Complete build system with ESM, atomic design, and cross-framework compatibility"');
         console.log(chalk.green('  ✓ Code committed to repository'));
@@ -76,7 +76,7 @@ class WorkingCertification {
 
   async createGitignore() {
     const gitignorePath = path.join(this.projectRoot, '.gitignore');
-    
+
     if (!fs.existsSync(gitignorePath)) {
       const gitignoreContent = `# Dependencies
 node_modules/
@@ -122,7 +122,7 @@ coverage/
       // Verify critical outputs exist
       const distDir = path.join(this.projectRoot, 'dist');
       const expectedFiles = ['tamyla-ui.esm.js', 'tamyla-ui.umd.js'];
-      
+
       for (const file of expectedFiles) {
         const filePath = path.join(distDir, file);
         if (!fs.existsSync(filePath)) {
@@ -154,7 +154,7 @@ coverage/
       if (fs.existsSync(dirPath)) {
         const components = fs.readdirSync(dirPath)
           .filter(item => fs.statSync(path.join(dirPath, item)).isDirectory());
-        
+
         results[dir] = components.length;
         console.log(chalk.green(`  ✓ ${dir}: ${components.length} components`));
       } else {
@@ -230,7 +230,7 @@ coverage/
     console.log(`Duration: ${duration}s`);
     console.log(`Git Repository: ${hasGit ? '✅' : '❌'}`);
     console.log(`Build System: ${hasDist ? '✅' : '❌'}`);
-    console.log(`ESM Support: ✅`);
+    console.log('ESM Support: ✅');
   }
 
   generateReuseGuide(certification) {

@@ -36,11 +36,11 @@ export class EmailRecipientsAdapter {
     function createComponent() {
       element = document.createElement('div');
       element.className = `email-recipients ${className}`;
-      
+
       // Create input using atomic Input
       const inputContainer = document.createElement('div');
       inputContainer.className = 'email-input-container';
-      
+
       inputElement = this.inputFactory.create({
         type: 'email',
         placeholder,
@@ -106,24 +106,24 @@ export class EmailRecipientsAdapter {
     // Add email with validation
     function addEmail(email) {
       const trimmedEmail = email.trim();
-      
+
       if (!trimmedEmail) return false;
-      
+
       if (!isValidEmail(trimmedEmail)) {
         showError('Invalid email format');
         return false;
       }
-      
+
       if (!allowDuplicates && currentValue.includes(trimmedEmail)) {
         showError('Email already added');
         return false;
       }
-      
+
       if (currentValue.length >= maxRecipients) {
         showError(`Maximum ${maxRecipients} recipients allowed`);
         return false;
       }
-      
+
       currentValue.push(trimmedEmail);
       renderChips();
       triggerChange();
@@ -140,7 +140,7 @@ export class EmailRecipientsAdapter {
     // Render chips (like React component render)
     function renderChips() {
       const chipsContainer = element.querySelector('.email-chips');
-      
+
       chipsContainer.innerHTML = currentValue.map(email => `
         <span class="email-chip" data-email="${email}">
           <span class="chip-text">${email}</span>
@@ -189,7 +189,7 @@ export class EmailRecipientsAdapter {
     function showError(message) {
       // Could integrate with notification system
       console.error('EmailRecipients:', message);
-      
+
       // Dispatch error event for external handling
       if (element) {
         element.dispatchEvent(new CustomEvent('email-recipients-error', {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Simplified UI Components Certification Script
- * 
+ *
  * This is a streamlined version that focuses on the core validation
  * without getting stuck on complex operations.
  */
@@ -36,10 +36,10 @@ class SimpleUIComponentsCertification {
       await this.validateComponents();
       await this.testBuild();
       await this.generateSimpleReport();
-      
+
       console.log(chalk.green.bold('\n✅ UI Components Certification COMPLETED!'));
       console.log(chalk.green('Your components are ready for reuse across projects.'));
-      
+
     } catch (error) {
       console.log(chalk.red.bold('\n❌ Certification FAILED!'));
       console.log(chalk.red(`Error: ${error.message}`));
@@ -61,7 +61,7 @@ class SimpleUIComponentsCertification {
     const requiredDirs = [
       'atoms',
       'molecules',
-      'organisms', 
+      'organisms',
       'applications',
       'core',
       'src'
@@ -95,15 +95,15 @@ class SimpleUIComponentsCertification {
     console.log(chalk.cyan('\n🧪 Validating component functionality...'));
 
     const componentDirs = ['atoms', 'molecules', 'organisms', 'applications'];
-    
+
     for (const dir of componentDirs) {
       const dirPath = path.join(this.projectRoot, dir);
       if (fs.existsSync(dirPath)) {
         const components = fs.readdirSync(dirPath)
           .filter(item => fs.statSync(path.join(dirPath, item)).isDirectory());
-        
+
         console.log(chalk.cyan(`\n  📁 ${dir.toUpperCase()}:`));
-        
+
         for (const component of components) {
           await this.validateComponent(dir, component);
         }
@@ -113,16 +113,16 @@ class SimpleUIComponentsCertification {
 
   async validateComponent(category, componentName) {
     const componentDir = path.join(this.projectRoot, category, componentName);
-    
+
     try {
       if (fs.existsSync(componentDir)) {
         const files = fs.readdirSync(componentDir);
         const hasJS = files.some(f => f.endsWith('.js'));
         const hasCSS = files.some(f => f.endsWith('.css'));
         const hasIndex = files.includes('index.js');
-        
+
         const score = [hasJS, hasCSS, hasIndex].filter(Boolean).length;
-        
+
         if (score >= 2) {
           console.log(chalk.green(`    ✓ ${componentName} (${score}/3 files)`));
           this.testResults.components[`${category}/${componentName}`] = true;
@@ -144,17 +144,17 @@ class SimpleUIComponentsCertification {
       // Check if package.json has build scripts
       const packagePath = path.join(this.projectRoot, 'package.json');
       const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-      
+
       if (packageJson.scripts && packageJson.scripts.build) {
         console.log(chalk.green('  ✓ Build script found in package.json'));
-        
+
         // Try to run a quick build test (but don't wait too long)
         try {
           console.log(chalk.gray('  Testing build command...'));
-          execSync('npm run build', { 
-            stdio: 'pipe', 
+          execSync('npm run build', {
+            stdio: 'pipe',
             timeout: 30000, // 30 second timeout
-            cwd: this.projectRoot 
+            cwd: this.projectRoot
           });
           console.log(chalk.green('  ✓ Build completed successfully'));
           this.testResults.build = true;
@@ -181,11 +181,11 @@ class SimpleUIComponentsCertification {
     const componentResults = Object.values(this.testResults.components);
     const componentsPassed = componentResults.filter(result => result === true).length;
     const totalComponents = componentResults.length;
-    
+
     const coreTests = [this.testResults.structure, this.testResults.build];
     const coreTestsPassed = coreTests.filter(Boolean).length;
-    
-    const overallScore = totalComponents > 0 
+
+    const overallScore = totalComponents > 0
       ? Math.round(((componentsPassed + coreTestsPassed) / (totalComponents + 2)) * 100)
       : Math.round((coreTestsPassed / 2) * 100);
 
@@ -265,8 +265,8 @@ class SimpleUIComponentsCertification {
 
 ### Components
 ${Object.entries(report.results.components)
-  .map(([name, passed]) => `- ${name}: ${passed ? '✅' : '❌'}`)
-  .join('\n')}
+    .map(([name, passed]) => `- ${name}: ${passed ? '✅' : '❌'}`)
+    .join('\n')}
 
 ## Summary
 - **Core Tests:** ${report.summary.coreTests}
@@ -276,8 +276,8 @@ ${Object.entries(report.results.components)
 ## Certification Level: ${report.certification}
 
 ${report.certification === 'PRODUCTION_READY' || report.certification === 'BETA_READY'
-  ? '🎉 Your UI components are ready for cross-project use!'
-  : '🔧 Some improvements needed before production use.'
+    ? '🎉 Your UI components are ready for cross-project use!'
+    : '🔧 Some improvements needed before production use.'
 }
 
 ---

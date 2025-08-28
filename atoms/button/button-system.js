@@ -72,10 +72,10 @@ export class ButtonFactory {
    */
   create(props = {}) {
     const finalProps = { ...this.defaultProps, ...props };
-    
+
     // Validate props for enhanced experience
     this.validateProps(finalProps);
-    
+
     // Create container with enhanced structure
     const container = document.createElement('div');
     container.innerHTML = createButtonTemplate(finalProps);
@@ -96,12 +96,12 @@ export class ButtonFactory {
         if (finalProps.analyticsTracking) {
           this.trackButtonClick(finalProps, e);
         }
-        
+
         // Haptic feedback on mobile if enabled
         if (finalProps.hapticFeedback && 'vibrate' in navigator) {
           navigator.vibrate(50);
         }
-        
+
         finalProps.onClick(e);
       });
     }
@@ -120,7 +120,7 @@ export class ButtonFactory {
       console.warn(`Invalid button variant: ${props.variant}. Using 'primary'.`);
       props.variant = 'primary';
     }
-    
+
     if (!this.sizes.includes(props.size)) {
       console.warn(`Invalid button size: ${props.size}. Using 'md'.`);
       props.size = 'md';
@@ -151,18 +151,18 @@ export class ButtonFactory {
       button.addEventListener('click', (e) => {
         const ripple = document.createElement('span');
         ripple.className = 'tmyl-button__ripple';
-        
+
         const rect = button.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
         const x = e.clientX - rect.left - size / 2;
         const y = e.clientY - rect.top - size / 2;
-        
+
         ripple.style.width = ripple.style.height = size + 'px';
         ripple.style.left = x + 'px';
         ripple.style.top = y + 'px';
-        
+
         button.appendChild(ripple);
-        
+
         setTimeout(() => {
           ripple.remove();
         }, 600);
@@ -191,7 +191,7 @@ export class ButtonFactory {
     const minSize = 44; // WCAG requirement
     const computedStyle = window.getComputedStyle(button);
     const currentHeight = parseInt(computedStyle.height);
-    
+
     if (currentHeight < minSize) {
       button.style.minHeight = minSize + 'px';
     }
@@ -278,11 +278,11 @@ export class ButtonFactory {
   }
 
   createIconOnly(iconName, props = {}) {
-    return this.create({ 
-      ...props, 
-      icon: iconName, 
-      children: '', 
-      'aria-label': props['aria-label'] || iconName 
+    return this.create({
+      ...props,
+      icon: iconName,
+      children: '',
+      'aria-label': props['aria-label'] || iconName
     });
   }
 
@@ -318,17 +318,17 @@ export class ButtonFactory {
   createGroup(buttons, groupProps = {}) {
     const group = document.createElement('div');
     group.className = 'tmyl-button-group';
-    
+
     if (groupProps.className) {
       group.className += ` ${groupProps.className}`;
     }
 
-    const buttonElements = buttons.map(buttonConfig => 
+    const buttonElements = buttons.map(buttonConfig =>
       typeof buttonConfig === 'object' ? this.create(buttonConfig) : buttonConfig
     );
 
     buttonElements.forEach(button => group.appendChild(button));
-    
+
     return group;
   }
 
@@ -375,10 +375,10 @@ export class ButtonFactory {
 export const buttonFactory = new ButtonFactory();
 
 // Convenience exports
-export const { 
+export const {
   create: createButton,
   createPrimary,
-  createSecondary, 
+  createSecondary,
   createGhost,
   createDanger,
   createSuccess,

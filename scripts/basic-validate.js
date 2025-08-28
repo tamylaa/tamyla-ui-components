@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Basic UI Components Validation
- * 
+ *
  * Simple structure validation and component count
  */
 
@@ -30,7 +30,7 @@ const foundDirs = [];
 for (const dir of dirs) {
   const dirPath = path.join(projectRoot, dir);
   if (fs.existsSync(dirPath)) {
-    const items = fs.readdirSync(dirPath).filter(item => 
+    const items = fs.readdirSync(dirPath).filter(item =>
       fs.statSync(path.join(dirPath, item)).isDirectory()
     );
     console.log(chalk.green(`  ✓ ${dir}/ (${items.length} components)`));
@@ -47,7 +47,7 @@ if (fs.existsSync(packagePath)) {
   const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
   console.log(chalk.green(`  ✓ package.json - ${pkg.name}@${pkg.version}`));
   console.log(chalk.green(`  ✓ Type: ${pkg.type || 'commonjs'}`));
-  
+
   if (pkg.scripts) {
     const scripts = Object.keys(pkg.scripts);
     console.log(chalk.green(`  ✓ Scripts: ${scripts.join(', ')}`));
@@ -60,7 +60,7 @@ if (fs.existsSync(packagePath)) {
 console.log(chalk.blue.bold('\n📊 Summary'));
 console.log(chalk.blue('=' .repeat(30)));
 console.log(`Found directories: ${foundDirs.length}/${dirs.length}`);
-console.log(`Project type: ESM module system`);
+console.log('Project type: ESM module system');
 
 if (foundDirs.length >= 4) {
   console.log(chalk.green.bold('\n✅ Basic structure validation PASSED!'));

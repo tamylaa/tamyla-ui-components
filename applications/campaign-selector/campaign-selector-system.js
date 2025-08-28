@@ -82,9 +82,9 @@ export class CampaignSelectorSystem {
       this.filterEngine.setContent(content);
       this.analytics.setContent(content);
 
-      this.setState({ 
-        loading: false, 
-        contentLoaded: true 
+      this.setState({
+        loading: false,
+        contentLoaded: true
       });
 
       // Render initial state
@@ -208,7 +208,7 @@ export class CampaignSelectorSystem {
 
   render(container) {
     if (!container) return;
-    
+
     this.container = container;
     this.container.innerHTML = this.templates.generateMainLayout();
 
@@ -240,9 +240,9 @@ export class CampaignSelectorSystem {
       return;
     }
 
-    const contentHTML = content.map(item => 
+    const contentHTML = content.map(item =>
       this.templates.generateContentCard(
-        item, 
+        item,
         this.selectionManager.isSelected(item.id)
       )
     ).join('');
@@ -259,9 +259,9 @@ export class CampaignSelectorSystem {
       return;
     }
 
-    const templatesHTML = templates.map(template => 
+    const templatesHTML = templates.map(template =>
       this.templates.generateContentCard(
-        template, 
+        template,
         this.selectionManager.isSelected(template.id)
       )
     ).join('');
@@ -283,9 +283,9 @@ export class CampaignSelectorSystem {
       return;
     }
 
-    const recommendationsHTML = recommendations.map(item => 
+    const recommendationsHTML = recommendations.map(item =>
       this.templates.generateContentCard(
-        item, 
+        item,
         this.selectionManager.isSelected(item.id)
       )
     ).join('');
@@ -315,9 +315,9 @@ export class CampaignSelectorSystem {
     cards?.forEach(card => {
       const cardId = card.dataset.id;
       const isSelected = this.selectionManager.isSelected(cardId);
-      
+
       card.classList.toggle('selected', isSelected);
-      
+
       const indicator = card.querySelector('.selection-indicator');
       if (isSelected && !indicator) {
         const indicatorHTML = this.templates.generateSelectionIndicator();
@@ -349,7 +349,7 @@ export class CampaignSelectorSystem {
   showMessage(message, type = 'info') {
     // Integration point for notification system
     console.log(`[${type.toUpperCase()}] ${message}`);
-    
+
     // Could integrate with existing notification system
     if (window.TamylaNotification) {
       window.TamylaNotification.show(message, type);
@@ -381,7 +381,7 @@ export class CampaignSelectorSystem {
     this.data.content = [...this.data.content, ...newContent];
     this.filterEngine.setContent(this.data.content);
     this.analytics.setContent(this.data.content);
-    
+
     if (this.state.currentTab === 'content') {
       this.renderContent(this.filterEngine.getFilteredContent());
     }

@@ -12,13 +12,13 @@ export const STATUS_TYPES = {
   LIVE: 'live',
   OFFLINE: 'offline',
   CONNECTING: 'connecting',
-  
+
   // Order statuses
   PENDING: 'pending',
   FILLED: 'filled',
   CANCELLED: 'cancelled',
   REJECTED: 'rejected',
-  
+
   // Session statuses
   OPEN: 'open',
   CLOSED: 'closed',
@@ -41,7 +41,7 @@ export const STATUS_CONFIGS = {
     priority: 1,
     category: 'connection'
   },
-  
+
   [STATUS_TYPES.OFFLINE]: {
     icon: '🔴',
     text: 'Offline',
@@ -52,7 +52,7 @@ export const STATUS_CONFIGS = {
     priority: 5,
     category: 'connection'
   },
-  
+
   [STATUS_TYPES.CONNECTING]: {
     icon: '🟡',
     text: 'Connecting',
@@ -63,7 +63,7 @@ export const STATUS_CONFIGS = {
     priority: 3,
     category: 'connection'
   },
-  
+
   [STATUS_TYPES.PENDING]: {
     icon: '⏳',
     text: 'Pending',
@@ -74,7 +74,7 @@ export const STATUS_CONFIGS = {
     priority: 2,
     category: 'order'
   },
-  
+
   [STATUS_TYPES.FILLED]: {
     icon: '✅',
     text: 'Filled',
@@ -85,7 +85,7 @@ export const STATUS_CONFIGS = {
     priority: 1,
     category: 'order'
   },
-  
+
   [STATUS_TYPES.CANCELLED]: {
     icon: '❌',
     text: 'Cancelled',
@@ -96,7 +96,7 @@ export const STATUS_CONFIGS = {
     priority: 4,
     category: 'order'
   },
-  
+
   [STATUS_TYPES.REJECTED]: {
     icon: '🚫',
     text: 'Rejected',
@@ -107,7 +107,7 @@ export const STATUS_CONFIGS = {
     priority: 5,
     category: 'order'
   },
-  
+
   [STATUS_TYPES.OPEN]: {
     icon: '🔔',
     text: 'Market Open',
@@ -118,7 +118,7 @@ export const STATUS_CONFIGS = {
     priority: 1,
     category: 'session'
   },
-  
+
   [STATUS_TYPES.CLOSED]: {
     icon: '🔕',
     text: 'Market Closed',
@@ -129,7 +129,7 @@ export const STATUS_CONFIGS = {
     priority: 3,
     category: 'session'
   },
-  
+
   [STATUS_TYPES.PRE_MARKET]: {
     icon: '🌅',
     text: 'Pre-Market',
@@ -140,7 +140,7 @@ export const STATUS_CONFIGS = {
     priority: 2,
     category: 'session'
   },
-  
+
   [STATUS_TYPES.AFTER_HOURS]: {
     icon: '🌙',
     text: 'After Hours',
@@ -192,7 +192,7 @@ export const TRADING_PORTAL_PRESETS = {
     autoConnect: true,
     endpoint: '/api/health'
   },
-  
+
   quickConnection: {
     type: 'status-indicator',
     status: STATUS_TYPES.OFFLINE,
@@ -203,7 +203,7 @@ export const TRADING_PORTAL_PRESETS = {
     size: SIZE_OPTIONS.SM,
     updateInterval: UPDATE_INTERVALS.NORMAL
   },
-  
+
   // Order status presets
   orderTracking: {
     type: 'order-status',
@@ -215,7 +215,7 @@ export const TRADING_PORTAL_PRESETS = {
     autoRefresh: true,
     refreshInterval: UPDATE_INTERVALS.FAST
   },
-  
+
   orderSummary: {
     type: 'order-status',
     status: STATUS_TYPES.FILLED,
@@ -225,7 +225,7 @@ export const TRADING_PORTAL_PRESETS = {
     allowModify: false,
     autoRefresh: false
   },
-  
+
   // Session monitoring presets
   tradingSession: {
     type: 'trading-session',
@@ -236,7 +236,7 @@ export const TRADING_PORTAL_PRESETS = {
     autoUpdate: true,
     updateInterval: UPDATE_INTERVALS.NORMAL
   },
-  
+
   marketOverview: {
     type: 'trading-session',
     market: 'NASDAQ',
@@ -246,7 +246,7 @@ export const TRADING_PORTAL_PRESETS = {
     autoUpdate: true,
     updateInterval: UPDATE_INTERVALS.SLOW
   },
-  
+
   // Banner presets
   connectionBanner: {
     type: 'connection-banner',
@@ -257,7 +257,7 @@ export const TRADING_PORTAL_PRESETS = {
     allowDismiss: true,
     autoHide: false
   },
-  
+
   alertBanner: {
     type: 'connection-banner',
     status: STATUS_TYPES.CONNECTING,
@@ -268,7 +268,7 @@ export const TRADING_PORTAL_PRESETS = {
     autoHide: true,
     autoHideDelay: 5000
   },
-  
+
   // List presets
   statusDashboard: {
     type: 'status-list',
@@ -280,7 +280,7 @@ export const TRADING_PORTAL_PRESETS = {
     sortByPriority: true,
     maxItems: 50
   },
-  
+
   simpleList: {
     type: 'status-list',
     showFilters: false,
@@ -308,7 +308,7 @@ export const MARKET_CONFIGS = {
     currency: 'USD',
     country: 'US'
   },
-  
+
   NASDAQ: {
     name: 'NASDAQ',
     timezone: 'America/New_York',
@@ -319,7 +319,7 @@ export const MARKET_CONFIGS = {
     currency: 'USD',
     country: 'US'
   },
-  
+
   LSE: {
     name: 'London Stock Exchange',
     timezone: 'Europe/London',
@@ -330,7 +330,7 @@ export const MARKET_CONFIGS = {
     currency: 'GBP',
     country: 'UK'
   },
-  
+
   TSE: {
     name: 'Tokyo Stock Exchange',
     timezone: 'Asia/Tokyo',
@@ -351,35 +351,35 @@ export const EVENT_TYPES = {
   // Status events
   STATUS_CHANGED: 'status:changed',
   STATUS_UPDATE: 'status:update',
-  
+
   // Connection events
   CONNECTION_ESTABLISHED: 'connection:established',
   CONNECTION_LOST: 'connection:lost',
   CONNECTION_RETRY: 'connection:retry',
-  
+
   // Order events
   ORDER_PLACED: 'order:placed',
   ORDER_FILLED: 'order:filled',
   ORDER_CANCELLED: 'order:cancelled',
   ORDER_REJECTED: 'order:rejected',
   ORDER_MODIFIED: 'order:modified',
-  
+
   // Session events
   MARKET_OPENED: 'session:opened',
   MARKET_CLOSED: 'session:closed',
   PREMARKET_STARTED: 'session:premarket',
   AFTERHOURS_STARTED: 'session:afterhours',
-  
+
   // UI events
   BANNER_SHOWN: 'banner:shown',
   BANNER_DISMISSED: 'banner:dismissed',
   BANNER_RETRY: 'banner:retry',
-  
+
   LIST_FILTERED: 'list:filtered',
   LIST_REFRESHED: 'list:refreshed',
   LIST_ITEM_ADDED: 'list:item-added',
   LIST_ITEM_REMOVED: 'list:item-removed',
-  
+
   // Component events
   COMPONENT_INITIALIZED: 'component:initialized',
   COMPONENT_DESTROYED: 'component:destroyed',
@@ -397,7 +397,7 @@ export const VALIDATION_RULES = {
     enum: Object.values(STATUS_TYPES),
     message: 'Status must be one of the predefined status types'
   },
-  
+
   size: {
     required: false,
     type: 'string',
@@ -405,7 +405,7 @@ export const VALIDATION_RULES = {
     default: SIZE_OPTIONS.MD,
     message: 'Size must be sm, md, or lg'
   },
-  
+
   updateInterval: {
     required: false,
     type: 'number',
@@ -414,7 +414,7 @@ export const VALIDATION_RULES = {
     default: UPDATE_INTERVALS.NORMAL,
     message: 'Update interval must be between 100ms and 5 minutes'
   },
-  
+
   endpoint: {
     required: false,
     type: 'string',
@@ -422,7 +422,7 @@ export const VALIDATION_RULES = {
     default: '/api/health',
     message: 'Endpoint must be a valid API path'
   },
-  
+
   market: {
     required: false,
     type: 'string',
@@ -430,7 +430,7 @@ export const VALIDATION_RULES = {
     default: 'NYSE',
     message: 'Market must be one of the supported markets'
   },
-  
+
   timezone: {
     required: false,
     type: 'string',
@@ -455,7 +455,7 @@ export const DEFAULT_CONFIG = {
     className: '',
     autoConnect: false
   },
-  
+
   connectionBanner: {
     status: STATUS_TYPES.OFFLINE,
     showProgress: true,
@@ -466,7 +466,7 @@ export const DEFAULT_CONFIG = {
     autoHideDelay: 0,
     className: ''
   },
-  
+
   orderStatus: {
     status: STATUS_TYPES.PENDING,
     showProgress: true,
@@ -477,7 +477,7 @@ export const DEFAULT_CONFIG = {
     refreshInterval: UPDATE_INTERVALS.FAST,
     className: ''
   },
-  
+
   tradingSession: {
     market: 'NYSE',
     showCountdown: true,
@@ -486,7 +486,7 @@ export const DEFAULT_CONFIG = {
     updateInterval: UPDATE_INTERVALS.NORMAL,
     className: ''
   },
-  
+
   statusList: {
     showFilters: true,
     showControls: true,
@@ -497,7 +497,7 @@ export const DEFAULT_CONFIG = {
     maxItems: 100,
     className: ''
   },
-  
+
   connectionManager: {
     checkInterval: UPDATE_INTERVALS.NORMAL,
     endpoint: '/api/health',
@@ -519,20 +519,20 @@ export function validateConfig(config, type) {
   const errors = [];
   const rules = VALIDATION_RULES;
   const defaults = DEFAULT_CONFIG[type] || {};
-  
+
   // Merge with defaults
   const validatedConfig = { ...defaults, ...config };
-  
+
   // Validate each property
   Object.entries(rules).forEach(([key, rule]) => {
     const value = validatedConfig[key];
-    
+
     // Check required fields
     if (rule.required && (value === undefined || value === null)) {
       errors.push(`${key} is required`);
       return;
     }
-    
+
     // Skip validation if value is undefined and not required
     if (value === undefined && !rule.required) {
       if (rule.default !== undefined) {
@@ -540,37 +540,37 @@ export function validateConfig(config, type) {
       }
       return;
     }
-    
+
     // Type validation
     if (rule.type && typeof value !== rule.type) {
       errors.push(`${key} must be of type ${rule.type}`);
       return;
     }
-    
+
     // Enum validation
     if (rule.enum && !rule.enum.includes(value)) {
       errors.push(`${key} must be one of: ${rule.enum.join(', ')}`);
       return;
     }
-    
+
     // Pattern validation
     if (rule.pattern && !rule.pattern.test(value)) {
       errors.push(rule.message || `${key} format is invalid`);
       return;
     }
-    
+
     // Range validation
     if (rule.min !== undefined && value < rule.min) {
       errors.push(`${key} must be at least ${rule.min}`);
       return;
     }
-    
+
     if (rule.max !== undefined && value > rule.max) {
       errors.push(`${key} must be at most ${rule.max}`);
       return;
     }
   });
-  
+
   return {
     isValid: errors.length === 0,
     errors,
@@ -606,15 +606,15 @@ export function isMarketOpen(market = 'NYSE') {
   const config = getMarketConfig(market);
   const now = new Date();
   const tz = config.timezone;
-  
+
   // This is a simplified check - in production, you'd use a proper date library
-  const currentTime = now.toLocaleTimeString('en-US', { 
-    timeZone: tz, 
-    hour12: false, 
-    hour: '2-digit', 
-    minute: '2-digit' 
+  const currentTime = now.toLocaleTimeString('en-US', {
+    timeZone: tz,
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit'
   });
-  
+
   return currentTime >= config.openTime && currentTime <= config.closeTime;
 }
 
@@ -624,7 +624,7 @@ export function isMarketOpen(market = 'NYSE') {
 export function getNextMarketEvent(market = 'NYSE') {
   const config = getMarketConfig(market);
   const isOpen = isMarketOpen(market);
-  
+
   return {
     isOpen,
     nextEvent: isOpen ? 'close' : 'open',

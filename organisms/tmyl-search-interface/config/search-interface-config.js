@@ -31,22 +31,22 @@ export const defaultSearchInterfaceProps = {
 export const searchInterfaceConfig = {
   // Valid view modes
   viewModes: ['grid', 'list'],
-  
+
   // Valid sort options
   sortOptions: ['relevance', 'date', 'title', 'author', 'size'],
-  
+
   // Valid sort directions
   sortDirections: ['asc', 'desc'],
-  
+
   // Page size options
   pageSizeOptions: [10, 20, 50, 100],
-  
+
   // Debounce timing
   debounce: {
     search: 300,
     filter: 500
   },
-  
+
   // Loading states
   loadingStates: {
     searching: 'searching',
@@ -54,7 +54,7 @@ export const searchInterfaceConfig = {
     idle: 'idle',
     error: 'error'
   },
-  
+
   // Filter types
   filterTypes: {
     select: 'select',
@@ -62,7 +62,7 @@ export const searchInterfaceConfig = {
     multiSelect: 'multiSelect',
     dateRange: 'dateRange'
   },
-  
+
   // Content types
   contentTypes: [
     { value: 'document', label: 'Documents' },
@@ -72,7 +72,7 @@ export const searchInterfaceConfig = {
     { value: 'spreadsheet', label: 'Spreadsheets' },
     { value: 'audio', label: 'Audio' }
   ],
-  
+
   // Date range options
   dateRangeOptions: [
     { value: 'today', label: 'Today' },
@@ -82,7 +82,7 @@ export const searchInterfaceConfig = {
     { value: 'year', label: 'This Year' },
     { value: 'custom', label: 'Custom Range' }
   ],
-  
+
   // Bulk actions
   bulkActions: [
     { id: 'export', label: 'Export', icon: 'download' },
@@ -102,26 +102,26 @@ export const searchInterfaceFilters = {
     options: searchInterfaceConfig.contentTypes,
     placeholder: 'All Types'
   },
-  
+
   dateRange: {
     type: 'select',
     label: 'Date Range',
     options: searchInterfaceConfig.dateRangeOptions,
     placeholder: 'Any Time'
   },
-  
+
   author: {
     type: 'input',
     label: 'Author',
     placeholder: 'Filter by author...'
   },
-  
+
   tags: {
     type: 'input',
     label: 'Tags',
     placeholder: 'Enter tags...'
   },
-  
+
   size: {
     type: 'select',
     label: 'File Size',
@@ -219,14 +219,14 @@ export const searchInterfaceThemes = {
     density: 'normal',
     animations: true
   },
-  
+
   compact: {
     spacing: 'compact',
     density: 'high',
     animations: false,
     pageSize: 50
   },
-  
+
   minimal: {
     spacing: 'minimal',
     density: 'low',

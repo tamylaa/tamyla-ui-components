@@ -24,7 +24,7 @@ export class SelectionManager {
       }
       this.selectedContent.set(item.id, item);
     }
-    
+
     this.notifyChange();
     return true;
   }
@@ -35,7 +35,7 @@ export class SelectionManager {
 
   getSelectionSummary() {
     const selected = this.getSelectedItems();
-    
+
     return {
       count: selected.length,
       maxCount: this.maxSelections,
@@ -54,9 +54,9 @@ export class SelectionManager {
 
   estimateReach(items) {
     // Simplified reach estimation algorithm
-    const baseReach = items.reduce((sum, item) => 
+    const baseReach = items.reduce((sum, item) =>
       sum + (item.historical_reach || 1000), 0);
-    
+
     return Math.floor(baseReach * 0.8); // Conservative estimate
   }
 

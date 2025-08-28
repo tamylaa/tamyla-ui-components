@@ -3,13 +3,13 @@
  * Complete modal factory with atomic composition and accessibility
  */
 
-import { 
-  createModalTemplate, 
-  createConfirmTemplate, 
-  createAlertTemplate, 
+import {
+  createModalTemplate,
+  createConfirmTemplate,
+  createAlertTemplate,
   createFormModalTemplate,
   createLoadingModalTemplate,
-  createActionButton 
+  createActionButton
 } from './modal-template.js';
 import { ModalController } from './modal-controller.js';
 
@@ -25,16 +25,16 @@ export function ModalFactory(props = {}) {
     size = 'md', // sm, md, lg, xl, fullscreen
     type = 'default', // default, confirm, alert, form, loading
     showClose = true,
-    
+
     // Behavior
     closeOnBackdrop = true,
     closeOnEscape = true,
     focusTrap = true,
     restoreFocus = true,
-    
+
     // Actions
     actions = [],
-    
+
     // Event handlers
     onOpen,
     onClose,
@@ -42,7 +42,7 @@ export function ModalFactory(props = {}) {
     onCancel,
     onSubmit,
     onAction,
-    
+
     // Container
     container = document.body
   } = props;
@@ -59,18 +59,18 @@ export function ModalFactory(props = {}) {
     open,
     close,
     destroy,
-    
+
     // Content management
     setContent,
     setTitle,
     setActions,
     setLoading,
-    
+
     // State management
     getController: () => controller,
     getElement: () => element,
     isOpen: () => controller?.getState().isOpen || false,
-    
+
     // Convenience methods
     confirm: confirmAction,
     cancel: cancelAction
@@ -87,7 +87,7 @@ export function ModalFactory(props = {}) {
 
     // Create element based on type
     element = createElement();
-    
+
     // Initialize controller
     controller = new ModalController({
       size,
@@ -104,7 +104,7 @@ export function ModalFactory(props = {}) {
       onSubmit,
       onAction
     });
-    
+
     controller.initialize(element);
 
     // Load CSS
@@ -118,7 +118,7 @@ export function ModalFactory(props = {}) {
     if (typeof targetContainer === 'string') {
       targetContainer = document.querySelector(targetContainer);
     }
-    
+
     if (targetContainer) {
       targetContainer.appendChild(element);
     }
@@ -133,26 +133,26 @@ export function ModalFactory(props = {}) {
     const modalElement = document.createElement('div');
     modalElement.className = 'tmyl-modal-container';
     modalElement.style.display = 'none';
-    
+
     // Generate template based on type
     let template;
     switch (type) {
-      case 'confirm':
-        template = createConfirmTemplate(props);
-        break;
-      case 'alert':
-        template = createAlertTemplate(props);
-        break;
-      case 'form':
-        template = createFormModalTemplate(props);
-        break;
-      case 'loading':
-        template = createLoadingModalTemplate(props);
-        break;
-      default:
-        template = createModalTemplate({ title, size, type, showClose });
+    case 'confirm':
+      template = createConfirmTemplate(props);
+      break;
+    case 'alert':
+      template = createAlertTemplate(props);
+      break;
+    case 'form':
+      template = createFormModalTemplate(props);
+      break;
+    case 'loading':
+      template = createLoadingModalTemplate(props);
+      break;
+    default:
+      template = createModalTemplate({ title, size, type, showClose });
     }
-    
+
     modalElement.innerHTML = template;
     return modalElement;
   }
@@ -162,7 +162,7 @@ export function ModalFactory(props = {}) {
    */
   function loadStyles() {
     const styleId = 'tmyl-modal-styles';
-    
+
     if (!document.getElementById(styleId)) {
       const link = document.createElement('link');
       link.id = styleId;
@@ -264,7 +264,7 @@ export function ModalFactory(props = {}) {
     if (element && element.parentNode) {
       element.parentNode.removeChild(element);
     }
-    
+
     element = null;
   }
 
@@ -456,7 +456,7 @@ export class ModalManager {
           backdrop.style.zIndex = this.zIndexBase + this.modals.size;
         }
       }
-      
+
       modal.open();
     }
     return modal;

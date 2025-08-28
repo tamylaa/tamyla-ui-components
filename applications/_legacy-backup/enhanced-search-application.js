@@ -1,7 +1,7 @@
 /**
  * Enhanced Search Application
  * Application-level component using modular atomic design architecture
- * 
+ *
  * @deprecated Use enhanced-search/enhanced-search-system.js for new implementations
  * This file is maintained for backward compatibility
  */
@@ -26,25 +26,25 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
     // API Configuration
     meilisearchUrl = '/api/search',
     apiBase = '/api/content',
-    
+
     // Feature Configuration
     voiceEnabled = true,
     naturalLanguage = true,
     smartFilters = true,
     recentSearches = true,
     searchSuggestions = true,
-    
+
     // UI Configuration
     placeholder = 'Search content... Try "Find PDFs about coffee from last month"',
     title = 'Enhanced Search',
     description = 'Intelligent content discovery with natural language processing',
     layout = 'vertical',
-    
+
     // Business Logic Handlers
     onSearchResults,
     onContentSelection,
     onAnalytics,
-    
+
     // Container
     container = null
   } = props;
@@ -88,7 +88,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
       },
       errorHandler: (error) => {
         console.error('Search API error:', error);
-        
+
         // Fallback to local search if API fails
         return {
           results: [],
@@ -186,27 +186,27 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
   async function handleSearch(params) {
     try {
       const { query, filters } = params;
-      
+
       // Process natural language query if enabled
       let processedQuery = query;
       if (naturalLanguage && query) {
         processedQuery = await processNaturalLanguageQuery(query);
       }
-      
+
       // Add to recent searches
       if (recentSearches && query.trim()) {
         addToRecentSearches(query);
       }
-      
+
       // Perform the search
       const searchParams = {
         ...params,
         query: processedQuery,
         filters: processFilters(filters)
       };
-      
+
       const results = await searchAPI(searchParams);
-      
+
       // Track analytics
       if (onAnalytics) {
         onAnalytics({
@@ -218,7 +218,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
           processingTime: results.processingTimeMs
         });
       }
-      
+
       return results;
     } catch (error) {
       console.error('Search error:', error);
@@ -233,7 +233,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
     if (onSearchResults) {
       onSearchResults(results, totalCount);
     }
-    
+
     // Update search suggestions if enabled
     if (searchSuggestions) {
       updateSearchSuggestions(results);
@@ -247,10 +247,10 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
     if (onContentSelection) {
       const selectedContent = searchInterface.getResults()
         .filter(result => selectedIds.includes(result.id));
-      
+
       onContentSelection(selectedContent, selectedIds);
     }
-    
+
     // Track selection analytics
     if (onAnalytics) {
       onAnalytics({
@@ -266,7 +266,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
    */
   function handleError(error) {
     console.error('Search interface error:', error);
-    
+
     // Could implement fallback search here
     if (onAnalytics) {
       onAnalytics({
@@ -284,9 +284,9 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
     try {
       // Simple natural language processing
       // In a real implementation, this could use NLP APIs
-      
+
       let processedQuery = query.toLowerCase();
-      
+
       // Extract date filters from natural language
       const datePatterns = {
         'today': { date_range: 'today' },
@@ -296,7 +296,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
         'last month': { date_range: 'month' },
         'this year': { date_range: 'year' }
       };
-      
+
       Object.entries(datePatterns).forEach(([pattern, filter]) => {
         if (processedQuery.includes(pattern)) {
           // Apply the filter automatically
@@ -305,7 +305,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
           processedQuery = processedQuery.replace(pattern, '').trim();
         }
       });
-      
+
       // Extract file type filters
       const typePatterns = {
         'pdf': { type: 'document', file_format: ['pdf'] },
@@ -316,14 +316,14 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
         'note': { type: 'note' },
         'article': { type: 'article' }
       };
-      
+
       Object.entries(typePatterns).forEach(([pattern, filter]) => {
         if (processedQuery.includes(pattern)) {
           searchInterface.getController()?.setFilters({ ...searchInterface.getState().filters, ...filter });
           processedQuery = processedQuery.replace(new RegExp(`\\b${pattern}s?\\b`, 'gi'), '').trim();
         }
       });
-      
+
       // Clean up the query
       processedQuery = processedQuery
         .replace(/\s+/g, ' ')
@@ -331,7 +331,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
         .replace(/^\s*find\s+/i, '')
         .replace(/^\s*search\s+for\s+/i, '')
         .trim();
-      
+
       return processedQuery;
     } catch (error) {
       console.warn('Natural language processing failed:', error);
@@ -344,55 +344,55 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
    */
   function processFilters(filters) {
     const processedFilters = { ...filters };
-    
+
     // Convert date range filters to actual date filters
     if (processedFilters.date_range) {
       const now = new Date();
       let startDate = null;
-      
+
       switch (processedFilters.date_range) {
-        case 'today':
-          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-          break;
-        case 'week':
-          startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-          break;
-        case 'month':
-          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-          break;
-        case 'quarter':
-          const quarter = Math.floor(now.getMonth() / 3);
-          startDate = new Date(now.getFullYear(), quarter * 3, 1);
-          break;
-        case 'year':
-          startDate = new Date(now.getFullYear(), 0, 1);
-          break;
+      case 'today':
+        startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        break;
+      case 'week':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case 'month':
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        break;
+      case 'quarter':
+        const quarter = Math.floor(now.getMonth() / 3);
+        startDate = new Date(now.getFullYear(), quarter * 3, 1);
+        break;
+      case 'year':
+        startDate = new Date(now.getFullYear(), 0, 1);
+        break;
       }
-      
+
       if (startDate) {
         processedFilters.created_at = `>= ${startDate.toISOString()}`;
       }
-      
+
       delete processedFilters.date_range;
     }
-    
+
     // Convert size range filters
     if (processedFilters.size_range) {
       switch (processedFilters.size_range) {
-        case 'small':
-          processedFilters.size = '< 1048576'; // < 1MB
-          break;
-        case 'medium':
-          processedFilters.size = '>= 1048576 AND < 10485760'; // 1-10MB
-          break;
-        case 'large':
-          processedFilters.size = '>= 10485760'; // > 10MB
-          break;
+      case 'small':
+        processedFilters.size = '< 1048576'; // < 1MB
+        break;
+      case 'medium':
+        processedFilters.size = '>= 1048576 AND < 10485760'; // 1-10MB
+        break;
+      case 'large':
+        processedFilters.size = '>= 10485760'; // > 10MB
+        break;
       }
-      
+
       delete processedFilters.size_range;
     }
-    
+
     return processedFilters;
   }
 
@@ -406,10 +406,10 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
       timestamp: Date.now(),
       count: 1
     });
-    
+
     // Keep only last 10 searches
     recentSearchesData = recentSearchesData.slice(0, 10);
-    
+
     // Store in localStorage if available
     try {
       localStorage.setItem('tmyl-recent-searches', JSON.stringify(recentSearchesData));
@@ -431,7 +431,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
       console.warn('Failed to load recent searches:', error);
       recentSearchesData = [];
     }
-    
+
     return recentSearchesData;
   }
 
@@ -441,20 +441,20 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
   function updateSearchSuggestions(results) {
     // Extract common terms from results for suggestions
     const suggestions = new Set();
-    
+
     results.forEach(result => {
       // Add tags as suggestions
       if (result.tags) {
         result.tags.forEach(tag => suggestions.add(tag));
       }
-      
+
       // Add keywords from title
       if (result.title) {
         const words = result.title.split(/\s+/).filter(word => word.length > 3);
         words.forEach(word => suggestions.add(word.toLowerCase()));
       }
     });
-    
+
     // Store suggestions for autocomplete
     try {
       localStorage.setItem('tmyl-search-suggestions', JSON.stringify(Array.from(suggestions).slice(0, 50)));
@@ -478,17 +478,17 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
 
     // Initialize search API
     initializeSearchAPI();
-    
+
     // Create search interface
     createSearchInterface();
-    
+
     // Load recent searches
     loadRecentSearches();
-    
+
     // Render to container
     searchInterface.render(element);
     targetContainer.appendChild(element);
-    
+
     return element;
   }
 
@@ -500,11 +500,11 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
       searchInterface.destroy();
       searchInterface = null;
     }
-    
+
     if (element && element.parentNode) {
       element.parentNode.removeChild(element);
     }
-    
+
     element = null;
     searchAPI = null;
   }
@@ -516,7 +516,7 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
     // Lifecycle
     render,
     destroy,
-    
+
     // Actions
     search: (query, filters = {}) => {
       if (searchInterface) {
@@ -526,18 +526,18 @@ export function LegacyEnhancedSearchApplicationFactory(props = {}) {
         }
       }
     },
-    
+
     clear: () => {
       if (searchInterface) {
         searchInterface.clear();
       }
     },
-    
+
     // Data access
     getResults: () => searchInterface?.getResults() || [],
     getSelection: () => searchInterface?.getSelection() || [],
     getRecentSearches: () => recentSearchesData,
-    
+
     // Element access
     getElement: () => element,
     getSearchInterface: () => searchInterface

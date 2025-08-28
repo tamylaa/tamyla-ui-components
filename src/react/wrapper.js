@@ -17,16 +17,16 @@ export function createReactWrapper(componentLoader, defaultOptions = {}) {
 
     // Combine default options with props
     const options = { ...defaultOptions, ...props };
-    
+
     // Extract React-specific props
-    const { 
-      children, 
-      className, 
-      style, 
+    const {
+      children,
+      className,
+      style,
       onMount,
       onUnmount,
       onError,
-      ...componentOptions 
+      ...componentOptions
     } = options;
 
     // Load and initialize component
@@ -36,7 +36,7 @@ export function createReactWrapper(componentLoader, defaultOptions = {}) {
       async function loadComponent() {
         try {
           const ComponentClass = await componentLoader();
-          
+
           if (!mounted) return;
 
           // Initialize component
@@ -60,7 +60,7 @@ export function createReactWrapper(componentLoader, defaultOptions = {}) {
 
           componentInstanceRef.current = instance;
           setIsLoaded(true);
-          
+
           // Call onMount callback
           onMount?.(instance);
 
@@ -76,7 +76,7 @@ export function createReactWrapper(componentLoader, defaultOptions = {}) {
 
       return () => {
         mounted = false;
-        
+
         // Cleanup component
         if (componentInstanceRef.current) {
           if (componentInstanceRef.current.destroy) {
@@ -84,7 +84,7 @@ export function createReactWrapper(componentLoader, defaultOptions = {}) {
           } else if (componentInstanceRef.current.unmount) {
             componentInstanceRef.current.unmount();
           }
-          
+
           onUnmount?.(componentInstanceRef.current);
           componentInstanceRef.current = null;
         }

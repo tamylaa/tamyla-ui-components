@@ -19,7 +19,7 @@ export class InputGroupController {
     this.labelElement = null;
     this.errorElement = null;
     this.helpElement = null;
-    
+
     this.state = {
       isValid: true,
       isDirty: false,
@@ -83,7 +83,7 @@ export class InputGroupController {
    */
   addEventListener(element, type, handler) {
     element.addEventListener(type, handler);
-    
+
     if (!this.eventListeners.has(element)) {
       this.eventListeners.set(element, []);
     }
@@ -109,12 +109,12 @@ export class InputGroupController {
       if (this.errorElement && !this.inputElement.getAttribute('aria-describedby')) {
         const errorId = this.errorElement.id || `error-${Date.now()}`;
         this.errorElement.id = errorId;
-        
+
         const existingDescribedBy = this.inputElement.getAttribute('aria-describedby') || '';
-        const describedBy = existingDescribedBy 
+        const describedBy = existingDescribedBy
           ? `${existingDescribedBy} ${errorId}`
           : errorId;
-        
+
         this.inputElement.setAttribute('aria-describedby', describedBy);
       }
 
@@ -122,12 +122,12 @@ export class InputGroupController {
       if (this.helpElement && this.helpElement.id) {
         const helpId = this.helpElement.id;
         const existingDescribedBy = this.inputElement.getAttribute('aria-describedby') || '';
-        
+
         if (!existingDescribedBy.includes(helpId)) {
-          const describedBy = existingDescribedBy 
+          const describedBy = existingDescribedBy
             ? `${existingDescribedBy} ${helpId}`
             : helpId;
-          
+
           this.inputElement.setAttribute('aria-describedby', describedBy);
         }
       }
@@ -139,9 +139,9 @@ export class InputGroupController {
    */
   handleInput(event) {
     const value = event.target.value;
-    this.updateState({ 
-      value, 
-      isDirty: true 
+    this.updateState({
+      value,
+      isDirty: true
     });
 
     if (this.options.validateOnChange && this.options.autoValidate) {
@@ -194,10 +194,10 @@ export class InputGroupController {
       this.emit('submit', { value: this.state.value, element: this.element });
     }
 
-    this.emit('keydown', { 
-      key: event.key, 
-      value: this.state.value, 
-      element: this.element 
+    this.emit('keydown', {
+      key: event.key,
+      value: this.state.value,
+      element: this.element
     });
   }
 
@@ -221,10 +221,10 @@ export class InputGroupController {
     this.updateErrorDisplay();
     this.updateValidationClasses();
 
-    this.emit('stateChange', { 
-      oldState, 
-      newState: this.state, 
-      element: this.element 
+    this.emit('stateChange', {
+      oldState,
+      newState: this.state,
+      element: this.element
     });
   }
 
@@ -302,11 +302,11 @@ export class InputGroupController {
       errors
     });
 
-    this.emit('validate', { 
-      isValid, 
-      errors, 
-      value, 
-      element: this.element 
+    this.emit('validate', {
+      isValid,
+      errors,
+      value,
+      element: this.element
     });
 
     return isValid;
@@ -321,13 +321,13 @@ export class InputGroupController {
     if (this.state.errors.length > 0) {
       this.errorElement.textContent = this.state.errors[0];
       this.errorElement.style.display = 'block';
-      
+
       if (this.inputElement) {
         this.inputElement.setAttribute('aria-invalid', 'true');
       }
     } else {
       this.errorElement.style.display = 'none';
-      
+
       if (this.inputElement) {
         this.inputElement.removeAttribute('aria-invalid');
       }
@@ -355,7 +355,7 @@ export class InputGroupController {
     }
 
     this.state.validationRules.push(rule);
-    
+
     if (this.options.autoValidate && this.state.isDirty) {
       this.validate();
     }
@@ -430,7 +430,7 @@ export class InputGroupController {
     if (this.inputElement) {
       this.inputElement.value = value;
       this.updateState({ value });
-      
+
       if (this.options.autoValidate) {
         this.validate();
       }

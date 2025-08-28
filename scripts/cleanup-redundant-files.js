@@ -25,7 +25,7 @@ class UIComponentsCleanup {
   log(message, type = 'info') {
     const colors = {
       info: '\x1b[34m',      // Blue
-      success: '\x1b[32m',   // Green  
+      success: '\x1b[32m',   // Green
       warning: '\x1b[33m',   // Yellow
       error: '\x1b[31m'      // Red
     };
@@ -37,7 +37,7 @@ class UIComponentsCleanup {
     try {
       const sourcePath = path.join(BASE_DIR, source);
       const destPath = path.join(ARCHIVE_DIR, destination);
-      
+
       // Create destination directory if it doesn't exist
       const destDir = path.dirname(destPath);
       if (!fs.existsSync(destDir)) {
@@ -173,7 +173,7 @@ ${this.errors.map(e => `❌ Failed: ${e.source} (${e.error})`).join('\n')}` : ''
 
     const reportPath = path.join(BASE_DIR, 'CLEANUP_REPORT.md');
     fs.writeFileSync(reportPath, report);
-    this.log(`Cleanup report saved to CLEANUP_REPORT.md`, 'success');
+    this.log('Cleanup report saved to CLEANUP_REPORT.md', 'success');
   }
 }
 
@@ -182,7 +182,7 @@ async function main() {
   const cleanup = new UIComponentsCleanup();
   await cleanup.performSafeCleanup();
   await cleanup.generateCleanupReport();
-  
+
   console.log('\x1b[32m\n🎉 UI Components cleanup completed!\x1b[0m');
   console.log('\x1b[34m📁 Check _archived/ directory for moved files\x1b[0m');
   console.log('\x1b[34m📄 See CLEANUP_REPORT.md for full details\x1b[0m');

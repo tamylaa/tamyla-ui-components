@@ -37,7 +37,7 @@ class RewardSystem {
 
     // Initialize controllers
     this.controllers = {};
-    
+
     if (this.options.autoInitialize) {
       this.initialize();
     }
@@ -102,13 +102,13 @@ class RewardSystem {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = '/ui-components/organisms/rewards/styles/reward-system.css';
-      
+
       link.onload = resolve;
       link.onerror = () => {
         console.warn('Failed to load reward system styles, using fallback');
         resolve(); // Don't fail initialization
       };
-      
+
       document.head.appendChild(link);
     });
   }
@@ -141,7 +141,7 @@ class RewardSystem {
    */
   bindAchievementEvents() {
     const achievements = this.controllers.achievements;
-    
+
     achievements.on('achievement:earned', (data) => {
       this.handleAchievementEarned(data);
     });
@@ -160,10 +160,10 @@ class RewardSystem {
    */
   handleAchievementEarned(data) {
     const { achievement, userProgress } = data;
-    
+
     // Update statistics
     this.userData.statistics.achievementsEarned++;
-    
+
     // Show notification
     if (this.controllers.notifications) {
       this.controllers.notifications.showAchievement(achievement);
@@ -171,7 +171,7 @@ class RewardSystem {
 
     // Check for level up
     this.checkLevelUp();
-    
+
     this.emit('achievement:earned', data);
   }
 
@@ -191,7 +191,7 @@ class RewardSystem {
     const multipliedPoints = Math.floor(points * (this.xpMultiplier || 1.0));
     const oldXP = this.userData.xp;
     const oldLevel = this.userData.level;
-    
+
     this.userData.xp += multipliedPoints;
     this.userData.statistics.totalXP += multipliedPoints;
 
@@ -202,7 +202,7 @@ class RewardSystem {
 
     // Check for level up
     const levelData = this.checkLevelUp();
-    
+
     this.emit('xp:awarded', {
       points: multipliedPoints,
       source,
@@ -224,10 +224,10 @@ class RewardSystem {
 
     const levelData = XP_CONFIG.getLevelFromXP(this.userData.xp);
     const oldLevel = this.userData.level;
-    
+
     if (levelData.level > oldLevel) {
       this.userData.level = levelData.level;
-      
+
       // Show level up notification
       if (this.controllers.notifications) {
         this.controllers.notifications.showLevelUp(levelData.level);
@@ -242,7 +242,7 @@ class RewardSystem {
 
       return levelData;
     }
-    
+
     return null;
   }
 
@@ -256,7 +256,7 @@ class RewardSystem {
 
     const achievement = this.controllers.achievements.achievements.get(achievementId);
     const progress = this.controllers.achievements.userProgress.get(achievementId);
-    
+
     if (!achievement) {
       throw new Error(`Achievement not found: ${achievementId}`);
     }
@@ -275,13 +275,13 @@ class RewardSystem {
 
     // Load template
     const template = await this.loadTemplate('achievement-badge.html');
-    
+
     // Create badge element
     const badgeElement = document.createElement('div');
     badgeElement.innerHTML = template;
-    
+
     const badge = badgeElement.firstElementChild;
-    
+
     // Apply data
     badge.classList.add(`rarity-${achievement.rarity.toLowerCase()}`);
     if (progress.earned) {
@@ -300,11 +300,11 @@ class RewardSystem {
     if (icon) icon.textContent = achievement.icon;
     if (title) title.textContent = achievement.title;
     if (description) description.textContent = achievement.description;
-    
+
     if (requirements) {
       requirements.textContent = this.getRequirementsText(achievement);
     }
-    
+
     if (earnedDate && progress.earned) {
       earnedDate.textContent = `Earned ${new Date(progress.earnedAt).toLocaleDateString()}`;
     }
@@ -335,7 +335,7 @@ class RewardSystem {
    */
   updateProgress(progressId, current, total = null) {
     if (!this.controllers.progress) return false;
-    
+
     return this.controllers.progress.updateProgress(progressId, current, total);
   }
 
@@ -344,7 +344,7 @@ class RewardSystem {
    */
   showNotification(config) {
     if (!this.controllers.notifications) return null;
-    
+
     return this.controllers.notifications.show(config);
   }
 
@@ -368,7 +368,7 @@ class RewardSystem {
       // Award XP for the action
       const xpSources = XP_CONFIG.sources;
       const xpAmount = xpSources[action.toUpperCase()] || 0;
-      
+
       if (xpAmount > 0) {
         this.awardXP(xpAmount, action);
       }
@@ -385,10 +385,10 @@ class RewardSystem {
    */
   updateAchievementsByMetric(metric, increment, metadata) {
     const achievements = this.controllers.achievements;
-    
+
     achievements.achievements.forEach((achievement, id) => {
       const requirements = achievement.requirements;
-      
+
       if (requirements.type === 'count' && requirements.metric === metric) {
         const currentProgress = achievements.userProgress.get(id).progress;
         achievements.updateProgress(id, currentProgress + increment, metadata);
@@ -407,16 +407,16 @@ class RewardSystem {
    */
   getRequirementsText(achievement) {
     const { requirements } = achievement;
-    
+
     switch (requirements.type) {
-      case 'count':
-        return `Complete ${requirements.target} ${requirements.metric.replace('_', ' ')}`;
-      case 'condition':
-        return `Meet specific condition: ${requirements.condition}`;
-      case 'complex':
-        return 'Meet multiple requirements';
-      default:
-        return 'Complete the requirements';
+    case 'count':
+      return `Complete ${requirements.target} ${requirements.metric.replace('_', ' ')}`;
+    case 'condition':
+      return `Meet specific condition: ${requirements.condition}`;
+    case 'complex':
+      return 'Meet multiple requirements';
+    default:
+      return 'Complete the requirements';
     }
   }
 
@@ -434,17 +434,17 @@ class RewardSystem {
   updateProgressRing(progressRing, current, total) {
     const circle = progressRing.querySelector('.circle');
     const percentage = progressRing.querySelector('.percentage');
-    
+
     if (circle) {
       const radius = 30; // Based on SVG design
       const circumference = radius * 2 * Math.PI;
       const percent = (current / total) * 100;
       const offset = circumference - (percent / 100) * circumference;
-      
+
       circle.style.strokeDasharray = `${circumference} ${circumference}`;
       circle.style.strokeDashoffset = offset;
     }
-    
+
     if (percentage) {
       percentage.textContent = `${Math.round((current / total) * 100)}%`;
     }
@@ -508,7 +508,7 @@ class RewardSystem {
         </div>
       `
     };
-    
+
     return templates[templateName] || '<div>Template not found</div>';
   }
 
@@ -543,9 +543,9 @@ class RewardSystem {
    */
   getUserStats() {
     const levelData = XP_CONFIG.getLevelFromXP(this.userData.xp);
-    const achievementStats = this.controllers.achievements ? 
+    const achievementStats = this.controllers.achievements ?
       this.controllers.achievements.getStatistics() : {};
-    
+
     return {
       ...this.userData.statistics,
       level: this.userData.level,
@@ -562,7 +562,7 @@ class RewardSystem {
     if (this.controllers.achievements) {
       this.controllers.achievements.reset();
     }
-    
+
     if (this.controllers.notifications) {
       this.controllers.notifications.clearAll();
     }
@@ -579,7 +579,7 @@ class RewardSystem {
         joinedAt: Date.now()
       }
     };
-    
+
     this.saveUserData();
     this.emit('system:reset');
   }
@@ -589,7 +589,7 @@ class RewardSystem {
    */
   on(event, callback) {
     if (!this.listeners) this.listeners = new Map();
-    
+
     if (!this.listeners.has(event)) {
       this.listeners.set(event, []);
     }
@@ -598,7 +598,7 @@ class RewardSystem {
 
   off(event, callback) {
     if (!this.listeners) return;
-    
+
     if (this.listeners.has(event)) {
       const callbacks = this.listeners.get(event);
       const index = callbacks.indexOf(callback);
@@ -610,7 +610,7 @@ class RewardSystem {
 
   emit(event, data) {
     if (!this.listeners) return;
-    
+
     if (this.listeners.has(event)) {
       this.listeners.get(event).forEach(callback => {
         try {
@@ -640,7 +640,7 @@ class RewardSystem {
     this.controllers = {};
     this.listeners = new Map();
     this.initialized = false;
-    
+
     this.emit('system:destroyed');
   }
 }

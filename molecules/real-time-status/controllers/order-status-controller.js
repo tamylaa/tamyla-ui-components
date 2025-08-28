@@ -3,7 +3,7 @@
  * Handles order tracking and status updates
  */
 
-import { 
+import {
   STATUS_TYPES,
   EVENT_TYPES,
   validateConfig,
@@ -17,14 +17,14 @@ export default class OrderStatusController {
     if (!validation.isValid) {
       throw new Error(`Invalid configuration: ${validation.errors.join(', ')}`);
     }
-    
+
     this.options = validation.config;
     this.orderData = this._validateOrderData(orderData);
     this.element = null;
     this.listeners = new Map();
     this.refreshIntervalId = null;
     this.initialized = false;
-    
+
     this.initialize();
   }
 
@@ -44,7 +44,7 @@ export default class OrderStatusController {
       timestamp: new Date().toISOString(),
       metadata: {}
     };
-    
+
     return { ...defaults, ...data };
   }
 
@@ -57,21 +57,21 @@ export default class OrderStatusController {
     try {
       // Load template
       this.element = await this.createOrderElement();
-      
+
       // Set initial status and data
       this.updateOrderData(this.orderData, { notifyChange: false });
-      
+
       // Setup auto refresh if enabled
       if (this.options.autoRefresh && this.options.refreshInterval) {
         this.startAutoRefresh();
       }
-      
+
       // Bind events
       this.bindEvents();
-      
+
       this.initialized = true;
       this.emit(EVENT_TYPES.COMPONENT_INITIALIZED, { controller: this });
-      
+
     } catch (error) {
       console.error('Failed to initialize order status:', error);
       this.emit(EVENT_TYPES.COMPONENT_ERROR, { error, controller: this });
@@ -86,12 +86,12 @@ export default class OrderStatusController {
     try {
       const response = await fetch('/ui-components/molecules/real-time-status/templates/order-status.html');
       const templateHtml = await response.text();
-      
+
       const template = document.createElement('template');
       template.innerHTML = templateHtml;
-      
+
       return template.content.firstElementChild.cloneNode(true);
-      
+
     } catch (error) {
       console.warn('Failed to load external template, using fallback');
       return this.createFallbackElement();
@@ -105,7 +105,7 @@ export default class OrderStatusController {
     const order = document.createElement('div');
     order.className = 'tmyl-order-status';
     order.setAttribute('data-testid', 'order-status');
-    
+
     order.innerHTML = `
       <div class="order-header">
         <div class="order-info">
@@ -158,7 +158,7 @@ export default class OrderStatusController {
         </button>
       </div>
     `;
-    
+
     return order;
   }
 
@@ -167,7 +167,7 @@ export default class OrderStatusController {
    */
   bindEvents() {
     if (!this.element) return;
-    
+
     // Cancel button
     const cancelBtn = this.element.querySelector('[data-testid="cancel-order"]');
     if (cancelBtn) {
@@ -175,7 +175,7 @@ export default class OrderStatusController {
         this.handleCancelOrder();
       });
     }
-    
+
     // Modify button
     const modifyBtn = this.element.querySelector('[data-testid="modify-order"]');
     if (modifyBtn) {
@@ -183,7 +183,7 @@ export default class OrderStatusController {
         this.handleModifyOrder();
       });
     }
-    
+
     // Order card click
     this.element.addEventListener('click', (event) => {
       if (!event.target.closest('.order-action-btn')) {
@@ -203,31 +203,31 @@ export default class OrderStatusController {
   updateOrderData(newData, options = {}) {
     const { notifyChange = true } = options;
     const oldData = { ...this.orderData };
-    
+
     // Merge new data
     this.orderData = { ...this.orderData, ...newData };
-    
+
     if (!this.element) return false;
-    
+
     // Update element attributes
     this.element.setAttribute('data-status', this.orderData.status);
     this.element.setAttribute('data-order-id', this.orderData.id);
-    
+
     // Update header information
     this.updateHeaderElements();
-    
+
     // Update detail rows
     this.updateDetailElements();
-    
+
     // Update progress
     this.updateProgressElements();
-    
+
     // Update action buttons
     this.updateActionButtons();
-    
+
     // Update status styling
     this.updateStatusStyling();
-    
+
     // Notify change
     if (notifyChange && oldData.status !== this.orderData.status) {
       const eventType = this._getOrderEventType(this.orderData.status);
@@ -239,7 +239,7 @@ export default class OrderStatusController {
         controller: this
       });
     }
-    
+
     return true;
   }
 
@@ -251,9 +251,9 @@ export default class OrderStatusController {
     const orderSymbolEl = this.element.querySelector('[data-testid="order-symbol"]');
     const statusIconEl = this.element.querySelector('[data-testid="order-status-icon"]');
     const statusTextEl = this.element.querySelector('[data-testid="order-status-text"]');
-    
+
     const statusConfig = getStatusConfig(this.orderData.status);
-    
+
     if (orderIdEl) orderIdEl.textContent = this.orderData.id;
     if (orderSymbolEl) orderSymbolEl.textContent = this.orderData.symbol;
     if (statusIconEl) statusIconEl.textContent = statusConfig.icon;
@@ -268,22 +268,22 @@ export default class OrderStatusController {
     const quantityEl = this.element.querySelector('[data-testid="order-quantity"]');
     const priceEl = this.element.querySelector('[data-testid="order-price"]');
     const timestampEl = this.element.querySelector('[data-testid="order-timestamp"]');
-    
+
     if (typeEl) {
       typeEl.textContent = `${this.orderData.side.toUpperCase()} ${this.orderData.type.toUpperCase()}`;
     }
-    
+
     if (quantityEl) {
       quantityEl.textContent = this.orderData.quantity.toLocaleString();
     }
-    
+
     if (priceEl) {
-      const price = typeof this.orderData.price === 'number' 
-        ? this.orderData.price.toFixed(2) 
+      const price = typeof this.orderData.price === 'number'
+        ? this.orderData.price.toFixed(2)
         : this.orderData.price;
       priceEl.textContent = `$${price}`;
     }
-    
+
     if (timestampEl) {
       timestampEl.textContent = new Date(this.orderData.timestamp).toLocaleTimeString();
     }
@@ -298,23 +298,23 @@ export default class OrderStatusController {
       if (progressEl) progressEl.style.display = 'none';
       return;
     }
-    
+
     const progressFillEl = this.element.querySelector('.progress-fill');
     const filledAmountEl = this.element.querySelector('[data-testid="filled-amount"]');
     const totalAmountEl = this.element.querySelector('[data-testid="total-amount"]');
-    
-    const fillPercentage = this.orderData.quantity > 0 
-      ? (this.orderData.filledQuantity / this.orderData.quantity) * 100 
+
+    const fillPercentage = this.orderData.quantity > 0
+      ? (this.orderData.filledQuantity / this.orderData.quantity) * 100
       : 0;
-    
+
     if (progressFillEl) {
       progressFillEl.style.width = `${fillPercentage}%`;
     }
-    
+
     if (filledAmountEl) {
       filledAmountEl.textContent = this.orderData.filledQuantity.toLocaleString();
     }
-    
+
     if (totalAmountEl) {
       totalAmountEl.textContent = this.orderData.quantity.toLocaleString();
     }
@@ -326,24 +326,24 @@ export default class OrderStatusController {
   updateActionButtons() {
     const cancelBtn = this.element.querySelector('[data-testid="cancel-order"]');
     const modifyBtn = this.element.querySelector('[data-testid="modify-order"]');
-    
+
     if (!this.options.showActions) {
       const actionsEl = this.element.querySelector('.order-actions');
       if (actionsEl) actionsEl.style.display = 'none';
       return;
     }
-    
+
     // Cancel button state
     if (cancelBtn) {
-      const canCancel = this.options.allowCancel && 
+      const canCancel = this.options.allowCancel &&
         [STATUS_TYPES.PENDING, STATUS_TYPES.CONNECTING].includes(this.orderData.status);
       cancelBtn.disabled = !canCancel;
       cancelBtn.style.opacity = canCancel ? '1' : '0.5';
     }
-    
+
     // Modify button state
     if (modifyBtn) {
-      const canModify = this.options.allowModify && 
+      const canModify = this.options.allowModify &&
         [STATUS_TYPES.PENDING].includes(this.orderData.status);
       modifyBtn.disabled = !canModify;
       modifyBtn.style.opacity = canModify ? '1' : '0.5';
@@ -356,7 +356,7 @@ export default class OrderStatusController {
   updateStatusStyling() {
     const statusConfig = getStatusConfig(this.orderData.status);
     const badge = this.element.querySelector('.order-status-badge');
-    
+
     if (badge) {
       badge.style.setProperty('--status-color', statusConfig.color);
       badge.style.setProperty('--status-bg', statusConfig.bgColor);
@@ -369,16 +369,16 @@ export default class OrderStatusController {
    */
   _getOrderEventType(status) {
     switch (status) {
-      case STATUS_TYPES.PENDING:
-        return EVENT_TYPES.ORDER_PLACED;
-      case STATUS_TYPES.FILLED:
-        return EVENT_TYPES.ORDER_FILLED;
-      case STATUS_TYPES.CANCELLED:
-        return EVENT_TYPES.ORDER_CANCELLED;
-      case STATUS_TYPES.REJECTED:
-        return EVENT_TYPES.ORDER_REJECTED;
-      default:
-        return EVENT_TYPES.STATUS_UPDATE;
+    case STATUS_TYPES.PENDING:
+      return EVENT_TYPES.ORDER_PLACED;
+    case STATUS_TYPES.FILLED:
+      return EVENT_TYPES.ORDER_FILLED;
+    case STATUS_TYPES.CANCELLED:
+      return EVENT_TYPES.ORDER_CANCELLED;
+    case STATUS_TYPES.REJECTED:
+      return EVENT_TYPES.ORDER_REJECTED;
+    default:
+      return EVENT_TYPES.STATUS_UPDATE;
     }
   }
 
@@ -387,7 +387,7 @@ export default class OrderStatusController {
    */
   handleCancelOrder() {
     if (!this.options.allowCancel) return;
-    
+
     this.emit(EVENT_TYPES.ORDER_CANCELLED, {
       order: this.orderData,
       action: 'cancel',
@@ -400,7 +400,7 @@ export default class OrderStatusController {
    */
   handleModifyOrder() {
     if (!this.options.allowModify) return;
-    
+
     this.emit(EVENT_TYPES.ORDER_MODIFIED, {
       order: this.orderData,
       action: 'modify',
@@ -413,7 +413,7 @@ export default class OrderStatusController {
    */
   startAutoRefresh() {
     this.stopAutoRefresh();
-    
+
     this.refreshIntervalId = setInterval(() => {
       this.emit(EVENT_TYPES.STATUS_UPDATE, {
         order: this.orderData,
@@ -437,8 +437,8 @@ export default class OrderStatusController {
    * Update order status
    */
   updateStatus(newStatus, metadata = {}) {
-    this.updateOrderData({ 
-      status: newStatus, 
+    this.updateOrderData({
+      status: newStatus,
       ...metadata,
       timestamp: new Date().toISOString()
     });
@@ -465,13 +465,13 @@ export default class OrderStatusController {
     if (!validation.isValid) {
       throw new Error(`Invalid options: ${validation.errors.join(', ')}`);
     }
-    
+
     this.options = validation.config;
-    
+
     // Re-apply display with new options
     if (this.element) {
       this.updateOrderData(this.orderData, { notifyChange: false });
-      
+
       // Update auto refresh
       if (this.options.autoRefresh && this.options.refreshInterval) {
         this.startAutoRefresh();
@@ -527,15 +527,15 @@ export default class OrderStatusController {
    */
   destroy() {
     this.stopAutoRefresh();
-    
+
     if (this.element) {
       this.element.remove();
       this.element = null;
     }
-    
+
     this.listeners.clear();
     this.initialized = false;
-    
+
     this.emit(EVENT_TYPES.COMPONENT_DESTROYED, { controller: this });
   }
 }

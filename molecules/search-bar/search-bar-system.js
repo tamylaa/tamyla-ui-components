@@ -57,7 +57,7 @@ export class SearchBarFactory {
    */
   create(props = {}) {
     const finalProps = { ...this.defaultProps, ...props };
-    
+
     // Create container
     const container = document.createElement('div');
     container.innerHTML = createSearchBarTemplate(finalProps);
@@ -308,9 +308,9 @@ export class SearchBarFactory {
       if (event.detail.shouldFetchSuggestions) {
         try {
           const suggestions = await searchService.getSuggestions(event.detail.query);
-          this.update(searchBar, { 
-            suggestions, 
-            showSuggestions: suggestions.length > 0 
+          this.update(searchBar, {
+            suggestions,
+            showSuggestions: suggestions.length > 0
           });
         } catch (error) {
           console.warn('Failed to fetch suggestions:', error);
@@ -323,7 +323,7 @@ export class SearchBarFactory {
         this.update(searchBar, { loading: true });
         const results = await searchService.search(event.detail.query);
         this.update(searchBar, { loading: false });
-        
+
         // Dispatch results event
         searchBar.dispatchEvent(new CustomEvent('tmyl-search-results', {
           detail: { results, query: event.detail.query },
@@ -343,7 +343,7 @@ export class SearchBarFactory {
 export const searchBarFactory = new SearchBarFactory();
 
 // Convenience exports
-export const { 
+export const {
   create: createSearchBar,
   createBasic,
   createWithVoice,

@@ -46,19 +46,19 @@ export function createFileListTemplate(options = {}) {
       ${multiSelect ? 'aria-multiselectable="true"' : ''}
       ${id ? `id="${id}"` : ''}
     >
-      ${files.map((file, index) => 
-        createFileItem(file, {
-          index,
-          showSize,
-          showDate,
-          showType,
-          showCheckboxes,
-          showActions,
-          selectable,
-          selected: selected.includes(file.id || file.name),
-          layout
-        })
-      ).join('')}
+      ${files.map((file, index) =>
+    createFileItem(file, {
+      index,
+      showSize,
+      showDate,
+      showType,
+      showCheckboxes,
+      showActions,
+      selectable,
+      selected: selected.includes(file.id || file.name),
+      layout
+    })
+  ).join('')}
     </div>
   `.trim();
 }
@@ -102,7 +102,7 @@ export function createFileItem(file, options = {}) {
   const fileId = file.id || file.name || `file-${index}`;
   const fileName = file.name || 'Untitled';
   const fileSize = file.size ? formatFileSize(file.size) : '';
-  const fileDate = file.lastModified || file.dateModified ? 
+  const fileDate = file.lastModified || file.dateModified ?
     formatDate(new Date(file.lastModified || file.dateModified)) : '';
   const fileType = getFileType(fileName);
   const fileIcon = getFileIcon(fileName, fileType);
@@ -196,41 +196,41 @@ function createFileActions(file) {
  */
 function getFileType(filename) {
   if (!filename) return 'document';
-  
+
   const ext = filename.split('.').pop()?.toLowerCase();
-  
+
   const typeMap = {
     // Images
-    jpg: 'image', jpeg: 'image', png: 'image', gif: 'image', 
+    jpg: 'image', jpeg: 'image', png: 'image', gif: 'image',
     webp: 'image', svg: 'image', bmp: 'image', ico: 'image',
-    
+
     // Documents
-    pdf: 'document', doc: 'document', docx: 'document', 
+    pdf: 'document', doc: 'document', docx: 'document',
     txt: 'document', rtf: 'document', odt: 'document',
-    
+
     // Spreadsheets
     xls: 'document', xlsx: 'document', csv: 'document', ods: 'document',
-    
+
     // Presentations
     ppt: 'document', pptx: 'document', odp: 'document',
-    
+
     // Archives
-    zip: 'archive', rar: 'archive', '7z': 'archive', 
+    zip: 'archive', rar: 'archive', '7z': 'archive',
     tar: 'archive', gz: 'archive', bz2: 'archive',
-    
+
     // Videos
     mp4: 'video', avi: 'video', mov: 'video', wmv: 'video',
     flv: 'video', webm: 'video', mkv: 'video',
-    
+
     // Audio
     mp3: 'audio', wav: 'audio', flac: 'audio', aac: 'audio',
     ogg: 'audio', wma: 'audio', m4a: 'audio',
-    
+
     // Code
     js: 'document', ts: 'document', html: 'document', css: 'document',
     json: 'document', xml: 'document', yml: 'document', yaml: 'document'
   };
-  
+
   return typeMap[ext] || 'document';
 }
 
@@ -246,7 +246,7 @@ function getFileIcon(filename, type) {
     audio: '🎵',
     folder: '📁'
   };
-  
+
   // Special cases for specific files
   if (filename) {
     const ext = filename.split('.').pop()?.toLowerCase();
@@ -259,12 +259,12 @@ function getFileIcon(filename, type) {
       mp4: '🎬', avi: '🎬',
       mp3: '🎧', wav: '🎧'
     };
-    
+
     if (specialIcons[ext]) {
       return specialIcons[ext];
     }
   }
-  
+
   return iconMap[type] || iconMap.document;
 }
 
@@ -273,11 +273,11 @@ function getFileIcon(filename, type) {
  */
 function formatFileSize(bytes) {
   if (bytes === 0) return '0 B';
-  
+
   const k = 1024;
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
+
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 }
 
@@ -288,7 +288,7 @@ function formatDate(date) {
   const now = new Date();
   const diff = now.getTime() - date.getTime();
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  
+
   if (days === 0) {
     return 'Today';
   } else if (days === 1) {
@@ -313,7 +313,7 @@ export function createDragDropFileList(options = {}) {
   } = options;
 
   const fileList = createFileListTemplate(listOptions);
-  
+
   return `
     <div class="tmyl-file-list-container">
       <div 
@@ -360,7 +360,7 @@ export function createPaginatedFileList(options = {}) {
   } = options;
 
   const fileList = createFileListTemplate(listOptions);
-  
+
   return `
     <div class="tmyl-file-list-paginated">
       ${fileList}

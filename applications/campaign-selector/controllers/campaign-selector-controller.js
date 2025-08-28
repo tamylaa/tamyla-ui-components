@@ -13,12 +13,12 @@ export class CampaignSelectorController {
     this.options = options;
     this.element = null;
     this.currentTab = 'search';
-    
+
     // Initialize services
     this.analytics = new CampaignAnalytics();
     this.filterEngine = new ContentFilterEngine();
     this.selectionManager = new SelectionManager(options.maxSelections || 10);
-    
+
     // Bind methods
     this.handleTabSwitch = this.handleTabSwitch.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
@@ -112,7 +112,7 @@ export class CampaignSelectorController {
     this.element.querySelectorAll('.tab-content').forEach(content => {
       content.classList.remove('active');
     });
-    
+
     const targetContent = this.element.querySelector(`[data-tab="${targetTab}"]`);
     if (targetContent) {
       targetContent.classList.add('active');
@@ -129,14 +129,14 @@ export class CampaignSelectorController {
    */
   async loadTabContent(tabName) {
     switch (tabName) {
-      case 'recommendations':
-        if (!this.hasRecommendations()) {
-          await this.loadRecommendations();
-        }
-        break;
-      case 'templates':
-        await this.loadTemplates();
-        break;
+    case 'recommendations':
+      if (!this.hasRecommendations()) {
+        await this.loadRecommendations();
+      }
+      break;
+    case 'templates':
+      await this.loadTemplates();
+      break;
     }
   }
 
@@ -146,9 +146,9 @@ export class CampaignSelectorController {
   handleFilterChange(event) {
     const filterName = event.target.name;
     const filterValue = event.target.value;
-    
+
     this.filterEngine.updateFilter(filterName, filterValue);
-    
+
     // Re-apply filters to current results
     this.applyCurrentFilters();
   }
@@ -167,7 +167,7 @@ export class CampaignSelectorController {
   handleSelectionChange(event) {
     if (event.type === 'selection-changed') {
       this.updateSelectionDisplay(event.summary, event.selectedItems);
-      
+
       // Notify parent application
       if (this.options.onSelectionChanged) {
         this.options.onSelectionChanged(event);
@@ -196,7 +196,7 @@ export class CampaignSelectorController {
    */
   handlePreviewCampaign() {
     const selectedItems = this.selectionManager.getSelectedItems();
-    
+
     if (this.options.onPreviewCampaign) {
       this.options.onPreviewCampaign({
         content: selectedItems,
@@ -210,7 +210,7 @@ export class CampaignSelectorController {
    */
   handleUseContent() {
     const selectedItems = this.selectionManager.getSelectedItems();
-    
+
     if (this.options.onContentSelected) {
       this.options.onContentSelected({
         content: selectedItems,
@@ -225,15 +225,15 @@ export class CampaignSelectorController {
   async loadRecommendations() {
     try {
       this.showLoading('recommendations-results', 'Loading AI recommendations...');
-      
+
       const recommendations = await this.analytics.generateRecommendations(
         this.options.campaignType,
         this.options.apiBase
       );
-      
+
       this.renderContentGrid(recommendations, 'recommendations-results');
       this.updateTabBadge('recommendations', recommendations.length);
-      
+
     } catch (error) {
       console.error('Failed to load recommendations:', error);
       this.showError('recommendations-results', 'Failed to load recommendations');
@@ -246,12 +246,12 @@ export class CampaignSelectorController {
   async loadTemplates() {
     try {
       this.showLoading('templates-results', 'Loading templates...');
-      
+
       const response = await fetch(`${this.options.apiBase}/templates?type=${this.options.campaignType}`);
       const data = await response.json();
-      
+
       this.renderContentGrid(data.templates || [], 'templates-results');
-      
+
     } catch (error) {
       console.error('Failed to load templates:', error);
       this.showError('templates-results', 'Failed to load templates');
@@ -272,11 +272,11 @@ export class CampaignSelectorController {
 
     // Clear container and render content cards
     container.innerHTML = '';
-    
+
     content.forEach(item => {
       const cardContainer = document.createElement('div');
       cardContainer.className = 'content-card-container';
-      
+
       // Use ContentCard molecule for consistent rendering
       this.renderContentCard(item, cardContainer);
       container.appendChild(cardContainer);
@@ -291,7 +291,7 @@ export class CampaignSelectorController {
     // For now, create a simple implementation
     const isSelected = this.selectionManager.isSelected(item.id);
     const performance = this.analytics.getPerformanceLevel(item.engagement_score || 0);
-    
+
     container.innerHTML = `
       <div class="content-card ${isSelected ? 'selected' : ''}" data-id="${item.id}">
         <div class="content-thumbnail">
@@ -307,7 +307,7 @@ export class CampaignSelectorController {
         ${isSelected ? '<div class="selection-indicator">✓</div>' : ''}
       </div>
     `;
-    
+
     // Add click listener
     const card = container.querySelector('.content-card');
     card.addEventListener('click', () => this.handleContentSelect(item));
@@ -321,8 +321,8 @@ export class CampaignSelectorController {
     if (!filtersContainer) return;
 
     const filterOptions = this.filterEngine.getFilterOptions();
-    
-    filtersContainer.innerHTML = Object.entries(filterOptions).map(([name, options]) => 
+
+    filtersContainer.innerHTML = Object.entries(filterOptions).map(([name, options]) =>
       campaignSelectorTemplates.createFilterGroup({
         name,
         label: this.capitalizeFirst(name.replace(/([A-Z])/g, ' $1')),
@@ -373,7 +373,7 @@ export class CampaignSelectorController {
     // Update action buttons
     const previewButton = this.element.querySelector('#preview-campaign');
     const useButton = this.element.querySelector('#use-content');
-    
+
     if (previewButton) previewButton.disabled = summary.count === 0;
     if (useButton) useButton.disabled = summary.count === 0;
   }
@@ -422,7 +422,7 @@ export class CampaignSelectorController {
     const date = new Date(dateString);
     const now = new Date();
     const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) return 'Today';
     if (diffDays === 1) return 'Yesterday';
     if (diffDays < 7) return `${diffDays}d ago`;

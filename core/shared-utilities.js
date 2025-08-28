@@ -14,7 +14,7 @@ export const cssUtils = {
    */
   generateCSSVariables(tokens, prefix = '--tmyl') {
     const css = [];
-    
+
     function processTokens(obj, path = []) {
       Object.entries(obj).forEach(([key, value]) => {
         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
@@ -25,7 +25,7 @@ export const cssUtils = {
         }
       });
     }
-    
+
     processTokens(tokens);
     return css.join('\n');
   },
@@ -35,7 +35,7 @@ export const cssUtils = {
    */
   generateVariantCSS(baseClass, variants) {
     const css = [];
-    
+
     Object.entries(variants).forEach(([variantName, styles]) => {
       css.push(`.${baseClass}--${variantName} {`);
       Object.entries(styles).forEach(([property, value]) => {
@@ -44,7 +44,7 @@ export const cssUtils = {
       });
       css.push('}');
     });
-    
+
     return css.join('\n');
   },
 
@@ -53,21 +53,21 @@ export const cssUtils = {
    */
   generateSizeCSS(baseClass, sizes) {
     const css = [];
-    
+
     Object.entries(sizes).forEach(([sizeName, sizeConfig]) => {
       css.push(`.${baseClass}--${sizeName} {`);
       css.push(`  height: ${sizeConfig.height};`);
       css.push(`  padding: ${sizeConfig.padding};`);
       css.push(`  font-size: ${sizeConfig.fontSize};`);
       css.push('}');
-      
+
       // Icon sizing within this size variant
       css.push(`.${baseClass}--${sizeName} .${baseClass}__icon {`);
       css.push(`  width: ${sizeConfig.iconSize};`);
       css.push(`  height: ${sizeConfig.iconSize};`);
       css.push('}');
     });
-    
+
     return css.join('\n');
   },
 
@@ -76,13 +76,13 @@ export const cssUtils = {
    */
   generateStateCSS(baseClass, states) {
     const css = [];
-    
+
     Object.entries(states).forEach(([stateName, styles]) => {
       const selector = stateName === 'hover' ? ':hover' :
-                      stateName === 'focus' ? ':focus' :
-                      stateName === 'active' ? ':active' :
-                      `.${baseClass}--${stateName}`;
-      
+        stateName === 'focus' ? ':focus' :
+          stateName === 'active' ? ':active' :
+            `.${baseClass}--${stateName}`;
+
       css.push(`.${baseClass}${selector} {`);
       Object.entries(styles).forEach(([property, value]) => {
         const cssProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase();
@@ -90,7 +90,7 @@ export const cssUtils = {
       });
       css.push('}');
     });
-    
+
     return css.join('\n');
   }
 };
@@ -104,11 +104,11 @@ export const domUtils = {
    */
   createElement(tag, options = {}) {
     const element = document.createElement(tag);
-    
+
     if (options.className) {
       element.className = options.className;
     }
-    
+
     if (options.attributes) {
       Object.entries(options.attributes).forEach(([key, value]) => {
         if (value !== null && value !== undefined) {
@@ -116,7 +116,7 @@ export const domUtils = {
         }
       });
     }
-    
+
     if (options.content) {
       if (typeof options.content === 'string') {
         element.textContent = options.content;
@@ -124,11 +124,11 @@ export const domUtils = {
         element.appendChild(options.content);
       }
     }
-    
+
     if (options.innerHTML) {
       element.innerHTML = options.innerHTML;
     }
-    
+
     return element;
   },
 
@@ -171,7 +171,7 @@ export const domUtils = {
     const wrapper = document.createElement('span');
     wrapper.className = `tmyl-icon ${options.className || ''}`;
     wrapper.innerHTML = iconSVG;
-    
+
     // Apply icon-specific attributes
     const svg = wrapper.querySelector('svg');
     if (svg) {
@@ -182,7 +182,7 @@ export const domUtils = {
         svg.style.height = options.size;
       }
     }
-    
+
     return wrapper;
   }
 };
@@ -227,7 +227,7 @@ export const eventUtils = {
    */
   addListener(element, event, handler, options = {}) {
     element.addEventListener(event, handler, options);
-    
+
     // Return cleanup function
     return () => {
       element.removeEventListener(event, handler, options);
@@ -248,7 +248,7 @@ export const eventUtils = {
         element.dispatchEvent(event);
         return event;
       },
-      
+
       on(eventName, handler) {
         return eventUtils.addListener(element, eventName, handler);
       }
@@ -265,27 +265,27 @@ export const validationUtils = {
    */
   validateProps(props, schema) {
     const errors = [];
-    
+
     Object.entries(schema).forEach(([key, rules]) => {
       const value = props[key];
-      
+
       if (rules.required && (value === undefined || value === null)) {
         errors.push(`${key} is required`);
       }
-      
+
       if (value !== undefined && rules.type && typeof value !== rules.type) {
         errors.push(`${key} must be of type ${rules.type}`);
       }
-      
+
       if (value !== undefined && rules.enum && !rules.enum.includes(value)) {
         errors.push(`${key} must be one of: ${rules.enum.join(', ')}`);
       }
-      
+
       if (value !== undefined && rules.pattern && !rules.pattern.test(value)) {
         errors.push(`${key} does not match required pattern`);
       }
     });
-    
+
     return errors;
   },
 
@@ -318,7 +318,7 @@ export const animationUtils = {
       border-top-color: transparent;
       animation: tmyl-spin 1s linear infinite;
     `;
-    
+
     // Ensure spin animation is defined
     if (!document.querySelector('#tmyl-spinner-styles')) {
       const style = document.createElement('style');
@@ -330,7 +330,7 @@ export const animationUtils = {
       `;
       document.head.appendChild(style);
     }
-    
+
     return spinner;
   },
 
@@ -352,9 +352,9 @@ export const animationUtils = {
         { transform: 'scale(1)', opacity: 1 }
       ]
     };
-    
+
     const keyframes = animations[animation] || animations.fadeIn;
-    
+
     return element.animate(keyframes, {
       duration: 200,
       easing: 'cubic-bezier(0, 0, 0.2, 1)',
@@ -380,19 +380,19 @@ export const a11yUtils = {
   setupFormField(input, label, errorElement, helperElement) {
     const id = input.id || a11yUtils.generateId('input');
     input.id = id;
-    
+
     if (label) {
       label.setAttribute('for', id);
     }
-    
+
     const describedBy = [];
-    
+
     if (helperElement) {
       const helperId = helperElement.id || a11yUtils.generateId('helper');
       helperElement.id = helperId;
       describedBy.push(helperId);
     }
-    
+
     if (errorElement) {
       const errorId = errorElement.id || a11yUtils.generateId('error');
       errorElement.id = errorId;
@@ -401,7 +401,7 @@ export const a11yUtils = {
     } else {
       input.removeAttribute('aria-invalid');
     }
-    
+
     if (describedBy.length > 0) {
       input.setAttribute('aria-describedby', describedBy.join(' '));
     } else {
@@ -419,24 +419,24 @@ export const a11yUtils = {
       onArrowUp = () => {},
       onArrowDown = () => {}
     } = options;
-    
+
     return eventUtils.addListener(element, 'keydown', (event) => {
       switch (event.key) {
-        case 'Enter':
-          event.preventDefault();
-          onEnter(event);
-          break;
-        case 'Escape':
-          onEscape(event);
-          break;
-        case 'ArrowUp':
-          event.preventDefault();
-          onArrowUp(event);
-          break;
-        case 'ArrowDown':
-          event.preventDefault();
-          onArrowDown(event);
-          break;
+      case 'Enter':
+        event.preventDefault();
+        onEnter(event);
+        break;
+      case 'Escape':
+        onEscape(event);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        onArrowUp(event);
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        onArrowDown(event);
+        break;
       }
     });
   }

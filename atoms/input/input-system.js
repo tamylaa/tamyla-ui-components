@@ -6,11 +6,11 @@
 import { designTokens } from '../../core/design-tokens.js';
 import { sharedUtilities } from '../../core/shared-utilities.js';
 import { inputTemplates, createCompleteInputHTML } from './templates/input-template.js';
-import { 
-  InputController, 
-  PasswordInputController, 
-  SearchInputController, 
-  FileInputController 
+import {
+  InputController,
+  PasswordInputController,
+  SearchInputController,
+  FileInputController
 } from './controllers/input-controller.js';
 import { inputIcons } from './icons/input-icons.js';
 
@@ -31,14 +31,14 @@ export class InputFactory {
     };
 
     this.variants = [
-      'primary', 'secondary', 'success', 'warning', 'error', 
+      'primary', 'secondary', 'success', 'warning', 'error',
       'ghost', 'minimal'
     ];
 
     this.sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
-    
+
     this.inputTypes = [
-      'text', 'email', 'password', 'tel', 'url', 'search', 
+      'text', 'email', 'password', 'tel', 'url', 'search',
       'number', 'date', 'time', 'datetime-local', 'month', 'week',
       'textarea', 'select', 'file'
     ];
@@ -60,13 +60,13 @@ export class InputFactory {
    */
   create(props = {}) {
     const config = { ...this.defaultProps, ...props };
-    
+
     // Validate configuration
     this.validateConfig(config);
 
     // Create the input element
     const inputHTML = createCompleteInputHTML(config);
-    
+
     // Parse HTML and get the input element
     const tempContainer = document.createElement('div');
     tempContainer.innerHTML = inputHTML;
@@ -74,7 +74,7 @@ export class InputFactory {
 
     // Find the actual input/textarea/select element
     const inputElement = this.findInputElement(element);
-    
+
     // Attach controller if needed
     if (config.interactive !== false) {
       this.attachController(inputElement, config);
@@ -121,10 +121,10 @@ export class InputFactory {
    */
   createForm(formConfig) {
     const { fields = [], className = '', ...formProps } = formConfig;
-    
+
     const form = document.createElement('form');
     form.className = `tmyl-form ${className}`;
-    
+
     // Apply form attributes
     Object.entries(formProps).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
@@ -145,10 +145,10 @@ export class InputFactory {
    * Create input group (side by side inputs)
    */
   createGroup(groupConfig) {
-    const { 
-      inputs = [], 
-      orientation = 'horizontal', 
-      className = '' 
+    const {
+      inputs = [],
+      orientation = 'horizontal',
+      className = ''
     } = groupConfig;
 
     const container = document.createElement('div');
@@ -195,17 +195,17 @@ export class InputFactory {
     let controller;
 
     switch (config.type) {
-      case 'password':
-        controller = new PasswordInputController(inputElement, config);
-        break;
-      case 'search':
-        controller = new SearchInputController(inputElement, config);
-        break;
-      case 'file':
-        controller = new FileInputController(inputElement, config);
-        break;
-      default:
-        controller = new InputController(inputElement, config);
+    case 'password':
+      controller = new PasswordInputController(inputElement, config);
+      break;
+    case 'search':
+      controller = new SearchInputController(inputElement, config);
+      break;
+    case 'file':
+      controller = new FileInputController(inputElement, config);
+      break;
+    default:
+      controller = new InputController(inputElement, config);
     }
 
     // Store controller reference on element
@@ -359,35 +359,35 @@ export class InputFactory {
     // Update basic attributes
     Object.entries(newProps).forEach(([key, value]) => {
       switch (key) {
-        case 'value':
-          if (controller) {
-            controller.setValue(value);
-          } else {
-            inputElement.value = value;
-          }
-          break;
-        case 'disabled':
-          inputElement.disabled = value;
-          if (controller) {
-            value ? controller.disable() : controller.enable();
-          }
-          break;
-        case 'loading':
-          if (controller) {
-            controller.setLoading(value);
-          }
-          break;
-        case 'error':
-          if (controller) {
-            controller.setError(value);
-          }
-          break;
-        default:
-          if (value !== null && value !== undefined) {
-            inputElement.setAttribute(key, value);
-          } else {
-            inputElement.removeAttribute(key);
-          }
+      case 'value':
+        if (controller) {
+          controller.setValue(value);
+        } else {
+          inputElement.value = value;
+        }
+        break;
+      case 'disabled':
+        inputElement.disabled = value;
+        if (controller) {
+          value ? controller.disable() : controller.enable();
+        }
+        break;
+      case 'loading':
+        if (controller) {
+          controller.setLoading(value);
+        }
+        break;
+      case 'error':
+        if (controller) {
+          controller.setError(value);
+        }
+        break;
+      default:
+        if (value !== null && value !== undefined) {
+          inputElement.setAttribute(key, value);
+        } else {
+          inputElement.removeAttribute(key);
+        }
       }
     });
 
@@ -397,7 +397,7 @@ export class InputFactory {
       if (wrapper) {
         // Remove old classes
         wrapper.className = wrapper.className.replace(/tmyl-input--\w+/g, '');
-        
+
         // Add new classes
         const variant = newProps.variant || this.defaultProps.variant;
         const size = newProps.size || this.defaultProps.size;
@@ -421,7 +421,7 @@ export const inputFactory = new InputFactory();
 
 /**
  * Usage Examples:
- * 
+ *
  * // Basic input creation
  * const input = createInput({
  *   type: 'email',
@@ -429,14 +429,14 @@ export const inputFactory = new InputFactory();
  *   placeholder: 'Enter your email',
  *   required: true
  * });
- * 
+ *
  * // Using templates
  * const passwordInput = createPassword({
  *   label: 'Password',
  *   toggleVisibility: true,
  *   strengthMeter: true
  * });
- * 
+ *
  * // Factory-based creation
  * const form = inputFactory.createForm({
  *   fields: [
@@ -445,7 +445,7 @@ export const inputFactory = new InputFactory();
  *     { type: 'password', name: 'password', label: 'Password', required: true }
  *   ]
  * });
- * 
+ *
  * // Input group
  * const addressGroup = inputFactory.createGroup({
  *   inputs: [
@@ -454,7 +454,7 @@ export const inputFactory = new InputFactory();
  *     { type: 'text', placeholder: 'ZIP', className: 'flex-1' }
  *   ]
  * });
- * 
+ *
  * // Update props dynamically
  * inputFactory.updateProps(input, {
  *   loading: true,

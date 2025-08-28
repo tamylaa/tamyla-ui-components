@@ -36,13 +36,13 @@ class OrganismFactoryRegistry {
    */
   create(type, props = {}, id = null) {
     const Factory = this.factories.get(type);
-    
+
     if (!Factory) {
       throw new Error(`Unknown organism component type: ${type}`);
     }
 
     const instance = Factory(props);
-    
+
     if (id) {
       this.instances.set(id, instance);
     }
@@ -194,18 +194,18 @@ export const OrganismTemplates = {
     function createElement() {
       element = document.createElement('div');
       element.className = 'tmyl-content-dashboard';
-      
+
       // Create stats section
       const statsSection = document.createElement('div');
       statsSection.className = 'tmyl-content-dashboard__stats';
-      
+
       // Create search section
       const searchSection = document.createElement('div');
       searchSection.className = 'tmyl-content-dashboard__search';
-      
+
       element.appendChild(statsSection);
       element.appendChild(searchSection);
-      
+
       return element;
     }
 
@@ -391,10 +391,10 @@ export const OrganismComposition = {
    */
   createApplicationLayout(config) {
     const { organisms, layout, container } = config;
-    
+
     const layoutElement = document.createElement('div');
     layoutElement.className = `tmyl-application-layout tmyl-application-layout--${layout.type}`;
-    
+
     // Apply layout styles
     if (layout.grid) {
       layoutElement.style.display = 'grid';
@@ -411,27 +411,27 @@ export const OrganismComposition = {
         layoutElement.style.gap = layout.grid.gap;
       }
     }
-    
+
     // Create organisms
     const instances = organisms.map(organism => {
       const instance = OrganismFactory(organism.type, organism.props, organism.id);
       const wrapper = document.createElement('div');
       wrapper.className = `tmyl-application-layout__organism ${organism.className || ''}`;
-      
+
       if (organism.gridArea) {
         wrapper.style.gridArea = organism.gridArea;
       }
-      
+
       instance.render(wrapper);
       layoutElement.appendChild(wrapper);
-      
+
       return { instance, wrapper, config: organism };
     });
-    
+
     if (container) {
       container.appendChild(layoutElement);
     }
-    
+
     return {
       element: layoutElement,
       instances,
@@ -484,17 +484,17 @@ export const OrganismComposition = {
    */
   createTabbedInterface(tabs, options = {}) {
     const { container, activeTab = 0 } = options;
-    
+
     const tabbedContainer = document.createElement('div');
     tabbedContainer.className = 'tmyl-tabbed-organism-interface';
-    
+
     // Create tab navigation
     const tabNav = document.createElement('div');
     tabNav.className = 'tmyl-tabbed-organism__nav';
-    
+
     const tabContent = document.createElement('div');
     tabContent.className = 'tmyl-tabbed-organism__content';
-    
+
     const organisms = tabs.map((tab, index) => {
       // Create tab button
       const tabButton = document.createElement('button');
@@ -502,21 +502,21 @@ export const OrganismComposition = {
       tabButton.textContent = tab.label;
       tabButton.addEventListener('click', () => switchTab(index));
       tabNav.appendChild(tabButton);
-      
+
       // Create organism
       const organism = OrganismFactory(tab.type, {
         ...tab.props,
         container: null
       });
-      
+
       const tabPanel = document.createElement('div');
       tabPanel.className = `tmyl-tabbed-organism__panel ${index === activeTab ? 'tmyl-tabbed-organism__panel--active' : ''}`;
       organism.render(tabPanel);
       tabContent.appendChild(tabPanel);
-      
+
       return { organism, button: tabButton, panel: tabPanel };
     });
-    
+
     function switchTab(index) {
       organisms.forEach((item, i) => {
         const isActive = i === index;
@@ -524,14 +524,14 @@ export const OrganismComposition = {
         item.panel.classList.toggle('tmyl-tabbed-organism__panel--active', isActive);
       });
     }
-    
+
     tabbedContainer.appendChild(tabNav);
     tabbedContainer.appendChild(tabContent);
-    
+
     if (container) {
       container.appendChild(tabbedContainer);
     }
-    
+
     return {
       element: tabbedContainer,
       organisms: organisms.map(item => item.organism),

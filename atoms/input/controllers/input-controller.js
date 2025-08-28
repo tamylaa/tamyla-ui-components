@@ -46,11 +46,11 @@ export class InputController {
     this.addListener('input', (event) => {
       this.value = event.target.value;
       this.handleInput(event);
-      
+
       if (this.options.validateOnInput) {
         this.debounceValidation();
       }
-      
+
       this.updateClearButton();
       this.handleAutoResize();
     });
@@ -203,10 +203,10 @@ export class InputController {
 
   handleAutoResize() {
     if (this.element.tagName !== 'TEXTAREA') return;
-    
+
     // Reset height to auto to get the scrollHeight
     this.element.style.height = 'auto';
-    
+
     // Set height to scrollHeight to fit content
     this.element.style.height = this.element.scrollHeight + 'px';
   }
@@ -244,7 +244,7 @@ export class InputController {
 
   validate() {
     const errors = [];
-    
+
     for (const validator of this.validators) {
       const error = validator(this.value);
       if (error) {
@@ -344,7 +344,7 @@ export class InputController {
 
     if (loading) {
       wrapper.classList.add('tmyl-input--loading');
-      
+
       let loadingElement = wrapper.querySelector('.tmyl-input__loading');
       if (!loadingElement) {
         loadingElement = document.createElement('span');
@@ -387,15 +387,15 @@ export class InputController {
     this.listeners.forEach(({ event, handler }) => {
       this.element.removeEventListener(event, handler);
     });
-    
+
     // Clear timers
     clearTimeout(this.debounceTimer);
-    
+
     // Remove clear button
     if (this.clearButton) {
       this.clearButton.remove();
     }
-    
+
     this.emit('destroy');
   }
 }
@@ -412,7 +412,7 @@ export class PasswordInputController extends InputController {
       strengthMeter: false,
       ...options
     });
-    
+
     this.isVisible = false;
     this.setupPasswordFeatures();
   }
@@ -421,7 +421,7 @@ export class PasswordInputController extends InputController {
     if (this.options.toggleVisibility) {
       this.setupVisibilityToggle();
     }
-    
+
     if (this.options.strengthMeter) {
       this.setupStrengthMeter();
     }
@@ -436,7 +436,7 @@ export class PasswordInputController extends InputController {
     toggleButton.className = 'tmyl-input__toggle';
     toggleButton.innerHTML = inputIcons.eye;
     toggleButton.setAttribute('aria-label', 'Toggle password visibility');
-    
+
     toggleButton.addEventListener('click', () => {
       this.toggleVisibility();
     });
@@ -448,10 +448,10 @@ export class PasswordInputController extends InputController {
   toggleVisibility() {
     this.isVisible = !this.isVisible;
     this.element.type = this.isVisible ? 'text' : 'password';
-    
+
     if (this.toggleButton) {
       this.toggleButton.innerHTML = this.isVisible ? inputIcons.eyeOff : inputIcons.eye;
-      this.toggleButton.setAttribute('aria-label', 
+      this.toggleButton.setAttribute('aria-label',
         this.isVisible ? 'Hide password' : 'Show password'
       );
     }
@@ -470,14 +470,14 @@ export class PasswordInputController extends InputController {
 
   calculateStrength(password) {
     let score = 0;
-    
+
     if (password.length >= 8) score += 1;
     if (password.length >= 12) score += 1;
     if (/[a-z]/.test(password)) score += 1;
     if (/[A-Z]/.test(password)) score += 1;
     if (/[0-9]/.test(password)) score += 1;
     if (/[^A-Za-z0-9]/.test(password)) score += 1;
-    
+
     return {
       score,
       level: score < 2 ? 'weak' : score < 4 ? 'medium' : 'strong'
@@ -499,14 +499,14 @@ export class SearchInputController extends InputController {
       minSearchLength: 1,
       ...options
     });
-    
+
     this.searchHistory = [];
     this.suggestions = [];
   }
 
   handleInput(event) {
     super.handleInput(event);
-    
+
     if (this.value.length >= this.options.minSearchLength) {
       this.debounceSearch();
     } else {
@@ -522,9 +522,9 @@ export class SearchInputController extends InputController {
   }
 
   performSearch() {
-    this.emit('search', { 
+    this.emit('search', {
       query: this.value,
-      history: this.searchHistory 
+      history: this.searchHistory
     });
   }
 
@@ -555,7 +555,7 @@ export class FileInputController extends InputController {
       allowedTypes: null, // array of mime types
       ...options
     });
-    
+
     this.files = [];
     this.setupFileHandling();
   }
@@ -575,11 +575,11 @@ export class FileInputController extends InputController {
   handleFileSelection(event) {
     const files = Array.from(event.target.files);
     const validFiles = this.validateFiles(files);
-    
+
     this.files = validFiles;
     this.updateFileDisplay();
-    
-    this.emit('files-selected', { 
+
+    this.emit('files-selected', {
       files: validFiles,
       rejected: files.filter(f => !validFiles.includes(f))
     });
@@ -589,29 +589,29 @@ export class FileInputController extends InputController {
     return files.filter(file => {
       // Check file count
       if (this.options.maxFiles && files.length > this.options.maxFiles) {
-        this.emit('validation-error', { 
-          type: 'max-files', 
-          limit: this.options.maxFiles 
+        this.emit('validation-error', {
+          type: 'max-files',
+          limit: this.options.maxFiles
         });
         return false;
       }
 
       // Check file size
       if (this.options.maxSize && file.size > this.options.maxSize) {
-        this.emit('validation-error', { 
-          type: 'file-size', 
-          file, 
-          limit: this.options.maxSize 
+        this.emit('validation-error', {
+          type: 'file-size',
+          file,
+          limit: this.options.maxSize
         });
         return false;
       }
 
       // Check file type
       if (this.options.allowedTypes && !this.options.allowedTypes.includes(file.type)) {
-        this.emit('validation-error', { 
-          type: 'file-type', 
-          file, 
-          allowed: this.options.allowedTypes 
+        this.emit('validation-error', {
+          type: 'file-type',
+          file,
+          allowed: this.options.allowedTypes
         });
         return false;
       }
@@ -640,11 +640,11 @@ export class FileInputController extends InputController {
       wrapper.classList.remove('tmyl-file-input--drag-over');
       const files = Array.from(e.dataTransfer.files);
       const validFiles = this.validateFiles(files);
-      
+
       this.files = validFiles;
       this.updateFileDisplay();
-      
-      this.emit('files-dropped', { 
+
+      this.emit('files-dropped', {
         files: validFiles,
         rejected: files.filter(f => !validFiles.includes(f))
       });
@@ -654,7 +654,7 @@ export class FileInputController extends InputController {
   updateFileDisplay() {
     const wrapper = this.element.closest('.tmyl-file-input');
     const textElement = wrapper?.querySelector('.tmyl-file-input__text');
-    
+
     if (textElement) {
       if (this.files.length === 0) {
         textElement.textContent = this.options.placeholder || 'Choose file...';

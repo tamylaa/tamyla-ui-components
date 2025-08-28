@@ -11,7 +11,7 @@ export class ActionCardController {
     this.element = element;
     this.props = props;
     this.isDestroyed = false;
-    
+
     this.init();
   }
 
@@ -29,7 +29,7 @@ export class ActionCardController {
   setupAccessibility() {
     this.element.setAttribute('role', this.props.interactive ? 'button' : 'article');
     this.element.setAttribute('tabindex', this.props.status === 'disabled' ? '-1' : '0');
-    
+
     if (this.props.status === 'completed') {
       this.element.setAttribute('aria-label', `${this.props.title} - Completed`);
     } else if (this.props.status === 'locked') {
@@ -103,7 +103,7 @@ export class ActionCardController {
    */
   handleClick(event) {
     if (this.props.status !== 'available') return;
-    
+
     this.createRippleEffect(event);
     this.trackAnalytics();
     this.triggerCallbacks(event);
@@ -143,18 +143,18 @@ export class ActionCardController {
 
     const ripple = document.createElement('span');
     ripple.className = 'tmyl-action-card__ripple';
-    
+
     const rect = this.element.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height) * 1.5;
     const x = event.clientX - rect.left - size / 2;
     const y = event.clientY - rect.top - size / 2;
-    
+
     ripple.style.width = ripple.style.height = size + 'px';
     ripple.style.left = x + 'px';
     ripple.style.top = y + 'px';
-    
+
     rippleContainer.appendChild(ripple);
-    
+
     setTimeout(() => {
       if (!this.isDestroyed && ripple.parentNode) {
         ripple.remove();
@@ -201,15 +201,15 @@ export class ActionCardController {
   updateProgress(progress) {
     const progressFill = this.element.querySelector('.tmyl-action-card__progress-fill');
     const progressText = this.element.querySelector('.tmyl-action-card__progress-text');
-    
+
     if (progressFill) {
       progressFill.style.width = progress + '%';
     }
-    
+
     if (progressText) {
       progressText.textContent = `${progress}% complete`;
     }
-    
+
     if (progress >= 100) {
       this.markAsCompleted();
     }
@@ -222,7 +222,7 @@ export class ActionCardController {
     this.element.classList.remove('tmyl-action-card--available');
     this.element.classList.add('tmyl-action-card--completed');
     this.element.setAttribute('aria-label', this.element.querySelector('.tmyl-action-card__title').textContent + ' - Completed');
-    
+
     this.element.classList.add('tmyl-action-card--completing');
     setTimeout(() => {
       if (!this.isDestroyed) {
@@ -263,23 +263,23 @@ export const actionCardUtils = {
    */
   validateProps(props) {
     const errors = [];
-    
+
     if (!props.title) {
       errors.push('Title is required');
     }
-    
+
     if (props.status && !['available', 'completed', 'locked', 'disabled'].includes(props.status)) {
       errors.push('Invalid status value');
     }
-    
+
     if (props.color && !['primary', 'secondary', 'success', 'warning', 'info'].includes(props.color)) {
       errors.push('Invalid color value');
     }
-    
+
     if (props.size && !['sm', 'md', 'lg'].includes(props.size)) {
       errors.push('Invalid size value');
     }
-    
+
     return errors;
   }
 };

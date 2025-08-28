@@ -61,13 +61,13 @@ export const ContentManager = createReactWrapper(
 );
 
 // Custom React Components with enhanced integration
-export function TamylaButton({ 
-  children, 
-  onClick, 
-  variant = 'primary', 
+export function TamylaButton({
+  children,
+  onClick,
+  variant = 'primary',
   size = 'medium',
   disabled = false,
-  ...props 
+  ...props
 }) {
   const buttonRef = useRef(null);
 
@@ -115,11 +115,11 @@ export function TamylaCampaignSelector({
 }
 
 // Export wrapper utilities
-export { 
-  createReactWrapper, 
-  useTamylaComponent, 
-  TamylaUIProvider, 
-  useTamylaUI 
+export {
+  createReactWrapper,
+  useTamylaComponent,
+  TamylaUIProvider,
+  useTamylaUI
 } from './wrapper.js';
 
 // Default export for convenience
@@ -128,20 +128,20 @@ export default {
   Button,
   Input,
   Card,
-  
+
   // Molecules
   ContentCard,
   SearchBar,
-  
+
   // Applications
   EnhancedSearch,
   CampaignSelector,
   ContentManager,
-  
+
   // Enhanced Components
   TamylaButton,
   TamylaCampaignSelector,
-  
+
   // Utilities
   createReactWrapper,
   useTamylaComponent,

@@ -15,7 +15,7 @@ export class DashboardWidgetController {
       collapsed: false,
       data: this.options.data || null
     };
-    
+
     this.refreshTimer = null;
     this.init();
   }
@@ -82,7 +82,7 @@ export class DashboardWidgetController {
         button.setAttribute('data-action', action.id);
         button.title = action.title || action.label;
         button.textContent = action.icon || action.label;
-        
+
         // Insert before collapse/refresh buttons
         const collapseBtn = actionsContainer.querySelector('.widget-collapse');
         if (collapseBtn) {
@@ -117,20 +117,20 @@ export class DashboardWidgetController {
     // Render based on widget type
     try {
       switch (this.options.type) {
-        case 'metric':
-          this.renderMetric(bodyEl);
-          break;
-        case 'chart':
-          this.renderChart(bodyEl);
-          break;
-        case 'list':
-          this.renderList(bodyEl);
-          break;
-        case 'table':
-          this.renderTable(bodyEl);
-          break;
-        default:
-          this.renderCard(bodyEl);
+      case 'metric':
+        this.renderMetric(bodyEl);
+        break;
+      case 'chart':
+        this.renderChart(bodyEl);
+        break;
+      case 'list':
+        this.renderList(bodyEl);
+        break;
+      case 'table':
+        this.renderTable(bodyEl);
+        break;
+      default:
+        this.renderCard(bodyEl);
       }
     } catch (error) {
       console.error('Render error:', error);
@@ -145,7 +145,7 @@ export class DashboardWidgetController {
     }
 
     const { value, label, change, format = 'number' } = this.state.data;
-    
+
     let formattedValue = value;
     if (format === 'currency') {
       formattedValue = new Intl.NumberFormat('en-US', {
@@ -176,7 +176,7 @@ export class DashboardWidgetController {
 
   renderChart(container) {
     const { chartType = 'line', datasets = [], labels = [] } = this.state.data || {};
-    
+
     // Placeholder for chart integration
     container.innerHTML = `
       <div class="chart-container">
@@ -191,7 +191,7 @@ export class DashboardWidgetController {
 
   renderList(container) {
     const { items = [], showIcons = true, showActions = false } = this.state.data || {};
-    
+
     if (items.length === 0) {
       container.innerHTML = '<div class="widget-empty">No items to display</div>';
       return;
@@ -222,7 +222,7 @@ export class DashboardWidgetController {
 
   renderTable(container) {
     const { columns = [], rows = [], sortable = true } = this.state.data || {};
-    
+
     if (columns.length === 0 || rows.length === 0) {
       container.innerHTML = '<div class="widget-empty">No data to display</div>';
       return;
@@ -265,7 +265,7 @@ export class DashboardWidgetController {
   // State management methods
   setLoading(loading) {
     this.state.loading = loading;
-    
+
     if (loading) {
       this.element.classList.add('loading');
       this.showLoading();
@@ -277,7 +277,7 @@ export class DashboardWidgetController {
 
   setError(error) {
     this.state.error = error;
-    
+
     if (error) {
       this.element.classList.add('error');
       this.showError(error);
@@ -314,7 +314,7 @@ export class DashboardWidgetController {
   showError(message) {
     const errorEl = this.element.querySelector('.widget-error');
     const messageEl = this.element.querySelector('.error-message');
-    
+
     if (errorEl && messageEl) {
       messageEl.textContent = message;
       errorEl.style.display = 'flex';
@@ -331,7 +331,7 @@ export class DashboardWidgetController {
   // Event handlers
   toggleCollapse() {
     this.state.collapsed = !this.state.collapsed;
-    
+
     if (this.state.collapsed) {
       this.element.classList.add('collapsed');
       const collapseBtn = this.element.querySelector('.widget-collapse');
@@ -358,13 +358,13 @@ export class DashboardWidgetController {
     try {
       const newData = await this.options.onRefresh(this);
       this.updateData(newData);
-      
+
       this.dispatchEvent('widget:refresh', { data: newData });
       return true;
     } catch (error) {
       console.error('Refresh failed:', error);
       this.setError(error.message || DASHBOARD_WIDGET_CONFIG.errors.DATA_FETCH_FAILED);
-      
+
       this.dispatchEvent('widget:error', { error });
       return false;
     } finally {
@@ -378,7 +378,7 @@ export class DashboardWidgetController {
 
     const actionId = actionBtn.getAttribute('data-action');
     const action = this.options.actions?.find(a => a.id === actionId);
-    
+
     if (action && action.handler) {
       action.handler(this);
     }
@@ -400,7 +400,7 @@ export class DashboardWidgetController {
 
     const actionId = itemAction.getAttribute('data-action');
     const itemId = itemAction.getAttribute('data-item');
-    
+
     this.dispatchEvent('widget:item-action', { actionId, itemId });
   }
 
@@ -451,10 +451,10 @@ export class DashboardWidgetController {
   // Cleanup
   destroy() {
     this.stopAutoRefresh();
-    
+
     // Remove event listeners
     // (In a real implementation, we'd store references to bound functions)
-    
+
     if (this.element.parentNode && this.options.removeOnDestroy) {
       this.element.parentNode.removeChild(this.element);
     }

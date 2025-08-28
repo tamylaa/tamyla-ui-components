@@ -26,7 +26,7 @@ export function InputGroupFactory(props = {}) {
     value = '',
     name = '',
     id = '',
-    
+
     // Behavior
     required = false,
     disabled = false,
@@ -34,26 +34,26 @@ export function InputGroupFactory(props = {}) {
     autoValidate = true,
     validateOnChange = true,
     validateOnBlur = true,
-    
+
     // Styling
     size = 'medium', // small, medium, large
     variant = 'default', // default, inline, compact
-    
+
     // Content
     error = '',
     help = '',
-    
+
     // Validation
     validationRules = [],
-    
+
     // Select/Radio specific
     options = [],
     multiple = false,
-    
+
     // Textarea specific
     rows = 3,
     resize = 'vertical',
-    
+
     // Event handlers
     onInput,
     onChange,
@@ -61,7 +61,7 @@ export function InputGroupFactory(props = {}) {
     onFocus,
     onValidate,
     onSubmit,
-    
+
     // Container
     container = null
   } = props;
@@ -78,24 +78,24 @@ export function InputGroupFactory(props = {}) {
     focus,
     blur,
     destroy,
-    
+
     // Value management
     getValue,
     setValue,
     reset,
-    
+
     // Validation management
     validate,
     addValidationRule,
     removeValidationRule,
     setError,
     clearErrors,
-    
+
     // State management
     setLoading,
     setDisabled,
     setReadonly,
-    
+
     // Getters
     getController: () => controller,
     getElement: () => element,
@@ -109,7 +109,7 @@ export function InputGroupFactory(props = {}) {
   function render(targetContainer = container) {
     // Create element based on type
     element = createElement();
-    
+
     // Initialize controller
     controller = new InputGroupController({
       autoValidate,
@@ -122,7 +122,7 @@ export function InputGroupFactory(props = {}) {
       onValidate,
       onSubmit
     });
-    
+
     controller.initialize(element);
 
     // Add validation rules
@@ -147,7 +147,7 @@ export function InputGroupFactory(props = {}) {
     if (typeof targetContainer === 'string') {
       targetContainer = document.querySelector(targetContainer);
     }
-    
+
     if (targetContainer) {
       targetContainer.appendChild(element);
     }
@@ -160,7 +160,7 @@ export function InputGroupFactory(props = {}) {
    */
   function createElement() {
     const inputId = id || `input-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     let template;
     const baseOptions = {
       label,
@@ -178,48 +178,48 @@ export function InputGroupFactory(props = {}) {
     };
 
     switch (type) {
-      case 'textarea':
-        template = createTextareaInputGroup({
-          ...baseOptions,
-          rows,
-          resize
-        });
-        break;
-        
-      case 'select':
-        template = createSelectInputGroup({
-          ...baseOptions,
-          options,
-          multiple
-        });
-        break;
-        
-      case 'checkbox':
-        template = createCheckboxInputGroup({
-          ...baseOptions,
-          checked: !!value
-        });
-        break;
-        
-      case 'radio':
-        template = createRadioInputGroup({
-          ...baseOptions,
-          options,
-          value
-        });
-        break;
-        
-      default:
-        template = createTextInputGroup({
-          ...baseOptions,
-          type
-        });
-        break;
+    case 'textarea':
+      template = createTextareaInputGroup({
+        ...baseOptions,
+        rows,
+        resize
+      });
+      break;
+
+    case 'select':
+      template = createSelectInputGroup({
+        ...baseOptions,
+        options,
+        multiple
+      });
+      break;
+
+    case 'checkbox':
+      template = createCheckboxInputGroup({
+        ...baseOptions,
+        checked: !!value
+      });
+      break;
+
+    case 'radio':
+      template = createRadioInputGroup({
+        ...baseOptions,
+        options,
+        value
+      });
+      break;
+
+    default:
+      template = createTextInputGroup({
+        ...baseOptions,
+        type
+      });
+      break;
     }
-    
+
     const wrapper = document.createElement('div');
     wrapper.innerHTML = template;
-    
+
     return wrapper.firstElementChild;
   }
 
@@ -228,7 +228,7 @@ export function InputGroupFactory(props = {}) {
    */
   function loadStyles() {
     const styleId = 'tmyl-input-group-styles';
-    
+
     if (!document.getElementById(styleId)) {
       const link = document.createElement('link');
       link.id = styleId;
@@ -376,7 +376,7 @@ export function InputGroupFactory(props = {}) {
     if (element && element.parentNode) {
       element.parentNode.removeChild(element);
     }
-    
+
     element = null;
   }
 
@@ -481,7 +481,7 @@ export class InputGroupManager {
       scrollToFirstError: true,
       ...options
     };
-    
+
     this.inputGroups = new Map();
     this.formElement = null;
   }
@@ -491,14 +491,14 @@ export class InputGroupManager {
    */
   add(name, inputGroup) {
     this.inputGroups.set(name, inputGroup);
-    
+
     // Listen for validation events
     if (inputGroup.getElement()) {
       inputGroup.getElement().addEventListener('tmyl-input-group:validate', (e) => {
         this.handleValidation(name, e.detail);
       });
     }
-    
+
     return this;
   }
 
@@ -527,7 +527,7 @@ export class InputGroupManager {
   validateAll() {
     let isValid = true;
     const errors = {};
-    
+
     this.inputGroups.forEach((inputGroup, name) => {
       const groupValid = inputGroup.validate();
       if (!groupValid) {
@@ -548,11 +548,11 @@ export class InputGroupManager {
    */
   getFormData() {
     const data = {};
-    
+
     this.inputGroups.forEach((inputGroup, name) => {
       data[name] = inputGroup.getValue();
     });
-    
+
     return data;
   }
 
@@ -566,7 +566,7 @@ export class InputGroupManager {
         inputGroup.setValue(value);
       }
     });
-    
+
     return this;
   }
 
@@ -577,7 +577,7 @@ export class InputGroupManager {
     this.inputGroups.forEach(inputGroup => {
       inputGroup.reset();
     });
-    
+
     return this;
   }
 
@@ -591,7 +591,7 @@ export class InputGroupManager {
         detail: { name, ...validationResult },
         bubbles: true
       });
-      
+
       this.formElement.dispatchEvent(event);
     }
   }
@@ -604,9 +604,9 @@ export class InputGroupManager {
       if (!inputGroup.isValid()) {
         const element = inputGroup.getElement();
         if (element) {
-          element.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center' 
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
           });
           inputGroup.focus();
           break;
@@ -622,7 +622,7 @@ export class InputGroupManager {
     this.inputGroups.forEach(inputGroup => {
       inputGroup.destroy();
     });
-    
+
     this.inputGroups.clear();
   }
 }

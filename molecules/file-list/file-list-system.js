@@ -19,7 +19,7 @@ export function FileListFactory(props = {}) {
   const {
     // Data
     files = [],
-    
+
     // Display options
     layout = 'list', // list, grid, compact
     size = 'medium', // small, medium, large
@@ -28,41 +28,41 @@ export function FileListFactory(props = {}) {
     showType = false,
     showCheckboxes = false,
     showActions = false,
-    
+
     // Behavior
     selectable = true,
     multiSelect = false,
     sortable = true,
     filterable = true,
     dragAndDrop = false,
-    
+
     // Selection
     selected = [],
-    
+
     // Pagination
     paginated = false,
     itemsPerPage = 10,
     currentPage = 1,
-    
+
     // States
     loading = false,
     disabled = false,
-    
+
     // Messages
     emptyMessage = 'No files found',
     emptySubtext = 'Upload files to get started',
-    
+
     // Sorting
     defaultSortBy = 'name',
     defaultSortOrder = 'asc',
-    
+
     // Event handlers
     onFileClick,
     onFileSelect,
     onFileAction,
     onFilesDropped,
     onSelectionChange,
-    
+
     // Container
     container = null,
     id = ''
@@ -79,7 +79,7 @@ export function FileListFactory(props = {}) {
     render,
     refresh,
     destroy,
-    
+
     // File management
     setFiles,
     addFile,
@@ -87,7 +87,7 @@ export function FileListFactory(props = {}) {
     updateFile,
     getFiles,
     getFile,
-    
+
     // Selection management
     selectFile,
     deselectFile,
@@ -95,25 +95,25 @@ export function FileListFactory(props = {}) {
     selectAll,
     clearSelection,
     getSelectedFiles,
-    
+
     // View management
     setView,
     setLayout,
     setSize,
-    
+
     // Filtering and sorting
     setFilter,
     setSorting,
     sort,
-    
+
     // State management
     setLoading,
     setDisabled,
-    
+
     // Pagination
     setPage,
     setPageSize,
-    
+
     // Getters
     getController: () => controller,
     getElement: () => element,
@@ -127,7 +127,7 @@ export function FileListFactory(props = {}) {
   function render(targetContainer = container) {
     // Create element
     element = createElement();
-    
+
     // Initialize controller
     controller = new FileListController({
       selectable,
@@ -139,7 +139,7 @@ export function FileListFactory(props = {}) {
       defaultSortBy,
       defaultSortOrder
     });
-    
+
     controller.initialize(element);
 
     // Set initial files
@@ -164,7 +164,7 @@ export function FileListFactory(props = {}) {
     if (typeof targetContainer === 'string') {
       targetContainer = document.querySelector(targetContainer);
     }
-    
+
     if (targetContainer) {
       targetContainer.appendChild(element);
     }
@@ -177,7 +177,7 @@ export function FileListFactory(props = {}) {
    */
   function createElement() {
     const listId = id || `file-list-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     let template;
 
     if (dragAndDrop) {
@@ -247,10 +247,10 @@ export function FileListFactory(props = {}) {
         id: listId
       });
     }
-    
+
     const wrapper = document.createElement('div');
     wrapper.innerHTML = template;
-    
+
     return wrapper.firstElementChild;
   }
 
@@ -306,7 +306,7 @@ export function FileListFactory(props = {}) {
    */
   function loadStyles() {
     const styleId = 'tmyl-file-list-styles';
-    
+
     if (!document.getElementById(styleId)) {
       const link = document.createElement('link');
       link.id = styleId;
@@ -426,7 +426,7 @@ export function FileListFactory(props = {}) {
       element.className = element.className
         .replace(/tmyl-file-list--\w+/g, '')
         .trim();
-      
+
       if (newSize !== 'medium') {
         element.classList.add(`tmyl-file-list--${newSize}`);
       }
@@ -514,7 +514,7 @@ export function FileListFactory(props = {}) {
     if (element && element.parentNode) {
       element.parentNode.removeChild(element);
     }
-    
+
     element = null;
   }
 
@@ -627,7 +627,7 @@ export class FileListManager {
    */
   getAllSelectedFiles() {
     const allSelected = [];
-    
+
     this.fileLists.forEach((fileList, name) => {
       const selected = fileList.getSelectedFiles();
       if (selected.length > 0) {
@@ -665,7 +665,7 @@ export class FileListManager {
     this.fileLists.forEach(fileList => {
       fileList.destroy();
     });
-    
+
     this.fileLists.clear();
   }
 }

@@ -1,7 +1,7 @@
 /**
  * Atomic Design System Factory
  * Central factory for creating all atomic UI elements with shared foundation
- * 
+ *
  * Hierarchy:
  * AtomFactory (Base) → ButtonFactory, InputFactory, CardFactory
  * Each factory shares common design tokens but has specialized behavior
@@ -53,7 +53,7 @@ class BaseAtomFactory {
       size && `tmyl-${base}--${size}`,
       ...additional
     ].filter(Boolean);
-    
+
     return classes.join(' ');
   }
 
@@ -90,12 +90,12 @@ class BaseAtomFactory {
 export class AtomFactory extends BaseAtomFactory {
   constructor() {
     super();
-    
+
     // Initialize specialized factories
     this.button = new ButtonFactory();
     this.input = new InputFactory();
     this.card = new CardFactory();
-    
+
     // Set up shared foundation for all factories
     this.setupSharedFoundation();
   }
@@ -160,7 +160,7 @@ export class AtomFactory extends BaseAtomFactory {
       ...props,
       className: `${props.className || ''} tmyl-theme-${theme}`.trim()
     };
-    
+
     return this.create(type, themedProps);
   }
 
@@ -168,7 +168,7 @@ export class AtomFactory extends BaseAtomFactory {
    * Batch create atoms with shared properties
    */
   createBatch(type, sharedProps = {}, variations = []) {
-    return variations.map(variation => 
+    return variations.map(variation =>
       this.create(type, { ...sharedProps, ...variation })
     );
   }
@@ -187,7 +187,7 @@ export class AtomCollections {
    */
   createFormElements(config) {
     const { fields, submitButton, cancelButton } = config;
-    
+
     const elements = {
       fields: fields.map(field => this.factory.create('input', field)),
       actions: []
@@ -195,20 +195,20 @@ export class AtomCollections {
 
     if (submitButton) {
       elements.actions.push(
-        this.factory.create('button', { 
-          variant: 'primary', 
+        this.factory.create('button', {
+          variant: 'primary',
           type: 'submit',
-          ...submitButton 
+          ...submitButton
         })
       );
     }
 
     if (cancelButton) {
       elements.actions.push(
-        this.factory.create('button', { 
-          variant: 'secondary', 
+        this.factory.create('button', {
+          variant: 'secondary',
           type: 'button',
-          ...cancelButton 
+          ...cancelButton
         })
       );
     }
@@ -220,10 +220,10 @@ export class AtomCollections {
    * Create card grid collection
    */
   createCardGrid(items, cardProps = {}) {
-    return items.map(item => 
-      this.factory.create('card', { 
-        ...cardProps, 
-        content: item 
+    return items.map(item =>
+      this.factory.create('card', {
+        ...cardProps,
+        content: item
       })
     );
   }
@@ -241,11 +241,11 @@ export class AtomCollections {
   createButtonGroupContainer(props) {
     const container = document.createElement('div');
     container.className = `tmyl-button-group ${props.className || ''}`;
-    
+
     if (props.orientation === 'vertical') {
       container.classList.add('tmyl-button-group--vertical');
     }
-    
+
     return container;
   }
 }
@@ -320,22 +320,22 @@ export const compose = {
 
 /**
  * Usage Examples:
- * 
+ *
  * // Simple creation
  * const button = createButton({ variant: 'primary', text: 'Click me' });
  * const input = createInput({ type: 'email', label: 'Email', required: true });
  * const card = createCard({ variant: 'elevated', content: 'Hello world' });
- * 
+ *
  * // Factory-based creation
  * const atoms = atomFactory.createMultiple([
  *   { type: 'button', props: { variant: 'primary', text: 'Save' } },
  *   { type: 'button', props: { variant: 'secondary', text: 'Cancel' } }
  * ]);
- * 
+ *
  * // Themed creation
  * atomThemes.apply(atomFactory, 'minimal');
  * const minimalButton = createButton({ text: 'Minimal' }); // Uses minimal theme
- * 
+ *
  * // Composition patterns
  * const form = compose.form({
  *   fields: [

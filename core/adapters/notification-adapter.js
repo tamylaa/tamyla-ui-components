@@ -18,7 +18,7 @@ export class NotificationAdapter {
   createContainer() {
     // Check if container already exists
     this.container = document.getElementById('notifications-container');
-    
+
     if (!this.container) {
       this.container = document.createElement('div');
       this.container.className = 'notifications-container';
@@ -45,30 +45,30 @@ export class NotificationAdapter {
       element = document.createElement('div');
       element.className = `notification notification-${type}`;
       element.dataset.id = id;
-      
+
       // Create content
       const content = document.createElement('div');
       content.className = 'notification-content';
-      
+
       // Add icon based on type
       const icon = document.createElement('span');
       icon.className = 'notification-icon';
       icon.textContent = getTypeIcon(type);
       content.appendChild(icon);
-      
+
       // Add message
       const messageElement = document.createElement('span');
       messageElement.className = 'notification-message';
       messageElement.textContent = message;
       content.appendChild(messageElement);
-      
+
       element.appendChild(content);
-      
+
       // Add actions if provided
       if (actions.length > 0) {
         const actionsContainer = document.createElement('div');
         actionsContainer.className = 'notification-actions';
-        
+
         actions.forEach(action => {
           const button = document.createElement('button');
           button.className = `notification-action action-${action.variant || 'primary'}`;
@@ -79,10 +79,10 @@ export class NotificationAdapter {
           });
           actionsContainer.appendChild(button);
         });
-        
+
         element.appendChild(actionsContainer);
       }
-      
+
       // Add close button
       const closeButton = document.createElement('button');
       closeButton.className = 'notification-close';
@@ -90,26 +90,26 @@ export class NotificationAdapter {
       closeButton.setAttribute('aria-label', 'Close notification');
       closeButton.addEventListener('click', close);
       element.appendChild(closeButton);
-      
+
       // Add to container
       this.container.appendChild(element);
       this.notifications.set(id, element);
-      
+
       // Auto-dismiss timer
       if (!persistent && duration > 0) {
         timeoutId = setTimeout(close, duration);
       }
-      
+
       // Animate in
       requestAnimationFrame(() => {
         element.classList.add('notification-enter');
       });
-      
+
       // Dispatch creation event
       element.dispatchEvent(new CustomEvent('notification-created', {
         detail: { id, type, message }
       }));
-      
+
       return {
         element,
         close,
@@ -126,26 +126,26 @@ export class NotificationAdapter {
 
     function close() {
       if (!element || !element.parentNode) return;
-      
+
       // Clear timeout
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
-      
+
       // Animate out
       element.classList.add('notification-exit');
-      
+
       setTimeout(() => {
         if (element && element.parentNode) {
           element.parentNode.removeChild(element);
         }
         this.notifications.delete(id);
-        
+
         // Dispatch close event
         document.dispatchEvent(new CustomEvent('notification-closed', {
           detail: { id, type, message }
         }));
-        
+
         if (onClose) {
           onClose();
         }
@@ -212,7 +212,7 @@ export class NotificationAdapter {
       input.type = 'text';
       input.value = defaultValue;
       input.className = 'notification-input';
-      
+
       const container = document.createElement('div');
       container.appendChild(document.createTextNode(message));
       container.appendChild(document.createElement('br'));

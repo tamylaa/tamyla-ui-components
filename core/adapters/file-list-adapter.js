@@ -41,23 +41,23 @@ export class FileListAdapter {
     function createComponent() {
       element = document.createElement('div');
       element.className = `advanced-file-list ${className}`;
-      
+
       // Create header with controls
       const header = createHeader();
       element.appendChild(header);
-      
+
       // Create files container
       const filesContainer = document.createElement('div');
       filesContainer.className = 'files-container';
       element.appendChild(filesContainer);
-      
+
       // Render files
       renderFiles();
-      
+
       if (container) {
         container.appendChild(element);
       }
-      
+
       return {
         element,
         getSelected: () => [...currentSelected],
@@ -94,7 +94,7 @@ export class FileListAdapter {
     function createHeader() {
       const header = document.createElement('div');
       header.className = 'file-list-header';
-      
+
       header.innerHTML = `
         <div class="file-list-info">
           <h3 class="file-list-title">Files (${currentFiles.length})</h3>
@@ -115,24 +115,24 @@ export class FileListAdapter {
           </select>
         </div>
       `;
-      
+
       // Add event listeners
       const sortSelect = header.querySelector('.sort-select');
       const filterSelect = header.querySelector('.filter-select');
-      
+
       sortSelect.addEventListener('change', handleSortChange);
       filterSelect.addEventListener('change', handleFilterChange);
-      
+
       return header;
     }
 
     // File rendering with empty state
     function renderFiles() {
       const container = element.querySelector('.files-container');
-      
+
       const sortedFiles = getSortedFiles();
       const filteredFiles = getFilteredFiles(sortedFiles);
-      
+
       if (filteredFiles.length === 0) {
         container.innerHTML = `
           <div class="empty-state">
@@ -145,14 +145,14 @@ export class FileListAdapter {
         `;
         return;
       }
-      
+
       container.innerHTML = '';
-      
+
       filteredFiles.forEach(file => {
         const fileCard = createFileCard(file);
         container.appendChild(fileCard);
       });
-      
+
       updateSelectionState();
       updateHeaderInfo();
     }
@@ -160,16 +160,16 @@ export class FileListAdapter {
     function createFileCard(file) {
       const cardContainer = document.createElement('div');
       cardContainer.className = 'file-card-container';
-      
+
       const isSelected = currentSelected.includes(file.id || file.name);
-      
+
       const card = this.cardFactory.create({
         variant: isSelected ? 'selected' : 'default',
         className: `file-card ${isSelected ? 'selected' : ''}`,
         onClick: () => handleFileSelect(file),
         container: cardContainer
       });
-      
+
       // Add file content to card
       const fileContent = document.createElement('div');
       fileContent.className = 'file-content';
@@ -182,16 +182,16 @@ export class FileListAdapter {
         </div>
         ${isSelected ? '<div class="selection-indicator">✓</div>' : ''}
       `;
-      
+
       card.element.appendChild(fileContent);
-      
+
       return cardContainer;
     }
 
     // Selection handling
     function handleFileSelect(file) {
       const fileId = file.id || file.name;
-      
+
       if (multiSelect) {
         if (currentSelected.includes(fileId)) {
           currentSelected = currentSelected.filter(id => id !== fileId);
@@ -201,9 +201,9 @@ export class FileListAdapter {
       } else {
         currentSelected = currentSelected.includes(fileId) ? [] : [fileId];
       }
-      
+
       updateSelectionState();
-      
+
       if (onSelect) {
         onSelect({
           file,
@@ -225,9 +225,9 @@ export class FileListAdapter {
         const fileName = fileContent.querySelector('.file-name').textContent;
         const file = currentFiles.find(f => f.name === fileName);
         const isSelected = currentSelected.includes(file?.id || fileName);
-        
+
         card.classList.toggle('selected', isSelected);
-        
+
         // Update selection indicator
         let indicator = card.querySelector('.selection-indicator');
         if (isSelected && !indicator) {
@@ -239,14 +239,14 @@ export class FileListAdapter {
           indicator.remove();
         }
       });
-      
+
       updateHeaderInfo();
     }
 
     function updateHeaderInfo() {
       const titleElement = element.querySelector('.file-list-title');
       const selectionInfo = element.querySelector('.selection-info');
-      
+
       titleElement.textContent = `Files (${currentFiles.length})`;
       selectionInfo.textContent = `${currentSelected.length} selected`;
     }
@@ -255,21 +255,21 @@ export class FileListAdapter {
     function getSortedFiles() {
       return [...currentFiles].sort((a, b) => {
         let aValue, bValue;
-        
+
         switch (currentSortBy) {
-          case 'size':
-            aValue = a.size || 0;
-            bValue = b.size || 0;
-            break;
-          case 'date':
-            aValue = new Date(a.date || 0);
-            bValue = new Date(b.date || 0);
-            break;
-          default:
-            aValue = (a.name || '').toLowerCase();
-            bValue = (b.name || '').toLowerCase();
+        case 'size':
+          aValue = a.size || 0;
+          bValue = b.size || 0;
+          break;
+        case 'date':
+          aValue = new Date(a.date || 0);
+          bValue = new Date(b.date || 0);
+          break;
+        default:
+          aValue = (a.name || '').toLowerCase();
+          bValue = (b.name || '').toLowerCase();
         }
-        
+
         if (currentSortOrder === 'desc') {
           return aValue < bValue ? 1 : -1;
         }
@@ -279,7 +279,7 @@ export class FileListAdapter {
 
     function getFilteredFiles(files) {
       if (currentFilterBy === 'all') return files;
-      
+
       return files.filter(file => {
         const fileType = getFileType(file);
         return fileType === currentFilterBy;
@@ -288,7 +288,7 @@ export class FileListAdapter {
 
     function getFileType(file) {
       const extension = (file.name || '').split('.').pop()?.toLowerCase();
-      
+
       if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(extension)) {
         return 'image';
       }
@@ -301,7 +301,7 @@ export class FileListAdapter {
       if (['pdf', 'doc', 'docx', 'txt', 'rtf'].includes(extension)) {
         return 'document';
       }
-      
+
       return 'other';
     }
 

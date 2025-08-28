@@ -80,32 +80,32 @@ export function createStatusIndicator(options = {}) {
   } = options;
 
   const config = STATUS_CONFIGS[status] || STATUS_CONFIGS.offline;
-  
+
   const indicator = document.createElement('div');
   indicator.className = `tmyl-status-indicator size-${size} ${className} ${config.pulse && animated ? 'pulsing' : ''}`;
   indicator.setAttribute('data-status', status);
-  
+
   // Build indicator content
   const content = [];
-  
+
   if (showIcon) {
     content.push(`<span class="status-icon">${config.icon}</span>`);
   }
-  
+
   if (showText) {
     content.push(`<span class="status-text">${config.text}</span>`);
   }
-  
+
   if (showTimestamp) {
     content.push(`<span class="status-timestamp">${new Date().toLocaleTimeString()}</span>`);
   }
-  
+
   indicator.innerHTML = content.join('');
-  
+
   // Apply dynamic styles
   indicator.style.setProperty('--status-color', config.color);
   indicator.style.setProperty('--status-bg', config.bgColor);
-  
+
   // Store update interval if provided
   if (updateInterval && showTimestamp) {
     const intervalId = setInterval(() => {
@@ -114,14 +114,14 @@ export function createStatusIndicator(options = {}) {
         timestampEl.textContent = new Date().toLocaleTimeString();
       }
     }, updateInterval);
-    
+
     // Store interval ID for cleanup
     indicator._intervalId = intervalId;
   }
-  
+
   // Store status change callback
   indicator._onStatusChange = onStatusChange;
-  
+
   return indicator;
 }
 
@@ -135,30 +135,30 @@ export function updateStatusIndicator(indicator, newStatus, options = {}) {
   const { animated = true, notifyChange = true } = options;
   const config = STATUS_CONFIGS[newStatus] || STATUS_CONFIGS.offline;
   const oldStatus = indicator.getAttribute('data-status');
-  
+
   // Update attributes and classes
   indicator.setAttribute('data-status', newStatus);
   indicator.classList.toggle('pulsing', config.pulse && animated);
-  
+
   // Update content
   const iconEl = indicator.querySelector('.status-icon');
   const textEl = indicator.querySelector('.status-text');
   const timestampEl = indicator.querySelector('.status-timestamp');
-  
+
   if (iconEl) iconEl.textContent = config.icon;
   if (textEl) textEl.textContent = config.text;
   if (timestampEl) timestampEl.textContent = new Date().toLocaleTimeString();
-  
+
   // Update styles
   indicator.style.setProperty('--status-color', config.color);
   indicator.style.setProperty('--status-bg', config.bgColor);
-  
+
   // Add change animation
   if (animated && oldStatus !== newStatus) {
     indicator.classList.add('status-changing');
     setTimeout(() => indicator.classList.remove('status-changing'), 300);
   }
-  
+
   // Notify change if callback exists
   if (notifyChange && indicator._onStatusChange) {
     indicator._onStatusChange({
@@ -212,10 +212,10 @@ export class ConnectionStatusManager {
    */
   startMonitoring() {
     if (this.isMonitoring) return;
-    
+
     this.isMonitoring = true;
     this._checkConnection();
-    
+
     this._intervalId = setInterval(() => {
       this._checkConnection();
     }, this.checkInterval);
@@ -238,12 +238,12 @@ export class ConnectionStatusManager {
   setStatus(status) {
     const oldStatus = this.currentStatus;
     this.currentStatus = status;
-    
+
     // Update all registered indicators
     this.indicators.forEach(indicator => {
       updateStatusIndicator(indicator, status);
     });
-    
+
     // Global status change callback
     if (this.onStatusChange && oldStatus !== status) {
       this.onStatusChange({
@@ -261,15 +261,15 @@ export class ConnectionStatusManager {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
-      
+
       const response = await fetch(this.endpoint, {
         signal: controller.signal,
         method: 'GET',
         cache: 'no-cache'
       });
-      
+
       clearTimeout(timeoutId);
-      
+
       if (response.ok) {
         this.setStatus('live');
       } else {
@@ -311,7 +311,7 @@ export const TRADING_PORTAL_STATUSES = {
     showIcon: true,
     showText: true
   },
-  
+
   offlineConnection: {
     status: 'offline',
     animated: false,
@@ -319,7 +319,7 @@ export const TRADING_PORTAL_STATUSES = {
     showIcon: true,
     showText: true
   },
-  
+
   // Order statuses
   orderPending: {
     status: 'pending',
@@ -328,7 +328,7 @@ export const TRADING_PORTAL_STATUSES = {
     showIcon: true,
     showText: true
   },
-  
+
   orderFilled: {
     status: 'filled',
     animated: false,
@@ -336,7 +336,7 @@ export const TRADING_PORTAL_STATUSES = {
     showIcon: true,
     showText: true
   },
-  
+
   orderCancelled: {
     status: 'cancelled',
     animated: false,

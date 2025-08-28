@@ -48,7 +48,7 @@ export class CardController {
 
   handleActionClick(event) {
     event.stopPropagation(); // Prevent card click
-    
+
     if (this.isDisabled()) {
       event.preventDefault();
       return;
@@ -93,12 +93,12 @@ export class CardController {
   }
 
   isDisabled() {
-    return this.element.hasAttribute('aria-disabled') && 
+    return this.element.hasAttribute('aria-disabled') &&
            this.element.getAttribute('aria-disabled') === 'true';
   }
 
   isSelected() {
-    return this.element.hasAttribute('aria-selected') && 
+    return this.element.hasAttribute('aria-selected') &&
            this.element.getAttribute('aria-selected') === 'true';
   }
 
