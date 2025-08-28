@@ -16,10 +16,10 @@ export * from '../organisms/organism-factory.js';
 
 // Enhanced Individual Atom Components with Trading Portal patterns
 import { ButtonFactory } from '../atoms/button/button-system.js';
-import { StatusIndicatorFactory, statusIndicatorFactory } from '../atoms/status-indicator/status-indicator-system.js';
+import { StatusIndicatorFactory } from '../atoms/status-indicator/status-indicator-system.js';
 
 // Enhanced Molecule Components with sophisticated interactions
-import { ActionCardFactory, actionCardFactory } from '../molecules/action-card/action-card-system.js';
+import { ActionCardFactory } from '../molecules/action-card/action-card-system.js';
 
 // Re-export for backward compatibility
 export { ButtonFactory } from '../atoms/button/button-system.js';
