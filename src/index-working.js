@@ -42,7 +42,7 @@ const TamylaUI = {
     }
     return card;
   },
-  
+
   // Version info
   version: '1.0.0',
   name: '@tamyla/ui-components'

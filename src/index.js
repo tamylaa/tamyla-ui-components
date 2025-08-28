@@ -40,7 +40,7 @@ export { default as RewardSystem } from '../organisms/rewards/reward-system.js';
 
 // Legacy React Pattern Components (for backward compatibility)
 // Note: JSX components excluded from vanilla JS build - available separately as React components
-// export { 
+// export {
 //   TamylaEmailRecipients, // JSX - excluded from build
 //   TamylaFileList,        // JSX - excluded from build
 //   TamylaModal,           // JSX - excluded from build
@@ -55,7 +55,7 @@ export const VERSION = '2.0.0'; // Major upgrade with Trading Portal integration
 export const BUILD_DATE = new Date().toISOString();
 export const FEATURES = [
   'Trading Portal micro-interactions',
-  'Enhanced accessibility (WCAG 2.1 AA)', 
+  'Enhanced accessibility (WCAG 2.1 AA)',
   'Gamification components',
   'Real-time status indicators',
   'Premium visual polish',
@@ -74,7 +74,7 @@ export const COMPONENT_REGISTRY = {
     StatusIndicator: () => import('../atoms/status-indicator/status-indicator-system.js'),
     InputGroup: () => import('../atoms/input-group/input-group-system.js')
   },
-  
+
   // Enhanced Molecules with sophisticated interactions
   molecules: {
     ActionCard: () => import('../molecules/action-card/action-card-system.js'),
@@ -83,13 +83,13 @@ export const COMPONENT_REGISTRY = {
     FileList: () => import('../molecules/file-list/file-list-system.js'),
     Notification: () => import('../molecules/notification/notification-system.js')
   },
-  
+
   // Enhanced Organisms with complete workflows
   organisms: {
     SearchInterface: () => import('../organisms/search-interface/search-interface-system.js')
     // TODO: Add Modal and Reward once their controllers are fixed
   },
-  
+
   // Enhanced Applications with complete workflows
   applications: {
     EnhancedSearch: () => import('../applications/enhanced-search/enhanced-search-system.js'),
@@ -117,13 +117,13 @@ export const TradingPortalIntegration = {
     };
 
     const finalConfig = { ...defaultConfig, ...config };
-    
+
     // Set global configuration
     window.tamylaUIConfig = finalConfig;
-    
+
     // Initialize CSS custom properties based on config
     this.applyThemeConfiguration(finalConfig);
-    
+
     return finalConfig;
   },
 
@@ -132,16 +132,16 @@ export const TradingPortalIntegration = {
    */
   applyThemeConfiguration(config) {
     const root = document.documentElement;
-    
+
     if (config.accessibility.reducedMotion) {
       root.style.setProperty('--tmyl-transition-fast', 'none');
       root.style.setProperty('--tmyl-transition-base', 'none');
     }
-    
+
     if (config.accessibility.highContrast) {
       root.style.setProperty('--tmyl-shadow-focus', '0 0 0 3px #ffff00');
     }
-    
+
     if (config.theme === 'dark') {
       // Apply dark theme variables
       root.style.setProperty('--tmyl-action-card-bg', '#1f1f1f');
@@ -154,7 +154,7 @@ export const TradingPortalIntegration = {
    */
   createEnhanced(componentType, factory, props = {}) {
     const config = window.tamylaUIConfig || {};
-    
+
     const enhancedProps = {
       ...props,
       elevation: config.enableMicroInteractions !== false,
@@ -188,7 +188,7 @@ export async function loadComponent(category, name) {
   if (!loader) {
     throw new Error(`Component ${category}/${name} not found in registry`);
   }
-  
+
   try {
     const module = await loader();
     return module.default || module;
@@ -206,7 +206,7 @@ export function getAvailableComponents() {
   }, {});
 }
 
-// Configuration and theming utilities  
+// Configuration and theming utilities
 export const TAMYLA_UI_CONFIG = {
   theme: {
     primary: '#3B82F6',
@@ -215,14 +215,14 @@ export const TAMYLA_UI_CONFIG = {
     warning: '#F59E0B',
     error: '#EF4444'
   },
-  
+
   breakpoints: {
     sm: '640px',
-    md: '768px', 
+    md: '768px',
     lg: '1024px',
     xl: '1280px'
   },
-  
+
   animation: {
     duration: '200ms',
     easing: 'ease-in-out'
@@ -233,21 +233,21 @@ export const TAMYLA_UI_CONFIG = {
 export function initializeTamylaUI(config = {}) {
   // Merge user config with defaults
   const mergedConfig = { ...TAMYLA_UI_CONFIG, ...config };
-  
+
   // Apply global CSS custom properties
   if (typeof document !== 'undefined') {
     const root = document.documentElement;
-    
+
     // Apply theme colors
     Object.entries(mergedConfig.theme).forEach(([key, value]) => {
       root.style.setProperty(`--tamyla-${key}`, value);
     });
-    
+
     // Apply animation settings
     root.style.setProperty('--tamyla-animation-duration', mergedConfig.animation.duration);
     root.style.setProperty('--tamyla-animation-easing', mergedConfig.animation.easing);
   }
-  
+
   return mergedConfig;
 }
 
@@ -257,33 +257,33 @@ export default {
   DesignTokens: () => import('../core/design-tokens.js'),
   SharedUtilities: () => import('../core/shared-utilities.js'),
   ReactPatternAdapters: () => import('../core/react-pattern-adapters.js'),
-  
+
   // Factories
   AtomFactory: () => import('../atoms/atom-factory.js'),
   MoleculeFactory: () => import('../molecules/molecule-factory.js'),
   OrganismFactory: () => import('../organisms/organism-factory.js'),
-  
+
   // Enhanced components
   ButtonFactory: () => import('../atoms/button/button-system.js'),
   ActionCardFactory: () => import('../molecules/action-card/action-card-system.js'),
   StatusIndicatorFactory: () => import('../atoms/status-indicator/status-indicator-system.js'),
-  
+
   // Applications
   EnhancedSearch: () => import('../applications/enhanced-search/enhanced-search-system.js'),
   CampaignSelector: () => import('../applications/campaign-selector/campaign-selector-system.js'),
   ContentManager: () => import('../applications/content-manager/content-manager-system.js'),
-  
+
   // Utilities
   loadComponent,
   getAvailableComponents,
   initializeTamylaUI,
   TradingPortalIntegration,
-  
+
   // Convenience functions
   createTradingPortalButton,
   createTradingPortalActionCard,
   createTradingPortalStatus,
-  
+
   // Metadata
   VERSION,
   BUILD_DATE,
