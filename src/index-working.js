@@ -10,7 +10,7 @@ import TamylaUISystem from '../tamyla-ui-system.js';
 const TamylaUI = {
   // Core system
   System: TamylaUISystem,
-  
+
   // Factory methods for components
   createButton: (options) => {
     const button = document.createElement('button');
@@ -18,7 +18,7 @@ const TamylaUI = {
     button.className = 'tamyla-button';
     return button;
   },
-  
+
   createInput: (options) => {
     const input = document.createElement('input');
     input.type = options?.type || 'text';
@@ -26,7 +26,7 @@ const TamylaUI = {
     input.className = 'tamyla-input';
     return input;
   },
-  
+
   createCard: (options) => {
     const card = document.createElement('div');
     card.className = 'tamyla-card';
