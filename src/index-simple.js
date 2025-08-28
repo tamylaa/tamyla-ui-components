@@ -3,6 +3,8 @@
  * Simplified imports for working build system
  */
 
+/* eslint-disable no-console */
+
 // Import the main UI system from root
 export { default as TamylaUISystem } from '../tamyla-ui-system.js';
 

@@ -153,12 +153,15 @@ export default [
       'react-hooks': reactHooks
     },
     rules: {
-      ...typescript.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': 'warn',
+      // TypeScript specific rules for v8.x
+      '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/ban-types': 'warn',
+      '@typescript-eslint/no-unsafe-function-type': 'warn',
+      '@typescript-eslint/no-wrapper-object-types': 'warn',
       '@typescript-eslint/no-inferrable-types': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
+      // Relax for type declaration files
+      'no-unused-vars': 'off', // Disabled in favor of @typescript-eslint version
       'no-console': 'warn',
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
@@ -185,6 +188,16 @@ export default [
       react: {
         version: 'detect'
       }
+    }
+  },
+
+  // TypeScript declaration files - more relaxed rules
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'no-unused-vars': 'off'
     }
   },
 

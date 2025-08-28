@@ -89,7 +89,7 @@ export function createReactWrapper(componentLoader, defaultOptions = {}) {
           componentInstanceRef.current = null;
         }
       };
-    }, []);
+    }, [componentOptions, onError, onMount, onUnmount]);
 
     // Update component props when they change
     useEffect(() => {
@@ -105,7 +105,7 @@ export function createReactWrapper(componentLoader, defaultOptions = {}) {
     React.useImperativeHandle(ref, () => ({
       getInstance: () => componentInstanceRef.current,
       getContainer: () => containerRef.current
-    }), [isLoaded]);
+    }), []);
 
     if (error) {
       return (
