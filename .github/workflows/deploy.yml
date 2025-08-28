@@ -7,6 +7,13 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+# Add permissions for semantic-release to push tags and create releases
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  packages: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
