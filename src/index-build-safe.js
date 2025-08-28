@@ -7,6 +7,14 @@
 export * from '../core/design-tokens.js';
 export * from '../core/shared-utilities.js';
 
+// Import components for default export
+import { ButtonFactory } from '../atoms/button/button-system.js';
+import { InputFactory } from '../atoms/input/input-system.js';
+import { CardFactory } from '../atoms/card/card-system.js';
+import { StatusIndicatorFactory } from '../atoms/status-indicator/status-indicator-system.js';
+import { ActionCardFactory } from '../molecules/action-card/action-card-system.js';
+import TamylaUISystem from '../tamyla-ui-system.js';
+
 // Individual factory exports that we know exist
 export { ButtonFactory } from '../atoms/button/button-system.js';
 export { InputFactory } from '../atoms/input/input-system.js';
@@ -16,9 +24,6 @@ export { StatusIndicatorFactory } from '../atoms/status-indicator/status-indicat
 // Action card factory
 export { ActionCardFactory } from '../molecules/action-card/action-card-system.js';
 
-// Search bar factory (let's check if this exists)
-// export { SearchBarFactory } from '../molecules/search-bar/search-bar-system.js';
-
 // Enhanced Main UI System Factory
 export { default as TamylaUISystem } from '../tamyla-ui-system.js';
 
@@ -27,7 +32,7 @@ export const VERSION = '2.0.0';
 export const BUILD_DATE = new Date().toISOString();
 export const FEATURES = [
   'Trading Portal micro-interactions',
-  'Enhanced accessibility (WCAG 2.1 AA)', 
+  'Enhanced accessibility (WCAG 2.1 AA)',
   'Gamification components',
   'Real-time status indicators',
   'Premium visual polish',

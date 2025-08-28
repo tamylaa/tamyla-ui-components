@@ -193,8 +193,8 @@ export async function loadComponent(category, name) {
     const module = await loader();
     return module.default || module;
   } catch (error) {
-    console.error(`Failed to load component ${category}/${name}:`, error);
-    throw error;
+    // Re-throw with component information for better debugging
+    throw new Error(`Failed to load component ${category}/${name}: ${error.message}`);
   }
 }
 

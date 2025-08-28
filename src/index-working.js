@@ -13,7 +13,6 @@ const TamylaUI = {
   
   // Factory methods for components
   createButton: (options) => {
-    console.log('Button factory called with:', options);
     const button = document.createElement('button');
     button.textContent = options?.text || 'Button';
     button.className = 'tamyla-button';
@@ -21,7 +20,6 @@ const TamylaUI = {
   },
   
   createInput: (options) => {
-    console.log('Input factory called with:', options);
     const input = document.createElement('input');
     input.type = options?.type || 'text';
     input.placeholder = options?.placeholder || '';
@@ -30,7 +28,6 @@ const TamylaUI = {
   },
   
   createCard: (options) => {
-    console.log('Card factory called with:', options);
     const card = document.createElement('div');
     card.className = 'tamyla-card';
     if (options?.title) {
