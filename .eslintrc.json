@@ -2,7 +2,8 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "extends": [
     "eslint:recommended"
@@ -11,6 +12,23 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*.js", "**/*.test.js", "**/*.spec.js"],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "dist/**",
+    "node_modules/**",
+    "coverage/**",
+    "*.min.js",
+    "src/**/*.d.ts",
+    "src/index-*.js",
+    "src/react/"
+  ],
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "warn",
@@ -19,11 +37,5 @@
     "indent": ["error", 2],
     "no-trailing-spaces": "error",
     "eol-last": "error"
-  },
-  "ignorePatterns": [
-    "dist/**",
-    "node_modules/**",
-    "coverage/**",
-    "*.min.js"
-  ]
+  }
 }
