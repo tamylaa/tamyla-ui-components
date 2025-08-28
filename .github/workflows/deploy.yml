@@ -111,10 +111,10 @@ jobs:
     - name: Semantic Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_GITHUB_ACTION_AUTO: ${{ secrets.NPM_GITHUB_ACTION_AUTO }}
       run: |
-        if [ -z "$NPM_TOKEN" ]; then
-          echo "NPM_TOKEN not available - skipping semantic release"
+        if [ -z "$NPM_GITHUB_ACTION_AUTO" ]; then
+          echo "NPM_GITHUB_ACTION_AUTO not available - skipping semantic release"
           exit 0
         fi
         npx semantic-release
@@ -144,10 +144,10 @@ jobs:
     
     - name: Publish to NPM
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_ACTION_AUTO }}
       run: |
         if [ -z "$NODE_AUTH_TOKEN" ]; then
-          echo "NPM_TOKEN not available - skipping publish"
+          echo "NPM_GITHUB_ACTION_AUTO not available - skipping publish"
           exit 0
         fi
         # Publish main package
