@@ -19,6 +19,9 @@ export { TmylContentCard } from './molecules/tmyl-content-card.js';
 // Organisms - Complete interfaces
 export { TmylSearchInterface } from './organisms/tmyl-search-interface.js';
 
+// Enhanced Components - Re-export from src for full feature access
+export * from './src/index.js';
+
 // Auto-register all custom elements when this module is imported
 console.log('🎨 Tamyla Design System loaded');
 console.log('📦 Components: Button, Input, Card, SearchBar, ContentCard, SearchInterface');

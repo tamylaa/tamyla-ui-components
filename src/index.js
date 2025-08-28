@@ -15,6 +15,13 @@ export * from '../molecules/molecule-factory.js';
 export * from '../organisms/organism-factory.js';
 
 // Enhanced Individual Atom Components with Trading Portal patterns
+import { ButtonFactory } from '../atoms/button/button-system.js';
+import { StatusIndicatorFactory, statusIndicatorFactory } from '../atoms/status-indicator/status-indicator-system.js';
+
+// Enhanced Molecule Components with sophisticated interactions
+import { ActionCardFactory, actionCardFactory } from '../molecules/action-card/action-card-system.js';
+
+// Re-export for backward compatibility
 export { ButtonFactory } from '../atoms/button/button-system.js';
 export { InputFactory } from '../atoms/input/input-system.js';
 export { CardFactory } from '../atoms/card/card-system.js';
@@ -175,11 +182,13 @@ export const createTradingPortalButton = (props) => {
 };
 
 export const createTradingPortalActionCard = (props) => {
-  return TradingPortalIntegration.createEnhanced('actionCard', actionCardFactory, props);
+  const actionCardFactoryInstance = new ActionCardFactory();
+  return TradingPortalIntegration.createEnhanced('actionCard', actionCardFactoryInstance, props);
 };
 
 export const createTradingPortalStatus = (props) => {
-  return TradingPortalIntegration.createEnhanced('status', statusIndicatorFactory, props);
+  const statusIndicatorFactoryInstance = new StatusIndicatorFactory();
+  return TradingPortalIntegration.createEnhanced('status', statusIndicatorFactoryInstance, props);
 };
 
 // Dynamic component loader
