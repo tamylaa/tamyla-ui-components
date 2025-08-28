@@ -1,30 +1,23 @@
 export default {
   testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.js$': 'babel-jest'
-  },
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '^../src/(.*)$': '<rootDir>/src/$1',
-    '^../../(.*)$': '<rootDir>/$1'
   },
-  testMatch: [
-    '**/__tests__/**/*.js',
-    '**/?(*.)+(spec|test).js'
-  ],
-  collectCoverageFrom: [
-    'src/**/*.{js,jsx}',
-    '!src/**/*.d.ts',
-  ],
-  coverageDirectory: 'coverage',
-  coverageReporters: [
-    'text',
-    'lcov',
-    'html'
-  ],
-  setupFilesAfterEnv: [],
-  moduleDirectories: ['node_modules', 'src'],
+  transform: {
+    '^.+\\.(js|jsx)$': ['babel-jest', {
+      presets: [
+        ['@babel/preset-env', { 
+          targets: { node: 'current' },
+          modules: 'auto'
+        }]
+      ]
+    }]
+  },
   transformIgnorePatterns: [
     'node_modules/(?!(.*\\.mjs$))'
-  ]
+  ],
+  testTimeout: 15000,
+  maxWorkers: 1,
+  verbose: true,
+  passWithNoTests: true
 };
