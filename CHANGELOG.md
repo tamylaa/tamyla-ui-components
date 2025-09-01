@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/tamylaa/tamyla-ui-components/compare/v1.1.0...v1.1.1) (2025-09-01)
+
+### Bug Fixes
+
+* remove manual tag conflict and trigger proper semantic-release for setSharedFoundation bug fix ([1d2eaa8](https://github.com/tamylaa/tamyla-ui-components/commit/1d2eaa8e7311019d906c31ad396a7e960cd1ccb7))
+* reset version to 1.1.0 for semantic-release to increment properly with setSharedFoundation fix ([798820d](https://github.com/tamylaa/tamyla-ui-components/commit/798820d66884e1000f41f8c3197122c18c02a306))
+* trigger ui-components workflow for setSharedFoundation deployment ([7e02f9c](https://github.com/tamylaa/tamyla-ui-components/commit/7e02f9cfa78544ac9557716618bb07950db0e752))
+
 ## [1.1.0](https://github.com/tamylaa/tamyla-ui-components/compare/v1.0.0...v1.1.0) (2025-09-01)
 
 ### Features
