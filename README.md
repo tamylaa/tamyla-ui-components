@@ -1,6 +1,6 @@
 # Tamyla UI Components
 
-**📦 NPM Package:** `@tamyla/ui-components@1.0.0`  
+**📦 NPM Package:** `@tamyla/ui-components@1.1.1`  
 **🔗 GitHub:** https://github.com/tamylaa/tamyla-ui-components  
 **✅ Status:** Production Ready - Published and Certified
 
