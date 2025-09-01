@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
     paths:
       - 'src/**'
+      - 'atoms/**'
+      - 'molecules/**'
+      - 'organisms/**'
       - 'package.json'
       - 'rollup.config.js'
       - 'tsconfig.json'
