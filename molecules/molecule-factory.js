@@ -44,7 +44,15 @@ class MolecularFactoryRegistry {
       throw new Error(`Unknown molecular component type: ${type}`);
     }
 
-    const instance = Factory(props);
+    // Handle both class and function factories
+    let instance;
+    if (typeof Factory === 'function' && Factory.prototype && Factory.prototype.constructor === Factory) {
+      // It's a class, use 'new'
+      instance = new Factory(props);
+    } else {
+      // It's a function, call directly
+      instance = Factory(props);
+    }
 
     if (id) {
       this.instances.set(id, instance);
@@ -93,6 +101,24 @@ class MolecularFactoryRegistry {
       this.destroyInstance(id);
     });
     this.instances.clear();
+  }
+
+  /**
+   * Set shared foundation for all registered factories
+   */
+  setSharedFoundation(tokens, utilities) {
+    this.factories.forEach((Factory, name) => {
+      // Try to set shared foundation on factory instances
+      try {
+        const instance = Factory({});
+        if (instance && typeof instance.setSharedFoundation === 'function') {
+          instance.setSharedFoundation(tokens, utilities);
+        }
+      } catch (e) {
+        // Some factories might not support shared foundation
+        console.warn(`Factory ${name} does not support setSharedFoundation:`, e.message);
+      }
+    });
   }
 }
 

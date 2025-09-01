@@ -4,6 +4,9 @@
  */
 
 import { SearchInterfaceFactory, SearchInterfaceTemplates } from './search-interface/search-interface-system.js';
+import { RewardSystemFactory, RewardSystemTemplates } from './rewards/reward-system-factory.js';
+import { DashboardFactory, DashboardTemplates } from './dashboard/dashboard-factory.js';
+import { ModalFactory } from './modal/modal-system.js';
 
 /**
  * Organism Factory Registry
@@ -21,6 +24,9 @@ class OrganismFactoryRegistry {
    */
   registerDefaults() {
     this.register('search-interface', SearchInterfaceFactory);
+    this.register('reward-system', RewardSystemFactory);
+    this.register('dashboard', DashboardFactory);
+    this.register('modal', ModalFactory);
   }
 
   /**
@@ -90,6 +96,24 @@ class OrganismFactoryRegistry {
       this.destroyInstance(id);
     });
     this.instances.clear();
+  }
+
+  /**
+   * Set shared foundation for all registered factories
+   */
+  setSharedFoundation(tokens, utilities) {
+    this.factories.forEach((Factory, name) => {
+      // Try to set shared foundation on factory instances
+      try {
+        const instance = Factory({});
+        if (instance && typeof instance.setSharedFoundation === 'function') {
+          instance.setSharedFoundation(tokens, utilities);
+        }
+      } catch (e) {
+        // Some factories might not support shared foundation
+        console.warn(`Organism factory ${name} does not support setSharedFoundation:`, e.message);
+      }
+    });
   }
 }
 

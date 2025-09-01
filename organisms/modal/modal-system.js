@@ -68,7 +68,12 @@ export function ModalFactory(props = {}) {
 
     // State management
     getController: () => controller,
-    getElement: () => element,
+    getElement: () => {
+      if (!element) {
+        render();
+      }
+      return element;
+    },
     isOpen: () => controller?.getState().isOpen || false,
 
     // Convenience methods

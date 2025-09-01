@@ -88,7 +88,7 @@ export function createSearchInterfaceController(element, options = {}) {
    * Create search bar controller if not exists
    */
   function createSearchBarController(searchBarElement) {
-    const searchBarController = MoleculeFactory('search-bar', {
+    const searchBar = MoleculeFactory('search-bar', {
       value: state.query,
       showVoiceInput: enableVoiceSearch,
       onSearch: handleSearchInput,
@@ -97,7 +97,7 @@ export function createSearchInterfaceController(element, options = {}) {
       container: null
     });
 
-    return searchBarController.getController();
+    return searchBar._controller;
   }
 
   /**

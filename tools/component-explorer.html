@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Component Explorer</title>
+    <link rel="stylesheet" href="../dist/tamyla-ui.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        .search-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .component-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+        }
+        .component-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .component-card.selected {
+            border-color: #667eea;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+        }
+        .component-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .type-atom { background: #e3f2fd; color: #1976d2; }
+        .type-molecule { background: #f3e5f5; color: #7b1fa2; }
+        .type-organism { background: #e8f5e8; color: #388e3c; }
+        .type-application { background: #fff3e0; color: #f57c00; }
+        .component-name {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+        }
+        .component-description {
+            color: #6c757d;
+            margin: 0 0 16px 0;
+            line-height: 1.5;
+        }
+        .component-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        .component-preview {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid #e9ecef;
+        }
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        .variants-list {
+            margin: 16px 0;
+        }
+        .variants-list h4 {
+            margin: 0 0 8px 0;
+            color: #495057;
+            font-size: 1em;
+        }
+        .variant-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .variant-tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+        .no-results h3 {
+            margin: 0 0 16px 0;
+            color: #495057;
+        }
+        .stats-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 UI Component Explorer</h1>
+            <p>Discover and explore all available UI components</p>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search components..." id="search-input">
+        </div>
+
+        <div id="stats-bar" class="stats-bar">
+            <!-- Stats will be populated by JavaScript -->
+        </div>
+
+        <div id="component-grid" class="component-grid">
+            <!-- Components will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { UI } from '../dist/tamyla-ui.esm.js';
+
+        let allComponents = [];
+        let selectedComponent = null;
+
+        // Component descriptions and examples
+        const componentInfo = {
+            // Atoms
+            'button': {
+                description: 'Interactive button component with multiple variants and states',
+                example: `UI.create('button', { text: 'Click me!', variant: 'primary' })`,
+                category: 'atom'
+            },
+            'input': {
+                description: 'Form input field with validation and various input types',
+                example: `UI.create('input', { type: 'email', label: 'Email Address', placeholder: 'Enter email...' })`,
+                category: 'atom'
+            },
+            'card': {
+                description: 'Content container with header, body, and optional actions',
+                example: `UI.create('card', { title: 'Card Title', content: 'Card content here...' })`,
+                category: 'atom'
+            },
+            'status-indicator': {
+                description: 'Visual status indicator with different states and animations',
+                example: `UI.create('status-indicator', { status: 'online', label: 'System Status' })`,
+                category: 'atom'
+            },
+
+            // Molecules
+            'search-bar': {
+                description: 'Search input with optional voice search and filters',
+                example: `UI.create('search-bar', { placeholder: 'Search...', enableVoice: true })`,
+                category: 'molecule'
+            },
+            'action-card': {
+                description: 'Card with primary action button and secondary actions',
+                example: `UI.create('action-card', { title: 'Action Required', actionText: 'Complete Now' })`,
+                category: 'molecule'
+            },
+            'notification': {
+                description: 'Toast-style notification with different severity levels',
+                example: `UI.create('notification', { type: 'success', message: 'Operation completed!' })`,
+                category: 'molecule'
+            },
+
+            // Organisms
+            'search-interface': {
+                description: 'Complete search interface with results display and filtering',
+                example: `UI.create('search-interface', { title: 'Search', enableVoice: true })`,
+                category: 'organism'
+            },
+            'reward-system': {
+                description: 'Gamification system with achievements and progress tracking',
+                example: `UI.create('reward-system', { preset: 'beginner' })`,
+                category: 'organism'
+            },
+            'dashboard': {
+                description: 'Dashboard widget or grid layout for data visualization',
+                example: `UI.create('dashboard', { type: 'widget', title: 'Analytics' })`,
+                category: 'organism'
+            }
+        };
+
+        function initializeExplorer() {
+            const types = UI.getAvailableTypes();
+
+            // Flatten all components into a single array
+            allComponents = [
+                ...types.atoms.map(type => ({ type, category: 'atom' })),
+                ...types.molecules.map(type => ({ type, category: 'molecule' })),
+                ...types.organisms.map(type => ({ type, category: 'organism' })),
+                ...types.applications.map(type => ({ type, category: 'application' }))
+            ];
+
+            updateStats();
+            renderComponents(allComponents);
+
+            // Set up search
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filtered = allComponents.filter(comp =>
+                    comp.type.toLowerCase().includes(query) ||
+                    comp.category.toLowerCase().includes(query)
+                );
+                renderComponents(filtered);
+            });
+        }
+
+        function updateStats() {
+            const types = UI.getAvailableTypes();
+            const totalComponents = allComponents.length;
+            const categories = {
+                atoms: types.atoms.length,
+                molecules: types.molecules.length,
+                organisms: types.organisms.length,
+                applications: types.applications.length
+            };
+
+            const statsBar = document.getElementById('stats-bar');
+            statsBar.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-value">${totalComponents}</div>
+                    <div class="stat-label">Total Components</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${categories.atoms}</div>
+                    <div class="stat-label">Atoms</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${categories.molecules}</div>
+                    <div class="stat-label">Molecules</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${categories.organisms}</div>
+                    <div class="stat-label">Organisms</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${categories.applications}</div>
+                    <div class="stat-label">Applications</div>
+                </div>
+            `;
+        }
+
+        function renderComponents(components) {
+            const grid = document.getElementById('component-grid');
+
+            if (components.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <h3>No components found</h3>
+                        <p>Try adjusting your search terms</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = components.map(comp => {
+                const info = componentInfo[comp.type] || {
+                    description: `A ${comp.category} component`,
+                    example: `UI.create('${comp.type}')`,
+                    category: comp.category
+                };
+
+                const variants = UI.getVariants(comp.type);
+                const hasVariants = Array.isArray(variants) && variants.length > 0;
+
+                return `
+                    <div class="component-card" data-type="${comp.type}">
+                        <span class="component-type type-${comp.category}">${comp.category}</span>
+                        <h3 class="component-name">${comp.type.replace('-', ' ')}</h3>
+                        <p class="component-description">${info.description}</p>
+
+                        ${hasVariants ? `
+                            <div class="variants-list">
+                                <h4>Available Variants:</h4>
+                                <div class="variant-tags">
+                                    ${variants.slice(0, 5).map(variant => `<span class="variant-tag">${variant}</span>`).join('')}
+                                    ${variants.length > 5 ? `<span class="variant-tag">+${variants.length - 5} more</span>` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div class="code-snippet">UI.create('${comp.type}', { /* props */ })</div>
+
+                        <div class="component-actions">
+                            <button class="btn btn-primary" onclick="previewComponent('${comp.type}')">Preview</button>
+                            <button class="btn btn-secondary" onclick="copyExample('${info.example}')">Copy Code</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Global functions for button clicks
+        window.previewComponent = function(type) {
+            try {
+                // Clear previous selection
+                document.querySelectorAll('.component-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+
+                // Select current component
+                const card = document.querySelector(`[data-type="${type}"]`);
+                if (card) {
+                    card.classList.add('selected');
+                }
+
+                // Create preview
+                const preview = document.createElement('div');
+                preview.className = 'component-preview';
+                preview.innerHTML = '<h4>Component Preview:</h4>';
+
+                const component = UI.create(type, getPreviewProps(type));
+                if (component) {
+                    preview.appendChild(component);
+                } else {
+                    preview.innerHTML += '<p>Preview not available</p>';
+                }
+
+                // Replace existing preview or add new one
+                const existingPreview = card.querySelector('.component-preview');
+                if (existingPreview) {
+                    existingPreview.replaceWith(preview);
+                } else {
+                    card.appendChild(preview);
+                }
+
+            } catch (error) {
+                console.error('Preview failed:', error);
+                alert('Preview failed: ' + error.message);
+            }
+        };
+
+        window.copyExample = function(example) {
+            navigator.clipboard.writeText(example).then(() => {
+                // Simple feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 1000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = example;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            });
+        };
+
+        function getPreviewProps(type) {
+            const previewProps = {
+                'button': { text: 'Click Me', variant: 'primary' },
+                'input': { type: 'text', placeholder: 'Enter text...', label: 'Input Field' },
+                'card': { title: 'Sample Card', content: 'This is a preview of the card component.' },
+                'search-bar': { placeholder: 'Search...', showVoiceInput: true },
+                'search-interface': { title: 'Search Interface', placeholder: 'Search for anything...' },
+                'notification': { type: 'info', message: 'This is a notification preview.' },
+                'reward-system': { preset: 'beginner' },
+                'dashboard': { type: 'widget', title: 'Dashboard Widget' }
+            };
+
+            return previewProps[type] || {};
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeExplorer);
+    </script>
+</body>
+</html>

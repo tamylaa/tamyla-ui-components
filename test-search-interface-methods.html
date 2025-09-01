@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchInterface Methods Test</title>
+    <link rel="stylesheet" href="../dist/tamyla-ui.css">
+</head>
+<body>
+    <div id="test-container">
+        <h1>SearchInterface Methods Test</h1>
+        <div id="search-container"></div>
+        <div id="controls">
+            <button id="set-results-btn">Set Results</button>
+            <button id="update-results-btn">Update Results</button>
+            <button id="clear-btn">Clear</button>
+            <button id="get-state-btn">Get State</button>
+        </div>
+        <div id="output"></div>
+    </div>
+
+    <script type="module">
+        import { UI } from '../dist/tamyla-ui.esm.js';
+
+        const container = document.getElementById('search-container');
+        const output = document.getElementById('output');
+
+        // Create SearchInterface
+        let searchInterface = null;
+
+        try {
+            console.log('Creating SearchInterface...');
+            searchInterface = UI.create('search-interface', {
+                title: 'Test Search',
+                placeholder: 'Search for something...',
+                enableVoice: true
+            });
+
+            container.appendChild(searchInterface);
+            console.log('SearchInterface created successfully!');
+
+            // Test immediate method access
+            console.log('Testing immediate method access...');
+
+            // Test setResults method
+            if (typeof searchInterface.setResults === 'function') {
+                console.log('✅ setResults method available');
+                searchInterface.setResults([
+                    { id: 1, title: 'Result 1', description: 'First result' },
+                    { id: 2, title: 'Result 2', description: 'Second result' }
+                ]);
+                output.innerHTML += '<p>✅ setResults method works!</p>';
+            } else {
+                console.error('❌ setResults method not available');
+                output.innerHTML += '<p>❌ setResults method not available</p>';
+            }
+
+            // Test updateResults method
+            if (typeof searchInterface.updateResults === 'function') {
+                console.log('✅ updateResults method available');
+                searchInterface.updateResults([
+                    { id: 3, title: 'Updated Result 1', description: 'Updated first result' },
+                    { id: 4, title: 'Updated Result 2', description: 'Updated second result' }
+                ]);
+                output.innerHTML += '<p>✅ updateResults method works!</p>';
+            } else {
+                console.error('❌ updateResults method not available');
+                output.innerHTML += '<p>❌ updateResults method not available</p>';
+            }
+
+            // Test other methods
+            if (typeof searchInterface.getResults === 'function') {
+                console.log('✅ getResults method available');
+                output.innerHTML += '<p>✅ getResults method available</p>';
+            }
+
+            if (typeof searchInterface.clear === 'function') {
+                console.log('✅ clear method available');
+                output.innerHTML += '<p>✅ clear method available</p>';
+            }
+
+        } catch (error) {
+            console.error('Error creating SearchInterface:', error);
+            output.innerHTML += `<p style="color: red;">Error: ${error.message}</p>`;
+        }
+
+        // Add event listeners for buttons
+        document.getElementById('set-results-btn').addEventListener('click', () => {
+            if (searchInterface && typeof searchInterface.setResults === 'function') {
+                searchInterface.setResults([
+                    { id: 5, title: 'New Result 1', description: 'New first result' },
+                    { id: 6, title: 'New Result 2', description: 'New second result' }
+                ]);
+                output.innerHTML += '<p>✅ Set results via button click</p>';
+            }
+        });
+
+        document.getElementById('update-results-btn').addEventListener('click', () => {
+            if (searchInterface && typeof searchInterface.updateResults === 'function') {
+                searchInterface.updateResults([
+                    { id: 7, title: 'Updated Result A', description: 'Updated result A' },
+                    { id: 8, title: 'Updated Result B', description: 'Updated result B' }
+                ]);
+                output.innerHTML += '<p>✅ Updated results via button click</p>';
+            }
+        });
+
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            if (searchInterface && typeof searchInterface.clear === 'function') {
+                searchInterface.clear();
+                output.innerHTML += '<p>✅ Cleared search interface</p>';
+            }
+        });
+
+        document.getElementById('get-state-btn').addEventListener('click', () => {
+            if (searchInterface && typeof searchInterface.getState === 'function') {
+                const state = searchInterface.getState();
+                output.innerHTML += `<p>✅ Current state: ${JSON.stringify(state, null, 2)}</p>`;
+            }
+        });
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">C:\Users\Admin\Documents\coding\tamyla\ui-platform\packages\ui-components\test-search-interface-methods.html

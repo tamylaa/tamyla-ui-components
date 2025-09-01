@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified UI Factory Test</title>
+    <link rel="stylesheet" href="../dist/tamyla-ui.css">
+</head>
+<body>
+    <div id="test-container">
+        <h1>Unified UI Factory Test</h1>
+        <div id="components"></div>
+    </div>
+
+    <script type="module">
+        import { UI } from '../dist/tamyla-ui.esm.js';
+
+        const container = document.getElementById('components');
+
+        // Test basic components
+        try {
+            console.log('Testing unified UI factory...');
+
+            // Test button
+            const button = UI.create('button', {
+                text: 'Test Button',
+                variant: 'primary'
+            });
+            container.appendChild(button);
+
+            // Test input
+            const input = UI.create('input', {
+                type: 'text',
+                label: 'Test Input',
+                placeholder: 'Enter text...'
+            });
+            container.appendChild(input);
+
+            // Test card
+            const card = UI.create('card', {
+                title: 'Test Card',
+                content: 'This is a test card created with the unified factory.'
+            });
+            container.appendChild(card);
+
+            // Test search interface
+            const searchInterface = UI.create('search-interface', {
+                placeholder: 'Search...',
+                enableVoice: true
+            });
+            container.appendChild(searchInterface);
+
+            console.log('All components created successfully!');
+            console.log('UI factory available types:', UI.getAvailableTypes());
+
+        } catch (error) {
+            console.error('Error testing unified factory:', error);
+            container.innerHTML += `<div style="color: red;">Error: ${error.message}</div>`;
+        }
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">C:\Users\Admin\Documents\coding\tamyla\ui-platform\packages\ui-components\test-unified-factory.html

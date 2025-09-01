@@ -12,7 +12,10 @@ export * from '../core/design-tokens.js';
 export * from '../core/shared-utilities.js';
 export { default as ReactPatternAdapters } from '../core/react-pattern-adapters.js';
 
-// Enhanced Atomic Design System Exports
+// UNIFIED API: Single entry point for all components
+export { UI } from './ui-factory.js';
+
+// Legacy exports for backward compatibility (marked as deprecated)
 export * from '../atoms/atom-factory.js';
 export * from '../molecules/molecule-factory.js';
 export * from '../organisms/organism-factory.js';

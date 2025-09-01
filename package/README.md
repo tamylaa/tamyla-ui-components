@@ -1,10 +1,10 @@
 # Tamyla UI Components
 
-**📦 NPM Package:** `@tamyla/ui-components@1.1.2`  
+**📦 NPM Package:** `@tamyla/ui-components@1.1.1`  
 **🔗 GitHub:** https://github.com/tamylaa/tamyla-ui-components  
-**✅ Status:** Production Ready - Unified API
+**✅ Status:** Production Ready - Published and Certified
 
-Professional UI component library with **unified API** - single entry point for all components, optimized for both human and AI developers.
+A modular, reusable, and composable UI component library built with atomic design principles. Each component is designed to be plug-and-play with a consistent visual language throughout the entire system.
 
 ## 🚀 Quick Start
 
@@ -12,223 +12,17 @@ Professional UI component library with **unified API** - single entry point for 
 npm install @tamyla/ui-components
 ```
 
-### 🎯 **RECOMMENDED: Unified API (Single Entry Point)**
-
 ```javascript
-import { UI } from '@tamyla/ui-components';
+import { createButton, createInput, createCard, TamylaUI } from '@tamyla/ui-components';
 
-// Create ANY component with consistent API
-const button = UI.create('button', { variant: 'primary', text: 'Click me!' });
-const input = UI.create('input', { type: 'email', label: 'Email Address' });
-const card = UI.create('card', { title: 'My Card', content: 'Card content' });
-const search = UI.create('search-interface', { enableVoice: true, showFilters: true });
-
-// Batch create multiple components
-const components = UI.createMultiple([
-  { type: 'button', props: { text: 'Save', variant: 'primary' } },
-  { type: 'button', props: { text: 'Cancel', variant: 'secondary' } },
-  { type: 'input', props: { placeholder: 'Search...' } }
-]);
-```
-
-### 📦 **Alternative: Direct Component Creation**
-
-```javascript
-import { createButton, createInput, createCard } from '@tamyla/ui-components';
-
+// Create components
 const button = createButton({ text: 'Click me!' });
 const input = createInput({ placeholder: 'Type here...' });
 const card = createCard({ title: 'My Card', content: 'Card content' });
+
+// Or use the factory
+const factoryButton = TamylaUI('button', { text: 'Factory button' });
 ```
-
-## 🎯 **Why Unified API?**
-
-| Feature | Unified API | Multiple Imports |
-|---------|-------------|------------------|
-| **Consistency** | ✅ Single pattern for all components | ❌ Different patterns per component |
-| **Discoverability** | ✅ `UI.create()` for everything | ❌ Hunt for specific imports |
-| **Type Safety** | ✅ Consistent TypeScript support | ⚠️ Mixed type definitions |
-| **AI-Friendly** | ✅ Predictable API patterns | ❌ Complex import decisions |
-| **Maintenance** | ✅ Single entry point to maintain | ❌ Multiple export points |
-| **Bundle Size** | ✅ Tree-shakable | ⚠️ May import unused code |
-
-## 📋 Available Components
-
-### Atoms (Basic Building Blocks)
-```javascript
-UI.create('button', { variant: 'primary', text: 'Click', size: 'md' });
-UI.create('input', { type: 'email', label: 'Email', placeholder: 'user@example.com' });
-UI.create('card', { title: 'Card Title', content: 'Card content', variant: 'elevated' });
-UI.create('status-indicator', { status: 'online', label: 'User Status' });
-```
-
-### Molecules (Composite Components)
-```javascript
-UI.create('search-bar', { placeholder: 'Search...', voiceEnabled: true });
-UI.create('action-card', { title: 'Action', description: 'Click to perform action' });
-UI.create('content-card', { size: 'default', selectable: true });
-UI.create('notification', { type: 'success', message: 'Operation completed' });
-```
-
-### Organisms (Complete Interfaces)
-```javascript
-UI.create('search-interface', {
-  enableVoice: true,
-  showFilters: true,
-  viewMode: 'grid'
-});
-```
-
-## 🔧 Advanced Usage
-
-### Theming
-```javascript
-// Apply theme to all components
-const themedButton = UI.createThemed('button', 'dark', { text: 'Dark Button' });
-
-// Or apply theme globally
-UI.applyTheme('minimal');
-```
-
-### Batch Operations
-```javascript
-// Create form with multiple components
-const formComponents = UI.createMultiple([
-  { type: 'input', props: { label: 'Name', required: true } },
-  { type: 'input', props: { label: 'Email', type: 'email' } },
-  { type: 'button', props: { text: 'Submit', variant: 'primary' } }
-]);
-```
-
-### Available Types & Variants
-```javascript
-// Get all available component types
-console.log(UI.getAvailableTypes());
-
-// Get variants for specific component
-console.log(UI.getVariants('button')); // ['primary', 'secondary', 'ghost', 'success', 'danger']
-```
-
-## 🏗️ Architecture
-
-```
-ui-components/
-├── src/
-│   ├── ui-factory.js       # 🎯 UNIFIED API ENTRY POINT
-│   ├── index.js            # Main exports
-│   └── ...
-├── atoms/                  # Basic components
-├── molecules/              # Composite components
-├── organisms/              # Complete interfaces
-└── applications/           # Full applications
-```
-
-## 🎨 Design Philosophy
-
-**Atomic Design with Unified API:**
-- **Atoms**: Basic building blocks (buttons, inputs, cards)
-- **Molecules**: Combinations of atoms (search bars, content cards)
-- **Organisms**: Complete interface sections (search interfaces)
-- **Applications**: Full-featured applications
-
-**Single Responsibility:** Each component has one clear purpose and API.
-
-## 📚 API Reference
-
-### UI.create(type, props)
-**Primary method for creating all components**
-
-- `type` (string): Component type
-- `props` (object): Component properties
-- Returns: HTMLElement
-
-### UI.createMultiple(configs)
-**Create multiple components at once**
-
-- `configs` (array): Array of { type, props } objects
-- Returns: Array of HTMLElements
-
-### UI.createThemed(type, theme, props)
-**Create component with theme applied**
-
-- `type` (string): Component type
-- `theme` (string): Theme name
-- `props` (object): Component properties
-- Returns: HTMLElement
-
-### UI.getAvailableTypes()
-**Get all available component types**
-
-- Returns: Object with atoms, molecules, organisms, applications
-
-### UI.getVariants(type)
-**Get available variants for component type**
-
-- `type` (string): Component type
-- Returns: Array of variant names
-
-## 🔄 Migration Guide
-
-### From Multiple Imports → Unified API
-
-```javascript
-// OLD WAY (confusing)
-import { createButton, createInput, SearchInterfaceFactory } from '@tamyla/ui-components';
-
-const button = createButton({ text: 'Click' });
-const search = SearchInterfaceFactory.create({ enableVoice: true }); // ❌ Doesn't work
-
-// NEW WAY (consistent)
-import { UI } from '@tamyla/ui-components';
-
-const button = UI.create('button', { text: 'Click' });
-const search = UI.create('search-interface', { enableVoice: true }); // ✅ Works perfectly
-```
-
-## 🤖 AI Developer Friendly
-
-This unified API is designed specifically for AI agents:
-
-1. **Predictable Patterns**: `UI.create(type, props)` works for everything
-2. **Consistent Parameters**: Same parameter structure across all components
-3. **Clear Error Messages**: Helpful error messages when something goes wrong
-4. **Type Safety**: Full TypeScript support with consistent interfaces
-5. **Self-Documenting**: Method names clearly indicate their purpose
-
-## 📖 Documentation
-
-- **[Complete Implementation Summary](./COMPLETE_IMPLEMENTATION_SUMMARY.md)** - Full project overview
-- **[Future Development Process](./FUTURE_DEVELOPMENT_PROCESS.md)** - Guidelines for changes
-- **[Reuse Guide](./REUSE_GUIDE.md)** - How to use in other projects
-- **[Build System Documentation](./COMPLETE_BUILD_SYSTEM.md)** - Technical details
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**"Component type not found"**
-```javascript
-// Check available types
-console.log(UI.getAvailableTypes());
-```
-
-**"Method not available"**
-```javascript
-// Use the unified API instead of direct Web Component manipulation
-const search = UI.create('search-interface', { enableVoice: true });
-// ✅ search.updateResults() will be available immediately
-```
-
-**"Import not found"**
-```javascript
-// Use the unified import
-import { UI } from '@tamyla/ui-components'; // ✅ Recommended
-// NOT: import { SearchInterfaceFactory } from '...'; // ❌ May not work
-```
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 📚 Documentation
 
