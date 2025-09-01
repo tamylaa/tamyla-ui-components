@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/tamylaa/tamyla-ui-components/compare/v1.1.2...v1.1.3) (2025-09-01)
+
+### Bug Fixes
+
+* Complete modal integration and factory fixes ([46c4a15](https://github.com/tamylaa/tamyla-ui-components/commit/46c4a152b8a0a8fb3705aa8d908d3d51b73c9b94))
+
 ## [1.1.2](https://github.com/tamylaa/tamyla-ui-components/compare/v1.1.1...v1.1.2) (2025-09-01)
 
 ### Bug Fixes
