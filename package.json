@@ -1,7 +1,7 @@
 {
   "name": "@tamyla/ui-components",
-  "version": "1.1.1",
-  "description": "Professional UI component library with unified API - single entry point for all components, optimized for both human and AI developers",
+  "version": "1.1.2",
+  "description": "Professional UI component library with unified API - complete modal integration, developer tools, and production-ready for human and AI developers",
   "type": "module",
   "main": "dist/tamyla-ui.esm.js",
   "module": "dist/tamyla-ui.esm.js",

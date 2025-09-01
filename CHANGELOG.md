@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/tamylaa/tamyla-ui-components/compare/v1.1.1...v1.1.2) (2025-09-01)
+
+### Bug Fixes
+
+* add missing setResults and updateResults methods to SearchInterface for backward compatibility ([5df2498](https://github.com/tamylaa/tamyla-ui-components/commit/5df24986534ba2c7b4c933eba7dca0f26431ae65))
+* expand workflow trigger paths to include atoms, molecules, and organisms directories ([c6791ce](https://github.com/tamylaa/tamyla-ui-components/commit/c6791ce495f3d6433e222847d898a204db3a1661))
+
 ## [1.1.1](https://github.com/tamylaa/tamyla-ui-components/compare/v1.1.0...v1.1.1) (2025-09-01)
 
 ### Bug Fixes
