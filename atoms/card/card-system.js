@@ -32,7 +32,7 @@ export class CardFactory {
     this.paddings = ['none', 'xs', 'sm', 'md', 'lg', 'xl'];
     this.elevations = ['none', 'xs', 'sm', 'md', 'lg', 'xl'];
 
-    // Ensure CSS is loaded
+    // Ensure CSS is loaded hmm
     this.ensureCSS();
   }
 
