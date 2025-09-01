@@ -333,13 +333,8 @@ export class InputFactory {
    * Ensure CSS is loaded
    */
   ensureCSS() {
-    if (document.querySelector('#tmyl-input-styles')) return;
-
-    const link = document.createElement('link');
-    link.id = 'tmyl-input-styles';
-    link.rel = 'stylesheet';
-    link.href = new URL('./styles/tmyl-input.css', import.meta.url).href;
-    document.head.appendChild(link);
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

@@ -4,6 +4,9 @@
  * Features: micro-interactions, accessibility excellence, premium polish
  */
 
+// Import main CSS bundle
+import './tamyla-ui.css';
+
 // Core utilities and enhanced design system
 export * from '../core/design-tokens.js';
 export * from '../core/shared-utilities.js';

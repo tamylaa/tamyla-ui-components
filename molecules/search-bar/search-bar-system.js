@@ -44,12 +44,8 @@ export class SearchBarFactory {
    * Ensure CSS is loaded in the document
    */
   ensureCSS() {
-    if (!document.querySelector('link[href*="search-bar.css"]')) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = new URL('./styles/search-bar.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

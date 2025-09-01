@@ -227,15 +227,8 @@ export function InputGroupFactory(props = {}) {
    * Load component styles
    */
   function loadStyles() {
-    const styleId = 'tmyl-input-group-styles';
-
-    if (!document.getElementById(styleId)) {
-      const link = document.createElement('link');
-      link.id = styleId;
-      link.rel = 'stylesheet';
-      link.href = new URL('./input-group.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

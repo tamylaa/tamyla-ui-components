@@ -150,15 +150,8 @@ export function ContentManagerApplicationFactory(props = {}) {
    * Load component styles
    */
   function loadStyles() {
-    const styleId = 'tmyl-content-manager-styles';
-
-    if (!document.getElementById(styleId)) {
-      const link = document.createElement('link');
-      link.id = styleId;
-      link.rel = 'stylesheet';
-      link.href = new URL('./content-manager.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

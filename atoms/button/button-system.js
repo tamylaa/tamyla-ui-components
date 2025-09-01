@@ -58,12 +58,8 @@ export class ButtonFactory {
    * Ensure CSS is loaded in the document
    */
   ensureCSS() {
-    if (!document.querySelector('link[href*="tmyl-button.css"]')) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = new URL('./styles/tmyl-button.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

@@ -305,15 +305,8 @@ export function FileListFactory(props = {}) {
    * Load component styles
    */
   function loadStyles() {
-    const styleId = 'tmyl-file-list-styles';
-
-    if (!document.getElementById(styleId)) {
-      const link = document.createElement('link');
-      link.id = styleId;
-      link.rel = 'stylesheet';
-      link.href = new URL('./file-list.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

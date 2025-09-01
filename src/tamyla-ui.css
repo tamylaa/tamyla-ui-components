@@ -1,0 +1,41 @@
+/**
+ * Tamyla UI Components - Main CSS Bundle
+ * Imports all component styles for the design system
+ */
+
+/* Core design system */
+@import '../core/tokens.css';
+@import '../core/utilities.css';
+
+/* Atomic component styles */
+@import '../atoms/button/styles/tmyl-button.css';
+@import '../atoms/input/styles/tmyl-input.css';
+@import '../atoms/card/styles/tmyl-card.css';
+@import '../atoms/status-indicator/styles/tmyl-status-indicator.css';
+@import '../atoms/input-group/input-group.css';
+
+/* Molecular component styles */
+@import '../molecules/search-bar/styles/search-bar.css';
+@import '../molecules/action-card/styles/tmyl-action-card.css';
+@import '../molecules/file-list/file-list.css';
+@import '../molecules/notification/notification.css';
+@import '../molecules/email-recipients/email-recipients.css';
+
+/* Organism component styles */
+@import '../organisms/search-interface/styles/search-interface.css';
+@import '../organisms/tmyl-search-interface/styles/tmyl-search-interface.css';
+@import '../organisms/modal/modal.css';
+@import '../organisms/mobile-sidebar/styles/mobile-sidebar.css';
+@import '../organisms/rewards/styles/reward-system.css';
+
+/* Application component styles */
+@import '../applications/enhanced-search/enhanced-search.css';
+@import '../applications/campaign-selector/styles/campaign-selector.css';
+@import '../applications/content-manager/content-manager.css';
+
+/* Legacy component styles */
+@import '../legacy/TamylaInputGroup.css';
+@import '../legacy/TamylaNotification.css';
+@import '../legacy/TamylaFileList.css';
+@import '../legacy/TamylaModal.css';
+@import '../legacy/TamylaEmailRecipients.css';

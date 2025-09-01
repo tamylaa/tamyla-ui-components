@@ -24,11 +24,12 @@ import {
 } from './config/search-interface-config.js';
 
 // Import external CSS
-const cssLink = new URL('./styles/tmyl-search-interface.css', import.meta.url).href;
-const styleSheet = new CSSStyleSheet();
-fetch(cssLink).then(response => response.text()).then(css => {
-  styleSheet.replaceSync(css);
-});
+// CSS is now bundled with the main package, no need to dynamically load
+// const cssLink = new URL('./styles/tmyl-search-interface.css', import.meta.url).href;
+// const styleSheet = new CSSStyleSheet();
+// fetch(cssLink).then(response => response.text()).then(css => {
+//   styleSheet.replaceSync(css);
+// });
 
 export class TmylSearchInterface extends LitElement {
   static properties = {

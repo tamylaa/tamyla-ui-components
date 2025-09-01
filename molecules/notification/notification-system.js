@@ -164,15 +164,8 @@ export function NotificationFactory(props = {}) {
    * Load component styles
    */
   function loadStyles() {
-    const styleId = 'tmyl-notification-styles';
-
-    if (!document.getElementById(styleId)) {
-      const link = document.createElement('link');
-      link.id = styleId;
-      link.rel = 'stylesheet';
-      link.href = new URL('./notification.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

@@ -26,12 +26,8 @@ export class ActionCardFactory {
    * Ensure CSS is loaded
    */
   ensureCSS() {
-    if (!document.querySelector('link[href*="tmyl-action-card.css"]')) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = new URL('./styles/tmyl-action-card.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**

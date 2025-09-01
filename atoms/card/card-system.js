@@ -40,12 +40,8 @@ export class CardFactory {
    * Ensure CSS is loaded in the document
    */
   ensureCSS() {
-    if (!document.querySelector('link[href*="tmyl-card.css"]')) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = new URL('./styles/tmyl-card.css', import.meta.url).href;
-      document.head.appendChild(link);
-    }
+    // CSS is now bundled with the main package, no need to dynamically load
+    return;
   }
 
   /**
