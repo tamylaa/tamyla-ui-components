@@ -1,8 +1,14 @@
-name: Build and Test UI Components
+name: Build, Test & Publish UI Components
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ main, master ]
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'rollup.config.js'
+      - 'tsconfig.json'
+      - '.github/workflows/**'
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
@@ -26,16 +32,16 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
-    
+      uses: actions/checkout@v4
+      
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     
     - name: Install dependencies
-      run: npm install
+      run: npm install --legacy-peer-deps
     
     # TODO: Temporarily disabled lint step due to ESM/ESLint compatibility issues
     # - name: Run linting
@@ -59,16 +65,16 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Use Node.js 18.x
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 18.x
         cache: 'npm'
     
     - name: Install dependencies
-      run: npm install
+      run: npm install --legacy-peer-deps
     
     - name: Build components
       run: npm run build
