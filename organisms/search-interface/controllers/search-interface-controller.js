@@ -489,6 +489,23 @@ export function createSearchInterfaceController(element, options = {}) {
   }
 
   /**
+   * Set results externally
+   */
+  function setResults(results, totalCount = null) {
+    state.results = Array.isArray(results) ? results : [];
+    state.totalCount = totalCount !== null ? totalCount : state.results.length;
+    updateResults();
+    setLoading(false);
+  }
+
+  /**
+   * Update results externally (alias for setResults)
+   */
+  function updateResults(results, totalCount = null) {
+    setResults(results, totalCount);
+  }
+
+  /**
    * Focus search input
    */
   function focusSearch() {

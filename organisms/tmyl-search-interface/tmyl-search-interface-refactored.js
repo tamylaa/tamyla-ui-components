@@ -301,6 +301,42 @@ export class TmylSearchInterface extends LitElement {
   }
 
   /**
+   * Set results (backward compatibility alias for updateResults)
+   */
+  setResults(results, totalResults = null) {
+    this.updateResults(results, totalResults);
+    this.loading = false;
+  }
+
+  /**
+   * Set loading state
+   */
+  setLoading(loading) {
+    this.loading = loading;
+  }
+
+  /**
+   * Set suggestions for search bar
+   */
+  setSuggestions(suggestions) {
+    // Delegate to search bar component if available
+    const searchBar = this.shadowRoot?.querySelector('tmyl-search-bar');
+    if (searchBar && typeof searchBar.setSuggestions === 'function') {
+      searchBar.setSuggestions(suggestions);
+    }
+  }
+
+  /**
+   * Clear all results and reset state
+   */
+  clearResults() {
+    this.results = [];
+    this.totalResults = 0;
+    this.currentPage = 1;
+    this.selectedItems = [];
+  }
+
+  /**
    * Lifecycle - cleanup controller on disconnect
    */
   disconnectedCallback() {

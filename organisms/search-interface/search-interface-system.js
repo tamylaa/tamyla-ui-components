@@ -238,6 +238,31 @@ export function SearchInterfaceFactory(props = {}) {
   }
 
   /**
+   * Set results externally (for factory API compatibility)
+   */
+  function setResults(results, totalCount = null) {
+    if (controller) {
+      controller.setResults(results, totalCount);
+    }
+  }
+
+  /**
+   * Update results externally (alias for setResults)
+   */
+  function updateResults(results, totalCount = null) {
+    setResults(results, totalCount);
+  }
+
+  /**
+   * Set loading state
+   */
+  function setLoading(loading) {
+    if (controller) {
+      controller.setLoading(loading);
+    }
+  }
+
+  /**
    * Cleanup and destroy
    */
   function cleanup() {
@@ -308,6 +333,11 @@ export function SearchInterfaceFactory(props = {}) {
     getResults,
     getSelection,
     getState,
+
+    // Result management
+    setResults,
+    updateResults,
+    setLoading,
 
     // Element access
     getElement,
