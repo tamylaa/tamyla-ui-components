@@ -37,6 +37,14 @@ export class CardFactory {
   }
 
   /**
+   * Set shared foundation from main factory
+   */
+  setSharedFoundation(tokens, utilities) {
+    this.tokens = tokens;
+    this.utilities = utilities;
+  }
+
+  /**
    * Ensure CSS is loaded in the document
    */
   ensureCSS() {
