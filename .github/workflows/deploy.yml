@@ -121,12 +121,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_GITHUB_ACTION_AUTO }}
       run: |
-        if [ -z "$NPM_GITHUB_ACTION_AUTO" ]; then
-          echo "NPM_GITHUB_ACTION_AUTO not available - skipping semantic release"
-          exit 0
+        if [ -z "$NPM_TOKEN" ]; then
+          echo "NPM_TOKEN not available - skipping semantic release"
+          exit 1
         fi
         npx semantic-release
-      continue-on-error: true
 
   # publish-packages:
   #   runs-on: ubuntu-latest
